@@ -1,7 +1,6 @@
 package lt.riti.com.liantong.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +8,13 @@ import android.widget.TextView;
 
 
 import lt.riti.com.liantong.R;
-import lt.riti.com.liantong.entity.User;
+import lt.riti.com.liantong.entity.RfidUser;
 
 /**
  * Created by brander on 2017/9/21.
  */
 
-public class UserAdapter extends BaseRecyclerViewAdapter<User> {
+public class UserAdapter extends BaseRecyclerViewAdapter<RfidUser> {
     private static final String TAG = "UserAdapter";
 
     public UserAdapter(Context context) {
@@ -33,9 +32,9 @@ public class UserAdapter extends BaseRecyclerViewAdapter<User> {
     public void onBindViewHolder(BaseViewHolder holder, final int position) {
         super.onBindViewHolder(holder, position);
         UserViewHolder userViewHolder = (UserViewHolder) holder;
-        User user = mList.get(position);
+        RfidUser user = mList.get(position);
         userViewHolder.tv_item_id.setText(""+(position + 1));
-        userViewHolder.tv_item_name.setText(user.getName());
+        userViewHolder.tv_item_name.setText(user.getRfidUserName());
         userViewHolder.tv_item_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -9,13 +9,13 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import lt.riti.com.liantong.R;
-import lt.riti.com.liantong.entity.StockId;
+import lt.riti.com.liantong.entity.RfidOrder;
 
 /**
  * Created by Administrator on 2017/9/23.
  */
 
-public class StockIdAdapter extends BaseRecyclerViewAdapter<StockId> {
+public class StockIdAdapter extends BaseRecyclerViewAdapter<RfidOrder> {
     private static final String TAG = "StockIdAdapter";
 
     public StockIdAdapter(Context context) {
@@ -41,7 +41,7 @@ public class StockIdAdapter extends BaseRecyclerViewAdapter<StockId> {
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         StoreViewHolder storeViewHolder = (StoreViewHolder) holder;
-        StockId storeId = mList.get(position);
+        RfidOrder storeId = mList.get(position);
         storeViewHolder.tv_item_stock_id.setText("" + (position + 1));
         storeViewHolder.tv_item_stock_name.setText(storeId.getIdName());
         storeViewHolder.tv_item_stock_time.setText("" + storeId.getIdTime());

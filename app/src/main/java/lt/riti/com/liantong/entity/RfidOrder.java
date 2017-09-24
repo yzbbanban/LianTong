@@ -4,7 +4,7 @@ package lt.riti.com.liantong.entity;
  * Created by brander on 2017/9/23.
  */
 
-public class StockId {
+public class RfidOrder {
     private String idName;
     private Long idTime;
 
@@ -26,7 +26,7 @@ public class StockId {
 
     @Override
     public String toString() {
-        return "StockId{" +
+        return "RfidOrder{" +
                 "idName='" + idName + '\'' +
                 ", idTime=" + idTime +
                 '}';

@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:text="ID"
-        android:textColor="@color/black" />
+        android:textColor="@color/colorBlack" />
 
     <EditText
         android:id="@+id/et_id"
@@ -32,7 +32,7 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:text="NAME"
-        android:textColor="@color/black" />
+        android:textColor="@color/colorBlack" />
 
     <EditText
         android:id="@+id/et_name"
@@ -50,7 +50,7 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:text="RFID POWER"
-        android:textColor="@color/black" />
+        android:textColor="@color/colorBlack" />
 
     <EditText
         android:id="@+id/et_rfid_power"
@@ -68,7 +68,7 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:text="API"
-        android:textColor="@color/black" />
+        android:textColor="@color/colorBlack" />
 
     <EditText
         android:id="@+id/et_api"
@@ -86,7 +86,7 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:text="UID"
-        android:textColor="@color/black" />
+        android:textColor="@color/colorBlack" />
 
     <EditText
         android:id="@+id/et_uid"
@@ -104,7 +104,7 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:text="PW"
-        android:textColor="@color/black" />
+        android:textColor="@color/colorBlack" />
 
     <EditText
         android:id="@+id/et_pw"

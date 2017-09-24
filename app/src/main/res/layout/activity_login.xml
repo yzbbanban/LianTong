@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/x20"
+    tools:context=".activity.LoginActivity">
+
+    <lt.riti.com.liantong.ui.CleanEditText
+        android:id="@+id/et_login_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x10"
+        android:background="@drawable/edit_shape"
+        android:hint="登录名"
+        android:lines="1"
+        android:padding="@dimen/x10"
+        android:text="888888" />
+
+    <lt.riti.com.liantong.ui.CleanEditText
+        android:id="@+id/et_login_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x10"
+        android:background="@drawable/edit_shape"
+        android:hint="密码"
+        android:inputType="textPassword"
+        android:lines="1"
+        android:padding="@dimen/x10"
+        android:text="888888" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="@dimen/x100"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x10"
+        android:text="登录" />
+</LinearLayout>

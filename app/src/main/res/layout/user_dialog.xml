@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:text="NAME"
-        android:textColor="@color/black" />
+        android:textColor="@color/colorBlack" />
 
     <EditText
         android:id="@+id/et_dialog_name"

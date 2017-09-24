@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="str_please_waitting">请稍等.&#8230;</string>
@@ -173,7 +174,7 @@
     <string name="please_input_valid_value">请输入有效的写表数据！</string>
     <string name="please_select_valid_item">请选择正确的项目!</string>
     <string name="SendData">发送数据:</string>
-    
+
     <string name="uhf_default_access_pwd">00000000</string>
     <string name="scanner_trigger">触发</string>
     <string name="scanner_open_power_faild">打开电源失败!</string>

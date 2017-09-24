@@ -29,7 +29,7 @@ import java.util.Map;
 
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.app.StockApplication;
-import lt.riti.com.liantong.entity.StockId;
+import lt.riti.com.liantong.entity.RfidOrder;
 
 /**
  * Created by Administrator on 2017/9/22.
@@ -73,7 +73,7 @@ public class BaseFragment extends Fragment {
     protected static boolean isSingle = false;
     protected boolean usingBackBattery = false;
     protected static int stockFlag = 1;
-    protected List<StockId> storeIds = new ArrayList<>();
+    protected List<RfidOrder> storeIds = new ArrayList<>();
 
     private IAsynchronousMessage am;
 
@@ -234,7 +234,7 @@ public class BaseFragment extends Fragment {
 
     // 获得更新数据源
     @SuppressWarnings({"rawtypes", "unused"})
-    protected List<StockId> getData() {
+    protected List<RfidOrder> getData() {
         storeIds.clear();
         synchronized (hmList_Lock) {
             // if(hmList.size() > 0){ //
@@ -245,7 +245,7 @@ public class BaseFragment extends Fragment {
                 String key = (String) entry.getKey();
                 EPCModel val = (EPCModel) entry.getValue();
                 Map<String, Object> map = new HashMap<String, Object>();
-                StockId storeId = new StockId();
+                RfidOrder storeId = new RfidOrder();
                 storeId.setIdName(val._EPC);
                 storeId.setIdTime(val._TotalCount);
                 storeIds.add(storeId);
