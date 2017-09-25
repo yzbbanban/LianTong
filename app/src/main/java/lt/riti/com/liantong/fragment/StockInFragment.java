@@ -76,6 +76,13 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     private List<RfidUser> rfidUsers;
     private String orderId;
     private int OrderIdType;//0仓库或1订单
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate: ");
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +91,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
         initData(this);
         initView();
         initListener();
+        Log.i(TAG, "onCreateView: ");
         return view;
     }
 
@@ -97,6 +105,20 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
             etStockInOrder.setEnabled(false);
         }
     }
+
+    /**
+     * 翻页调用
+     *
+     * @param isVisibleToUser
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        Log.i(TAG, "Visible StockInFragment: "+isVisibleToUser);
+        if (isVisibleToUser){
+//            initView();
+        }
+    }
+
 
     @Override
     protected void initListener() {
@@ -163,9 +185,9 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                 String stockInOrder = etStockInOrder.getText().toString().trim();
                 if (!"".equals(stockInOrder)) {
                     orderId = stockInOrder;
-                    OrderIdType=1;
+                    OrderIdType = 1;
                 }
-                orderPresent.addOrderTask(OrderIdType,orderId, storeIds);
+                orderPresent.addOrderTask(OrderIdType, orderId, storeIds);
 
             }
         });
@@ -183,7 +205,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 orderId = rfidUsers.get(position).getRfidUserId();
-                OrderIdType=0;
+                OrderIdType = 0;
             }
 
             @Override

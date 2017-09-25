@@ -170,6 +170,7 @@ public class StockActivity extends BaseActivity {
                 stockInLayout.setBackgroundColor(Color.parseColor("#0ebbfa"));
                 stockOutLayout.setBackgroundColor(Color.WHITE);
                 StockApplication.stockType = 0;//入库
+
                 break;
             case R.id.stockOutLayout:
                 fg = fragments.get(1);
