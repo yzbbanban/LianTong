@@ -10,13 +10,13 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.clouiotech.pda.rfid.EPCModel;
 import com.clouiotech.pda.rfid.IAsynchronousMessage;
@@ -25,17 +25,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.adapter.BaseRecyclerViewAdapter;
 import lt.riti.com.liantong.adapter.RfidUserSpinnerAdapter;
 import lt.riti.com.liantong.adapter.StockIdAdapter;
 import lt.riti.com.liantong.app.StockApplication;
+import lt.riti.com.liantong.contract.IRfidOrderContract;
 import lt.riti.com.liantong.contract.IRfidUserContract;
 import lt.riti.com.liantong.entity.PublicData;
-import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.entity.RfidUser;
+import lt.riti.com.liantong.presenter.IRfidOrderPresenter;
 import lt.riti.com.liantong.presenter.IRfidUserPresenter;
 import lt.riti.com.liantong.util.ToastUtil;
 
@@ -43,7 +43,8 @@ import lt.riti.com.liantong.util.ToastUtil;
  * Created by brander on 2017/9/22.
  */
 
-public class StockInFragment extends BaseFragment implements IAsynchronousMessage, IRfidUserContract.View {
+public class StockInFragment extends BaseFragment implements IAsynchronousMessage,
+        IRfidUserContract.View, IRfidOrderContract.View {
     private static final String TAG = "StockInFragment";
     @BindView(R.id.sp_stock_in_stock)
     Spinner spStockInStock;
@@ -71,7 +72,10 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     protected StockIdAdapter adapter;
     private RfidUserSpinnerAdapter spinnerAdapter;
     private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);
-
+    private IRfidOrderContract.Presenter orderPresent = new IRfidOrderPresenter(this);
+    private List<RfidUser> rfidUsers;
+    private String orderId;
+    private int OrderIdType;//0仓库或1订单
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -86,6 +90,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     protected void initView() {
         adapter = new StockIdAdapter(getContext());
+        spinnerAdapter = new RfidUserSpinnerAdapter(getActivity());
         presenter.getRfidUserTask(StockApplication.USER_ID);
         //初始化单号不可用
         if (!cbStockIn.isChecked()) {
@@ -154,7 +159,14 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
         btnStockInSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "onClick: " + storeIds);
+                Log.i(TAG, "btnStockInSubmit onClick: " + storeIds);
+                String stockInOrder = etStockInOrder.getText().toString().trim();
+                if (!"".equals(stockInOrder)) {
+                    orderId = stockInOrder;
+                    OrderIdType=1;
+                }
+                orderPresent.addOrderTask(OrderIdType,orderId, storeIds);
+
             }
         });
         /**
@@ -166,6 +178,20 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 
             }
         });
+        //选择客户/仓库
+        spStockInStock.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                orderId = rfidUsers.get(position).getRfidUserId();
+                OrderIdType=0;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
 
@@ -277,14 +303,16 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     //显示描述
     @Override
     public void showDescription(String description) {
-
+        ToastUtil.showShortToast(description);
     }
 
     //显示数据（客户/仓库）
     @Override
-    public void showData(List<RfidUser> user) {
+    public void showData(List<RfidUser> rfidUsers) {
 //        Log.i(TAG, "showData: "+user);
-        spinnerAdapter = new RfidUserSpinnerAdapter(user, getActivity());
+        //设置界面
+        this.rfidUsers = rfidUsers;
+        spinnerAdapter.setDates(rfidUsers);
         spStockInStock.setAdapter(spinnerAdapter);
 
     }

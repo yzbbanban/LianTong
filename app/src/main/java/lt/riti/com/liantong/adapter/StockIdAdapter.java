@@ -51,7 +51,7 @@ public class StockIdAdapter extends BaseRecyclerViewAdapter<RfidOrder> {
         storeViewHolder.tv_item_stock_name.setText(storeId.getIdName());
         storeViewHolder.tv_item_stock_time.setText("" + storeId.getIdTime());
         //设置被点击事件
-        storeViewHolder.cb_item_stock.setChecked(storeId.isChecked());
+        storeViewHolder.cb_item_stock.setChecked(storeId.getChecked());
 
         storeViewHolder.cb_item_stock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

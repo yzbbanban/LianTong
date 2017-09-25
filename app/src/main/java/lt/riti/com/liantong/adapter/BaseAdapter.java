@@ -1,6 +1,7 @@
 package lt.riti.com.liantong.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 
@@ -15,18 +16,14 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
     private List<T> dates;
     private Context context;
     private LayoutInflater inflater;
+    private static final String TAG = "BaseAdapter";
 
-    public BaseAdapter(List<T> datas, Context context) {
+    public BaseAdapter(Context context) {
         setContext(context);
-        setDates(datas);
         setInflater();
     }
 
-    public List<T> getDates() {
-        return dates;
-    }
-
-    private final void setDates(List<T> dates) {
+    public void setDates(List<T> dates) {
         if (dates == null) {
             dates = new ArrayList<>();
         }
@@ -55,10 +52,11 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        if (dates != null && position < 0) {
+        if (dates != null && dates.size() > 0) {
             return dates.get(position);
+        } else {
+            return null;
         }
-        return null;
     }
 
     @Override

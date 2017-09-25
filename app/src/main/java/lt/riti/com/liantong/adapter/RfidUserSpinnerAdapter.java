@@ -15,19 +15,15 @@ import lt.riti.com.liantong.entity.RfidUser;
  */
 
 public class RfidUserSpinnerAdapter extends BaseAdapter {
-    private List<RfidUser> dates;
-    private Context context;
 
-    public RfidUserSpinnerAdapter(List<RfidUser> dates, Context context) {
-        super(dates, context);
-        this.context = context;
-        this.dates = dates;
-
+    public RfidUserSpinnerAdapter(Context context) {
+        super(context);
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        RfidUser rfidUser = dates.get(position);
+        RfidUser rfidUser = (RfidUser) getItem(position);
         convertView = getInflater().inflate(R.layout.item_spinner, null);
         ViewHolder holder;
         if (convertView != null) {
