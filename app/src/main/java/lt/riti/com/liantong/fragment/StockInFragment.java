@@ -12,20 +12,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.clouiotech.pda.rfid.EPCModel;
 import com.clouiotech.pda.rfid.IAsynchronousMessage;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import lt.riti.com.liantong.R;
+import lt.riti.com.liantong.adapter.BaseRecyclerViewAdapter;
 import lt.riti.com.liantong.adapter.StockIdAdapter;
 import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.entity.PublicData;
+import lt.riti.com.liantong.entity.RfidOrder;
+import lt.riti.com.liantong.util.ToastUtil;
 
 /**
  * Created by brander on 2017/9/22.
@@ -46,9 +52,9 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     @BindView(R.id.recycleView_stock_in)
     RecyclerView recycleViewStockIn;
     @BindView(R.id.btn_stock_in_submit)
-    Button btnStockInSubmit;
+    Button btnStockInSubmit;//提交
     @BindView(R.id.btn_stock_in_clear)
-    Button btnStockInClear;
+    Button btnStockInClear;//清除
     @BindView(R.id.rb_stock_in_single)
     RadioButton rbStockInSingle;
     @BindView(R.id.rb_stock_in_mass)
@@ -72,6 +78,8 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 
     @Override
     protected void initView() {
+        adapter = new StockIdAdapter(getContext());
+        //初始化单号不可用
         if (!cbStockIn.isChecked()) {
             etStockInOrder.setEnabled(false);
         }
@@ -79,6 +87,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 
     @Override
     protected void initListener() {
+        //点击使用单号
         cbStockIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,8 +99,61 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 
             }
         });
+        //全选/全不选
+        cbStockInAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!cbStockInAll.isChecked()) {//不选
+                    Log.i(TAG, "onClick: 1");
+                    for (int i = 0; i < storeIds.size(); i++) {
+                        storeIds.get(i).setChecked(false);
+                        adapter.notifyDataSetChanged();
+                    }
+                } else {//全选
+                    Log.i(TAG, "onClick: 2");
+                    for (int i = 0; i < storeIds.size(); i++) {
+                        storeIds.get(i).setChecked(true);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+        /**
+         * 选择列表(暂无功能)
+         */
+        adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+//                ToastUtil.showShortToast("item: " + position);
+            }
+        });
 
+        /**
+         * 选择checkbox
+         */
+        adapter.checkboxSetOnclick(new StockIdAdapter.CheckItemInterface() {
+
+            @Override
+            public void onclick(CompoundButton compoundButton, boolean b, int position) {
+//                ToastUtil.showShortToast("item: " + position + "check：" + b);
+                //设置值是否为check
+                storeIds.get(position).setChecked(b);
+            }
+        });
+        btnStockInSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "onClick: "+storeIds);
+            }
+        });
+        btnStockInClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
+
 
     @Override
     public void onDestroyView() {
@@ -141,22 +203,26 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     /**
      * 显示列表
      */
-
     protected void showList() {
         Log.i(TAG, "showList: " + getData());
-        adapter = new StockIdAdapter(getContext());
         adapter.setList(getData());
         LinearLayoutManager lM = new LinearLayoutManager(getActivity());
         recycleViewStockIn.setLayoutManager(lM);
         recycleViewStockIn.setAdapter(adapter);
+
     }
 
-
+    /**
+     * 清除数据
+     *
+     * @param v
+     */
     protected void Clear(View v) {
         Log.i(TAG, "Clear: ");
         totalReadCount = 0;
         readTime = 0;
         hmList.clear();
+        //重新显示
         showList();
     }
 
@@ -165,6 +231,11 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
         return super.onKeyUp(keyCode, event);
     }
 
+    /**
+     * 接收rfid信号
+     *
+     * @param model
+     */
     @Override
     public void OutPutEPC(EPCModel model) {
         super.OutPutEPC(model);
