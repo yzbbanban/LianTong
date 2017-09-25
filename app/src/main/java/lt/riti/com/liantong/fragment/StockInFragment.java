@@ -1,8 +1,10 @@
 package lt.riti.com.liantong.fragment;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -113,8 +115,8 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
      */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        Log.i(TAG, "Visible StockInFragment: "+isVisibleToUser);
-        if (isVisibleToUser){
+        Log.i(TAG, "Visible StockInFragment: " + isVisibleToUser);
+        if (isVisibleToUser) {
 //            initView();
         }
     }
@@ -196,7 +198,22 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
          */
         btnStockInClear.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("警告").setMessage("确认清除订单？").setNegativeButton("", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        Clear(view);
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
 
             }
         });
