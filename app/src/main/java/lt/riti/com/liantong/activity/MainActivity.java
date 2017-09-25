@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @OnClick(R.id.ll_store)
     public void startStore(View view) {
-        Intent intent = new Intent(this, StoreActivity.class);
+        Intent intent = new Intent(this, StockActivity.class);
         startActivity(intent);
     }
 

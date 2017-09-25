@@ -34,6 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import lt.riti.com.liantong.R;
+import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.fragment.StockInFragment;
 import lt.riti.com.liantong.fragment.StockOutFragment;
 import lt.riti.com.liantong.util.ToastUtil;
@@ -42,7 +43,7 @@ import lt.riti.com.liantong.util.ToastUtil;
  * Created by brander on 2017/9/20.
  * 仓库作业界面
  */
-public class StoreActivity extends BaseActivity {
+public class StockActivity extends BaseActivity {
     @BindView(R.id.stockInLayout)
     TextView stockInLayout;
     @BindView(R.id.stockOutLayout)
@@ -66,7 +67,7 @@ public class StoreActivity extends BaseActivity {
     private View sIL;
     private View sOL;
     Fragment fg = new Fragment();
-    private static final String TAG = "StoreActivity";
+    private static final String TAG = "StockActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,7 @@ public class StoreActivity extends BaseActivity {
         viewPager.setAdapter(adapter);
         //第一个界面
         viewPager.setCurrentItem(0);
+        StockApplication.stockType = 0;//默认入库
         fg = fragments.get(0);
         stockInLayout.setBackgroundColor(Color.parseColor("#0ebbfa"));
         viewPager.addOnPageChangeListener(new MyOnPageChangeListener());
@@ -167,12 +169,14 @@ public class StoreActivity extends BaseActivity {
                 viewPager.setCurrentItem(0);
                 stockInLayout.setBackgroundColor(Color.parseColor("#0ebbfa"));
                 stockOutLayout.setBackgroundColor(Color.WHITE);
+                StockApplication.stockType = 0;//入库
                 break;
             case R.id.stockOutLayout:
                 fg = fragments.get(1);
                 viewPager.setCurrentItem(1);
                 stockOutLayout.setBackgroundColor(Color.parseColor("#0ebbfa"));
                 stockInLayout.setBackgroundColor(Color.WHITE);
+                StockApplication.stockType = 1;//出库
                 break;
 
         }
@@ -195,12 +199,14 @@ public class StoreActivity extends BaseActivity {
                     animation = new TranslateAnimation(one, 0, 0, 0);
                     stockInLayout.setBackgroundColor(Color.parseColor("#0ebbfa"));
                     stockOutLayout.setBackgroundColor(Color.WHITE);
+                    StockApplication.stockType = 0;//入库
                     break;
                 case 1:
                     fg = fragments.get(1);
                     animation = new TranslateAnimation(offset, one, 0, 0);
                     stockOutLayout.setBackgroundColor(Color.parseColor("#0ebbfa"));
                     stockInLayout.setBackgroundColor(Color.WHITE);
+                    StockApplication.stockType = 1;//出库
                     break;
             }
             //position为切换到的页的编码

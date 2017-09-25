@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.consts.Urls;
 import lt.riti.com.liantong.contract.IRfidOrderContract;
 import lt.riti.com.liantong.entity.ResultCode;
@@ -36,13 +37,15 @@ public class IRfidOrderModel implements IRfidOrderContract.Model {
         for (int i = 0; i < rfidOrders.size(); i++) {
             if (rfidOrders.get(i).getChecked()) {
 //                Log.i(TAG, "isChecked: ");
+                RfidOrder rfidOrder = rfidOrders.get(i);
                 if (orderIdType == 0) {//仓库
-                    rfidOrders.get(i).setRfidUserId(orderId);
-                    rfidOrders.get(i).setRfidOrderNum("");//没有则为空
+                    rfidOrder.setRfidUserId(orderId);
+                    rfidOrder.setRfidOrderNum("");//没有则为空
                 } else {//单号
-                    rfidOrders.get(i).setRfidUserId("");//没有则为空
-                    rfidOrders.get(i).setRfidOrderNum(orderId);
+                    rfidOrder.setRfidUserId("");//没有则为空
+                    rfidOrder.setRfidOrderNum(orderId);
                 }
+                rfidOrder.setStockType(StockApplication.stockType);//设置为出库或入库
                 orderList.add(rfidOrders.get(i));
             }
         }

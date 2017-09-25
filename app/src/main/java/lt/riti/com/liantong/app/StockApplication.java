@@ -12,6 +12,7 @@ public class StockApplication extends Application {
     private static Context context;
     private static int isInStock = 0;
     public static boolean isOnAppStore = false;
+    public static int stockType = 0;//0入库或1出库
 
     @Override
     public void onCreate() {

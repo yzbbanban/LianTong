@@ -247,7 +247,9 @@ public class BaseFragment extends Fragment {
                 EPCModel val = (EPCModel) entry.getValue();
                 Map<String, Object> map = new HashMap<String, Object>();
                 RfidOrder storeId = new RfidOrder();
-                storeId.setIdName(val._EPC);
+                String idName=val._EPC;
+                idName=idName.substring(idName.length()-11);
+                storeId.setIdName(idName);
                 storeId.setIdTime(val._TotalCount);
                 storeIds.add(storeId);
             }
