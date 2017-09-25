@@ -21,23 +21,29 @@ import android.widget.Toast;
 import com.clouiotech.pda.rfid.EPCModel;
 import com.clouiotech.pda.rfid.IAsynchronousMessage;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.adapter.BaseRecyclerViewAdapter;
+import lt.riti.com.liantong.adapter.RfidUserSpinnerAdapter;
 import lt.riti.com.liantong.adapter.StockIdAdapter;
 import lt.riti.com.liantong.app.StockApplication;
+import lt.riti.com.liantong.contract.IRfidUserContract;
 import lt.riti.com.liantong.entity.PublicData;
 import lt.riti.com.liantong.entity.RfidOrder;
+import lt.riti.com.liantong.entity.RfidUser;
+import lt.riti.com.liantong.presenter.IRfidUserPresenter;
 import lt.riti.com.liantong.util.ToastUtil;
 
 /**
  * Created by brander on 2017/9/22.
  */
 
-public class StockInFragment extends BaseFragment implements IAsynchronousMessage {
+public class StockInFragment extends BaseFragment implements IAsynchronousMessage, IRfidUserContract.View {
     private static final String TAG = "StockInFragment";
     @BindView(R.id.sp_stock_in_stock)
     Spinner spStockInStock;
@@ -63,7 +69,8 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     Unbinder unbinder;
 
     protected StockIdAdapter adapter;
-
+    private RfidUserSpinnerAdapter spinnerAdapter;
+    private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);
 
     @Nullable
     @Override
@@ -79,6 +86,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     protected void initView() {
         adapter = new StockIdAdapter(getContext());
+        presenter.getRfidUserTask(StockApplication.USER_ID);
         //初始化单号不可用
         if (!cbStockIn.isChecked()) {
             etStockInOrder.setEnabled(false);
@@ -140,12 +148,18 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                 storeIds.get(position).setChecked(b);
             }
         });
+        /**
+         * 提交数据
+         */
         btnStockInSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "onClick: "+storeIds);
+                Log.i(TAG, "onClick: " + storeIds);
             }
         });
+        /**
+         * 清除数据
+         */
         btnStockInClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -248,5 +262,30 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
         Dispose();
     }
 
+    //显示进度条
+    @Override
+    public void showLoading() {
 
+    }
+
+    //隐藏进度条
+    @Override
+    public void hideLoading() {
+
+    }
+
+    //显示描述
+    @Override
+    public void showDescription(String description) {
+
+    }
+
+    //显示数据（客户/仓库）
+    @Override
+    public void showData(List<RfidUser> user) {
+//        Log.i(TAG, "showData: "+user);
+        spinnerAdapter = new RfidUserSpinnerAdapter(user, getActivity());
+        spStockInStock.setAdapter(spinnerAdapter);
+
+    }
 }

@@ -132,6 +132,7 @@ public class SettingUserActivity extends BaseActivity implements IRfidUserContra
         Button btnAdd = v.findViewById(R.id.btn_dialog_add);
         Button btnCancel = v.findViewById(R.id.btn_dialog_cancel);
         final EditText etDialogName = v.findViewById(R.id.et_dialog_name);
+        //添加或更新
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,6 +163,7 @@ public class SettingUserActivity extends BaseActivity implements IRfidUserContra
 
             }
         });
+        //取消
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
