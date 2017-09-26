@@ -17,5 +17,5 @@ import retrofit2.http.POST;
 public interface RfidOrderAddService {
     @POST("addRfidOrderList.do")
     @FormUrlEncoded
-    Call<ResultCode<List<RfidOrder>>> call(@Field("orderJs") String orderJs);
+    Call<ResultCode<String>> call(@Field("orderJs") String orderJs);
 }

@@ -53,18 +53,20 @@ public class IRfidOrderModel implements IRfidOrderContract.Model {
         if (orderList != null && orderList.size() > 0) {
             Gson gson = new Gson();
             String orderJs = gson.toJson(orderList);
-            Log.i(TAG, "addOrder: " + orderJs);
+//            Log.i(TAG, "addOrder: " + orderJs);
             Retrofit retrofit = RetrofitUtils.getRetrofit(Urls.COOL_RFID_ORDER_AL);
             RfidOrderAddService request = retrofit.create(RfidOrderAddService.class);
-            final Call<ResultCode<List<RfidOrder>>> call = request.call(orderJs);
-            call.enqueue(new MyCallback<ResultCode<List<RfidOrder>>>() {
+            final Call<ResultCode<String>> call = request.call(orderJs);
+            call.enqueue(new MyCallback<ResultCode<String>>() {
                 @Override
-                public void onSuc(Response<ResultCode<List<RfidOrder>>> response) {
+                public void onSuc(Response<ResultCode<String>> response) {
+                    Log.i(TAG, "onSuc: " + response.body().getMessage());
                     callBack.setSuccess(response.body().getMessage());
                 }
 
                 @Override
                 public void onFail(String message) {
+                    Log.i(TAG, "onFail: " + message);
                     callBack.setSuccess(message);
                 }
             });
