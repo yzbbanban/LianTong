@@ -9,13 +9,13 @@
     android:padding="@dimen/x20"
     tools:context=".activity.LoginActivity">
 
-    <android.support.v4.widget.CircleImageView
+    <ImageView
         android:layout_width="@dimen/x150"
         android:layout_height="@dimen/x150"
         android:src="@drawable/login_logo" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/x250"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/x10">
 
@@ -36,7 +36,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/x250"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/x10">
 
@@ -60,9 +60,10 @@
 
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="@dimen/x100"
+        android:layout_width="@dimen/x250"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/x10"
+        android:layout_marginTop="10dp"
         android:background="@drawable/login_selector"
         android:text="登录"
         android:textColor="@color/colorWhite" />
