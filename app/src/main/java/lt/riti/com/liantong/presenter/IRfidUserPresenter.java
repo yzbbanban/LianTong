@@ -41,7 +41,17 @@ public class IRfidUserPresenter implements IRfidUserContract.Presenter {
 
     @Override
     public void getRfidUserTask(String id) {
-        model.getRfidUser(id, callback);
+        model.getRfidUser(id, new ICallBack() {
+            @Override
+            public void setSuccess(Object message) {
+                view.showData((List<RfidUser>) message);
+            }
+
+            @Override
+            public void setFailure(Object message) {
+                view.showDescription((String) message);
+            }
+        });
     }
 
     class MyCallBack implements ICallBack {
@@ -49,18 +59,16 @@ public class IRfidUserPresenter implements IRfidUserContract.Presenter {
         @Override
         public void setSuccess(Object message) {
             try {
-                Log.i(TAG, "setSuccess message: ");
-                view.showDescription((String)message);
+                view.showDescription((String) message);
             } catch (Exception e) {
-                Log.i(TAG, "setSuccess: ");
-                view.showData((List<RfidUser>) message);
+                view.showDescription(e.getMessage());
             }
         }
 
         @Override
         public void setFailure(Object message) {
             try {
-
+                view.showDescription((String) message);
             } catch (Exception e) {
 
             }

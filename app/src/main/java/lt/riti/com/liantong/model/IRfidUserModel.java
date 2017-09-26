@@ -75,7 +75,7 @@ public class IRfidUserModel implements IRfidUserContract.Model {
     }
 
     @Override
-    public void deleteRfidUser(String id,final ICallBack callBack) {
+    public void deleteRfidUser(String id, final ICallBack callBack) {
         Retrofit retrofit = RetrofitUtils.getRetrofit(Urls.COOL_RFID_USER_AL);
         RfidUserDeleteService request = retrofit.create(RfidUserDeleteService.class);
         Call<ResultCode<RfidUser>> call = request.call(id);
@@ -102,7 +102,6 @@ public class IRfidUserModel implements IRfidUserContract.Model {
         call.enqueue(new MyCallback<ResultCode<List<RfidUser>>>() {
             @Override
             public void onSuc(Response<ResultCode<List<RfidUser>>> response) {
-                Log.i(TAG, "onSuc: " + response.body().getResult());
                 callBack.setSuccess(response.body().getResult());
             }
 

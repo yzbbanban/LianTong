@@ -205,9 +205,13 @@ public class SettingUserActivity extends BaseActivity implements IRfidUserContra
     //获取数据
     @Override
     public void showData(List<RfidUser> users) {
-        Log.i(TAG, "showData: ");
-        this.users.clear();
-        this.users.addAll(users);
+        if (users != null) {
+            Log.i(TAG, "showData: ");
+            this.users.clear();
+            this.users.addAll(users);
+        } else {
+            this.users.clear();
+        }
         adapter.notifyDataSetChanged();
     }
 }
