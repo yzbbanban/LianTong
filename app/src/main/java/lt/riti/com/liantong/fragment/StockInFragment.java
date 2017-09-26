@@ -187,7 +187,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
             public void onClick(View view) {
                 Log.i(TAG, "btnStockInSubmit onClick: " + storeIds);
                 String stockInOrder = etStockInOrder.getText().toString().trim();
-                if (!"".equals(stockInOrder)) {
+                if (!"".equals(stockInOrder) && cbStockIn.isChecked()) {//值不为空，且checkbox选中状态
                     orderId = stockInOrder;
                     OrderIdType = 1;
                 }
@@ -255,7 +255,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                             ToastUtil.showShortToast("请输入");
                         } else {
                             //向列表添加数据
-                            RfidOrder ro=new RfidOrder();
+                            RfidOrder ro = new RfidOrder();
                             ro.setStockType(0);
                             ro.setIdName(name);
                             ro.setIdTime(1L);

@@ -21,6 +21,8 @@
     <color name="colorBlackLu">#000000</color>
     <color name="colorLightBlack">#393939</color>
     <color name="colorGrey">#7b7a7a</color>
+    <color name="loginBlue">#2269d4</color>
+    <color name="loginBluePressed">#61a0ff</color>
 
     <color name="store">#7b7a7a</color>
     <color name="setting_RFID">#8f8f8f</color>

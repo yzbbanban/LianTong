@@ -28,14 +28,19 @@ public class ILoginModel implements ILoginContract.Model {
         call.enqueue(new MyCallback<ResultCode<User>>() {
             @Override
             public void onSuc(Response<ResultCode<User>> response) {
-                LogUtil.info(TAG, response.body().getMessage());
-                LogUtil.info(TAG, response.body().getCode());
-                String userId = response.body().getResult().getId();
-                String userName = response.body().getResult().getName();
-                //登陆成功将userId保存到CoolApplication中，退出app自动消失；
-                StockApplication.USER_ID = userId;
-                StockApplication.USER_NAME = userName;
-                callback.setSuccess("登录成功");
+                Log.i(TAG, "onSuc: "+response.code());
+                if ("10000".equals(response.body().getCode())) {
+                    LogUtil.info(TAG, response.body().getMessage());
+                    LogUtil.info(TAG, response.body().getCode());
+                    String userId = response.body().getResult().getId();
+                    String userName = response.body().getResult().getName();
+                    //登陆成功将userId保存到CoolApplication中，退出app自动消失；
+                    StockApplication.USER_ID = userId;
+                    StockApplication.USER_NAME = userName;
+                    callback.setSuccess("登录成功");
+                } else {
+                    callback.setSuccess(response.body().getMessage());
+                }
 
             }
 
