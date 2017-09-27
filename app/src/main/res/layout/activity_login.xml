@@ -22,7 +22,7 @@
         <ImageView
             android:layout_width="@dimen/x30"
             android:layout_height="@dimen/x30"
-            android:src="@drawable/password" />
+            android:src="@drawable/user" />
 
         <lt.riti.com.liantong.ui.CleanEditText
             android:id="@+id/et_login_username"
