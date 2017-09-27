@@ -12,6 +12,7 @@ import retrofit2.http.POST;
 
 /**
  * Created by brander on 2017/8/3.
+ * 添加Rfid订单
  */
 
 public interface RfidOrderAddService {

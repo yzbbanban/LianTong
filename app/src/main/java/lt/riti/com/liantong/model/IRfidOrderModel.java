@@ -53,7 +53,7 @@ public class IRfidOrderModel implements IRfidOrderContract.Model {
         if (orderList != null && orderList.size() > 0) {
             Gson gson = new Gson();
             String orderJs = gson.toJson(orderList);
-//            Log.i(TAG, "addOrder: " + orderJs);
+            Log.i(TAG, "addOrder: " + orderJs);
             Retrofit retrofit = RetrofitUtils.getRetrofit(Urls.COOL_RFID_ORDER_AL);
             RfidOrderAddService request = retrofit.create(RfidOrderAddService.class);
             final Call<ResultCode<String>> call = request.call(orderJs);

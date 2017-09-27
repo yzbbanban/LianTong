@@ -1,5 +1,7 @@
 package lt.riti.com.liantong.util.retrofit;
 
+import android.util.Log;
+
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
@@ -18,7 +20,7 @@ public abstract class MyCallback<T extends ResultCode> implements Callback<T> {
     private static final String TAG = "MyCallback";
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
-
+        Log.i(TAG, "onResponse: "+response.body());
         if (response.raw().code() == 200) {//200是服务器有合理响应
             LogUtil.info(TAG, "code: "+response.body().getCode());
             if (response.body().getCode().equals(ServiceResult.GET_MESSAGE_SUCCESS.getIndex())) {//正常

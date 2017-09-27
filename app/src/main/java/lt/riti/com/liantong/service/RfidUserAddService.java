@@ -13,6 +13,7 @@ import retrofit2.http.POST;
 
 /**
  * Created by brander on 2017/8/3.
+ * 添加客户及仓库
  */
 
 public interface RfidUserAddService {

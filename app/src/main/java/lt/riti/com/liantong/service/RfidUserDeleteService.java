@@ -9,6 +9,7 @@ import retrofit2.http.POST;
 
 /**
  * Created by brander on 2017/8/3.
+ * 删除rfid 客户及位置
  */
 
 public interface RfidUserDeleteService {

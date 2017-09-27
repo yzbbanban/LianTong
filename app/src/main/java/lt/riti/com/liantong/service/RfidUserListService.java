@@ -11,6 +11,7 @@ import retrofit2.http.POST;
 
 /**
  * Created by brander on 2017/8/3.
+ * 获取客户及位置列表
  */
 
 public interface RfidUserListService {
