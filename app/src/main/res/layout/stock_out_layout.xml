@@ -164,21 +164,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:padding="@dimen/x10">
 
         <Button
             android:id="@+id/btn_stock_out_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="提交" />
+            android:background="@drawable/btn_rfiduser_selector"
+            android:text="提交"
+            android:textColor="@color/colorWhite" />
 
         <Button
             android:id="@+id/btn_stock_out_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x30"
             android:layout_weight="1"
-            android:text="清除" />
+            android:background="@drawable/btn_rfiduser_selector"
+            android:text="清除"
+            android:textColor="@color/colorWhite" />
 
     </LinearLayout>
 
