@@ -232,14 +232,13 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 
             }
         });
-
+        //输入托盘号
         tvStockInGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 View v = getActivity().getLayoutInflater().inflate(R.layout.user_dialog, null);
                 builder.setView(v);
-                builder.setTitle("设定");
                 final AlertDialog alertDialog = builder.create();
                 alertDialog.show();
                 Button btnAdd = v.findViewById(R.id.btn_dialog_add);
