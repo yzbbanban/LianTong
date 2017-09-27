@@ -232,7 +232,6 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 View v = getActivity().getLayoutInflater().inflate(R.layout.user_dialog, null);
                 builder.setView(v);
-                builder.setTitle("设定");
                 final AlertDialog alertDialog = builder.create();
                 alertDialog.show();
                 Button btnAdd = v.findViewById(R.id.btn_dialog_add);
@@ -252,8 +251,15 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                             ro.setStockType(0);
                             ro.setIdName(name);
                             ro.setIdTime(1L);
-                            storeIds.add(ro);
-                            adapter.notifyDataSetChanged();
+                            //没有数据则直接显示
+                            if (storeIds.size() == 0) {
+                                storeIds.add(ro);
+                                showView(storeIds);
+                            } else {
+                                storeIds.add(ro);
+                                adapter.notifyDataSetChanged();
+                            }
+
                             alertDialog.dismiss();
                         }
 
@@ -284,8 +290,15 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
      */
     protected void showList() {
         Log.i(TAG, "showList: " + getData());
-        adapter = new StockIdAdapter(getContext());
-        adapter.setList(getData());
+        showView(getData());
+    }
+
+    /**
+     * 展示界面
+     * @param rfidOrders
+     */
+    private void showView(List<RfidOrder> rfidOrders) {
+        adapter.setList(rfidOrders);
         LinearLayoutManager lM = new LinearLayoutManager(getActivity());
         recycleViewStockOut.setLayoutManager(lM);
         recycleViewStockOut.setAdapter(adapter);

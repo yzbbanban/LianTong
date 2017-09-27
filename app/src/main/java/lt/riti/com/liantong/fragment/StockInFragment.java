@@ -258,8 +258,15 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                             ro.setStockType(0);
                             ro.setIdName(name);
                             ro.setIdTime(1L);
-                            storeIds.add(ro);
-                            adapter.notifyDataSetChanged();
+                            //没有数据则直接显示
+                            if (storeIds.size() == 0) {
+                                storeIds.add(ro);
+                                showView(storeIds);
+                            } else {
+                                storeIds.add(ro);
+                                adapter.notifyDataSetChanged();
+                            }
+
                             alertDialog.dismiss();
                         }
 
@@ -329,11 +336,18 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
      */
     protected void showList() {
         Log.i(TAG, "showList: " + getData());
-        adapter.setList(getData());
+        showView(getData());
+    }
+
+    /**
+     * 展示界面
+     * @param rfidOrders
+     */
+    private void showView(List<RfidOrder> rfidOrders) {
+        adapter.setList(rfidOrders);
         LinearLayoutManager lM = new LinearLayoutManager(getActivity());
         recycleViewStockIn.setLayoutManager(lM);
         recycleViewStockIn.setAdapter(adapter);
-
     }
 
     /**
