@@ -55,7 +55,7 @@
     <Button
         android:id="@+id/btn_add"
         android:layout_width="@dimen/x150"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/x30"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="@dimen/x10"
         android:background="@drawable/btn_rfiduser_selector"
