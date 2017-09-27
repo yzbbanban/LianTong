@@ -20,6 +20,7 @@
             android:textSize="@dimen/x16" />
 
         <ImageButton
+            android:id="@+id/ibtn_dialog_close"
             android:layout_width="@dimen/x16"
             android:layout_height="@dimen/x16"
             android:layout_gravity="right"

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,11 +127,11 @@ public class SettingUserActivity extends BaseActivity implements IRfidUserContra
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View v = getLayoutInflater().inflate(R.layout.user_dialog, null);
         builder.setView(v);
-        builder.setTitle("设定");
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
         Button btnAdd = v.findViewById(R.id.btn_dialog_add);
         Button btnCancel = v.findViewById(R.id.btn_dialog_cancel);
+        ImageButton ibtnClose = v.findViewById(R.id.ibtn_dialog_close);
         final EditText etDialogName = v.findViewById(R.id.et_dialog_name);
         //添加或更新
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -152,10 +153,10 @@ public class SettingUserActivity extends BaseActivity implements IRfidUserContra
                     if (type == 1) {
                         presenter.addRfidUserTask(rfidUser);
                     } else {
-                        Log.i(TAG, "222: " + users.get(position));
+//                        Log.i(TAG, "222: " + users.get(position));
                         rfidUser.setRfidUserId(users.get(position).getRfidUserId());
                         rfidUser.setRfidUserLocation("");
-                        Log.i(TAG, "333: " + rfidUser);
+//                        Log.i(TAG, "333: " + rfidUser);
                         presenter.updateRfidUserTask(rfidUser);
                     }
                     alertDialog.dismiss();
@@ -167,7 +168,13 @@ public class SettingUserActivity extends BaseActivity implements IRfidUserContra
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToastUtil.showShortToast("Cancel");
+//                ToastUtil.showShortToast("Cancel");
+                alertDialog.dismiss();
+            }
+        });
+        ibtnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 alertDialog.dismiss();
             }
         });
