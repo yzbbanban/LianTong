@@ -115,7 +115,7 @@ public class StockActivity extends BaseActivity {
         viewPager.setCurrentItem(0);
         StockApplication.stockType = 0;//默认入库
         fg = fragments.get(0);
-        stockInLayout.setBackgroundColor(Color.parseColor("#0ebbfa"));
+        stockInLayout.setTextColor(Color.parseColor("#0ebbfa"));
         viewPager.addOnPageChangeListener(new MyOnPageChangeListener());
 
         //滚动条宽度
@@ -167,17 +167,16 @@ public class StockActivity extends BaseActivity {
             case R.id.stockInLayout:
                 fg = fragments.get(0);
                 viewPager.setCurrentItem(0);
-                stockInLayout.setBackgroundColor(Color.parseColor("#0ebbfa"));
-                stockOutLayout.setBackgroundColor(Color.WHITE);
                 StockApplication.stockType = 0;//入库
-
+                stockInLayout.setTextColor(Color.parseColor("#0ebbfa"));
+                stockOutLayout.setTextColor(Color.BLACK);
                 break;
             case R.id.stockOutLayout:
                 fg = fragments.get(1);
                 viewPager.setCurrentItem(1);
-                stockOutLayout.setBackgroundColor(Color.parseColor("#0ebbfa"));
-                stockInLayout.setBackgroundColor(Color.WHITE);
                 StockApplication.stockType = 1;//出库
+                stockInLayout.setTextColor(Color.BLACK);
+                stockOutLayout.setTextColor(Color.parseColor("#0ebbfa"));
                 break;
 
         }
@@ -198,15 +197,15 @@ public class StockActivity extends BaseActivity {
                 case 0:
                     fg = fragments.get(0);
                     animation = new TranslateAnimation(one, 0, 0, 0);
-                    stockInLayout.setBackgroundColor(Color.parseColor("#0ebbfa"));
-                    stockOutLayout.setBackgroundColor(Color.WHITE);
+                    stockInLayout.setTextColor(Color.parseColor("#0ebbfa"));
+                    stockOutLayout.setTextColor(Color.BLACK);
                     StockApplication.stockType = 0;//入库
                     break;
                 case 1:
                     fg = fragments.get(1);
                     animation = new TranslateAnimation(offset, one, 0, 0);
-                    stockOutLayout.setBackgroundColor(Color.parseColor("#0ebbfa"));
-                    stockInLayout.setBackgroundColor(Color.WHITE);
+                    stockInLayout.setTextColor(Color.BLACK);
+                    stockOutLayout.setTextColor(Color.parseColor("#0ebbfa"));
                     StockApplication.stockType = 1;//出库
                     break;
             }
