@@ -184,6 +184,10 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         btnStockOutSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if ("".equals(tvStockOutStock.getText().toString().trim())) {
+                    ToastUtil.showShortToast("请选择仓库");
+                    return;
+                }
                 Log.i(TAG, "btnStockInSubmit onClick: " + storeIds);
                 String stockInOrder = etStockOutOrder.getText().toString().trim();
                 if (!"".equals(stockInOrder)) {

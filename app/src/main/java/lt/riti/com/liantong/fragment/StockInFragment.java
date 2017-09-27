@@ -200,6 +200,10 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "btnStockInSubmit onClick: " + storeIds);
+                if ("".equals(tvStockInStock.getText().toString().trim())) {
+                    ToastUtil.showShortToast("请选择仓库");
+                    return;
+                }
                 String stockInOrder = etStockInOrder.getText().toString().trim();
                 if (!"".equals(stockInOrder) && cbStockIn.isChecked()) {//值不为空，且checkbox选中状态
                     orderId = stockInOrder;
