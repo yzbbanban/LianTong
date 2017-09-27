@@ -12,8 +12,8 @@
         android:layout_height="@dimen/x160"
         android:src="@drawable/login_logo" />
 
-
     <LinearLayout
+        android:layout_marginTop="@dimen/x50"
         android:id="@+id/ll_store"
         android:layout_width="@dimen/x200"
         android:layout_height="wrap_content"
@@ -27,9 +27,10 @@
             android:src="@drawable/manage" />
 
         <TextView
-            android:layout_marginLeft="@dimen/x10"
+            android:textColor="@color/colorWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x10"
             android:gravity="center"
             android:text="出入库作业" />
 
@@ -42,9 +43,9 @@
         android:layout_width="@dimen/x200"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:padding="@dimen/x10"
         android:background="@drawable/btn_rfid_selector"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="@dimen/x10">
 
         <ImageView
             android:layout_width="@dimen/x15"
@@ -52,9 +53,10 @@
             android:src="@drawable/rfid" />
 
         <TextView
-            android:layout_marginLeft="@dimen/x10"
+            android:textColor="@color/colorWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x10"
             android:gravity="center"
             android:text="  RFID  设置" />
 
@@ -65,9 +67,9 @@
         android:layout_width="@dimen/x200"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:padding="@dimen/x10"
         android:background="@drawable/btn_rfiduser_selector"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="@dimen/x10">
 
         <ImageView
             android:layout_width="@dimen/x15"
@@ -75,9 +77,10 @@
             android:src="@drawable/customer" />
 
         <TextView
-            android:layout_marginLeft="@dimen/x10"
+            android:textColor="@color/colorWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x10"
             android:gravity="center"
             android:text="客户及位置" />
 

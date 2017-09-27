@@ -20,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.clouiotech.pda.rfid.EPCModel;
 import com.clouiotech.pda.rfid.IAsynchronousMessage;
@@ -37,6 +38,7 @@ import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.contract.IRfidOrderContract;
 import lt.riti.com.liantong.contract.IRfidUserContract;
 import lt.riti.com.liantong.entity.PublicData;
+import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.entity.RfidUser;
 import lt.riti.com.liantong.presenter.IRfidOrderPresenter;
 import lt.riti.com.liantong.presenter.IRfidUserPresenter;
@@ -56,8 +58,8 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     EditText etStockOutOrder;
     @BindView(R.id.cb_stock_out)
     CheckBox cbStockOut;
-    @BindView(R.id.st_stock_out_good)
-    EditText stStockOutGood;
+    @BindView(R.id.tv_stock_out_good)
+    TextView tvStockOutGood;
     @BindView(R.id.cb_stock_out_all)
     CheckBox cbStockOutAll;
     @BindView(R.id.recycleView_stock_out)
@@ -222,6 +224,49 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+        tvStockOutGood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                View v = getActivity().getLayoutInflater().inflate(R.layout.user_dialog, null);
+                builder.setView(v);
+                builder.setTitle("设定");
+                final AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                Button btnAdd = v.findViewById(R.id.btn_dialog_add);
+                Button btnCancel = v.findViewById(R.id.btn_dialog_cancel);
+                final EditText etDialogName = v.findViewById(R.id.et_dialog_name);
+                //添加或更新
+                btnAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+//                ToastUtil.showShortToast("Add");
+                        String name = etDialogName.getText().toString().trim();
+                        if ("".equals(name)) {
+                            ToastUtil.showShortToast("请输入");
+                        } else {
+                            //向列表添加数据
+                            RfidOrder ro = new RfidOrder();
+                            ro.setStockType(0);
+                            ro.setIdName(name);
+                            ro.setIdTime(1L);
+                            storeIds.add(ro);
+                            adapter.notifyDataSetChanged();
+                            alertDialog.dismiss();
+                        }
+
+                    }
+                });
+                //取消
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ToastUtil.showShortToast("Cancel");
+                        alertDialog.dismiss();
+                    }
+                });
             }
         });
 

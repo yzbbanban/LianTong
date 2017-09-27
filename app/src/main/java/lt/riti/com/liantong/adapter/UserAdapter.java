@@ -1,9 +1,11 @@
 package lt.riti.com.liantong.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -33,8 +35,11 @@ public class UserAdapter extends BaseRecyclerViewAdapter<RfidUser> {
         super.onBindViewHolder(holder, position);
         UserViewHolder userViewHolder = (UserViewHolder) holder;
         RfidUser user = mList.get(position);
-        userViewHolder.tv_item_id.setText(""+(position + 1));
+        userViewHolder.tv_item_id.setText("" + (position + 1));
         userViewHolder.tv_item_name.setText(user.getRfidUserName());
+        if (position / 2 == 0 && position != 0) {//条纹色
+            userViewHolder.ll_bac.setBackgroundColor(Color.WHITE);
+        }
         userViewHolder.tv_item_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,6 +61,7 @@ public class UserAdapter extends BaseRecyclerViewAdapter<RfidUser> {
     }
 
     private class UserViewHolder extends BaseViewHolder {
+        public LinearLayout ll_bac;
         public TextView tv_item_id;
         public TextView tv_item_name;
         public TextView tv_item_update;
@@ -64,6 +70,7 @@ public class UserAdapter extends BaseRecyclerViewAdapter<RfidUser> {
         public UserViewHolder(View itemView) {
             super(itemView);
             tv_item_id = (TextView) itemView.findViewById(R.id.tv_item_id);
+            ll_bac = (LinearLayout) itemView.findViewById(R.id.ll_bac);
             tv_item_name = (TextView) itemView.findViewById(R.id.tv_item_name);
             tv_item_update = (TextView) itemView.findViewById(R.id.tv_item_update);
             tv_item_delete = (TextView) itemView.findViewById(R.id.tv_item_delete);

@@ -33,7 +33,7 @@ import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.entity.RfidOrder;
 
 /**
- * Created by Administrator on 2017/9/22.
+ * Created by brander on 2017/9/22.
  */
 
 public class BaseFragment extends Fragment {
