@@ -12,7 +12,7 @@
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:background="#FFFFFF">
 
             <TextView
@@ -23,7 +23,7 @@
                 android:gravity="center"
                 android:text="入库作业"
                 android:textColor="#000000"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/stockOutLayout"
@@ -33,7 +33,7 @@
                 android:gravity="center"
                 android:text="出库作业"
                 android:textColor="#000000"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 

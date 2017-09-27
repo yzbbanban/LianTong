@@ -23,6 +23,12 @@
     <color name="colorGrey">#7b7a7a</color>
     <color name="loginBlue">#2269d4</color>
     <color name="loginBluePressed">#61a0ff</color>
+    <color name="stockShape">#f9671e</color>
+    <color name="stockShapePressed">#ff9967</color>
+    <color name="rfidSettingShape">#3b5998</color>
+    <color name="rfidSettingShapePressed">#74a1ff</color>
+    <color name="rfidUserShape">#1eb9ee</color>
+    <color name="rfidUserShapePressed">#70dbff</color>
 
     <color name="store">#7b7a7a</color>
     <color name="setting_RFID">#8f8f8f</color>

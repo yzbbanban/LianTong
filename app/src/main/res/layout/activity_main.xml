@@ -7,89 +7,82 @@
     android:orientation="vertical"
     tools:context="lt.riti.com.liantong.activity.MainActivity">
 
-    <lt.riti.com.liantong.ui.XCRoundImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@mipmap/ic_launcher_round" />
+    <ImageView
+        android:layout_width="@dimen/x160"
+        android:layout_height="@dimen/x160"
+        android:src="@drawable/login_logo" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="苏州链通天下"
-        android:textSize="20sp" />
 
     <LinearLayout
         android:id="@+id/ll_store"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:background="@color/store"
+        android:layout_width="@dimen/x200"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_stock_selector"
         android:gravity="center"
-        android:orientation="vertical">
+        android:padding="@dimen/x10">
+
+        <ImageView
+            android:layout_width="@dimen/x15"
+            android:layout_height="@dimen/x15"
+            android:src="@drawable/manage" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="出入库作业" />
 
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_setting_rfid"
+        android:layout_width="@dimen/x200"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="@dimen/x10"
+        android:background="@drawable/btn_rfid_selector"
+        android:gravity="center">
+
         <ImageView
+            android:layout_width="@dimen/x15"
+            android:layout_height="@dimen/x15"
+            android:src="@drawable/rfid" />
+
+        <TextView
+            android:layout_marginLeft="@dimen/x10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:src="@mipmap/ic_launcher_round" />
+            android:gravity="center"
+            android:text="  RFID  设置" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:id="@+id/ll_user"
+        android:layout_width="@dimen/x200"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="@dimen/x10"
+        android:background="@drawable/btn_rfiduser_selector"
+        android:gravity="center">
 
-        <LinearLayout
-            android:id="@+id/ll_setting_rfid"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/setting_RFID"
+        <ImageView
+            android:layout_width="@dimen/x15"
+            android:layout_height="@dimen/x15"
+            android:src="@drawable/customer" />
+
+        <TextView
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
+            android:text="客户及位置" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="RFID设置" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:src="@mipmap/ic_launcher_round" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_user"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/setting_user"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="客户及位置" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:src="@mipmap/ic_launcher_round" />
-        </LinearLayout>
 
     </LinearLayout>
+
 
 </LinearLayout>
