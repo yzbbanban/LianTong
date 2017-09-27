@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -236,6 +237,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                 alertDialog.show();
                 Button btnAdd = v.findViewById(R.id.btn_dialog_add);
                 Button btnCancel = v.findViewById(R.id.btn_dialog_cancel);
+                ImageButton ibtnClose = v.findViewById(R.id.ibtn_dialog_close);
                 final EditText etDialogName = v.findViewById(R.id.et_dialog_name);
                 //添加或更新
                 btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -273,6 +275,12 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                         alertDialog.dismiss();
                     }
                 });
+                ibtnClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
             }
         });
 
@@ -295,6 +303,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
 
     /**
      * 展示界面
+     *
      * @param rfidOrders
      */
     private void showView(List<RfidOrder> rfidOrders) {
