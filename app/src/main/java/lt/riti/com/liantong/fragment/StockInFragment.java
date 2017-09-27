@@ -22,9 +22,11 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.OptionsPickerView;
 import com.clouiotech.pda.rfid.EPCModel;
 import com.clouiotech.pda.rfid.IAsynchronousMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -51,8 +53,8 @@ import lt.riti.com.liantong.util.ToastUtil;
 public class StockInFragment extends BaseFragment implements IAsynchronousMessage,
         IRfidUserContract.View, IRfidOrderContract.View {
     private static final String TAG = "StockInFragment";
-    @BindView(R.id.sp_stock_in_stock)
-    Spinner spStockInStock;
+    @BindView(R.id.tv_stock_in_stock)
+    TextView tvStockInStock;
     @BindView(R.id.et_stock_in_order)
     EditText etStockInOrder;
     @BindView(R.id.cb_stock_in)
@@ -81,6 +83,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     private List<RfidUser> rfidUsers;
     private String orderId;
     private int OrderIdType;//0仓库或1订单
+    private List<RfidUser> pickView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -159,6 +162,16 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
             }
         });
         /**
+         * 选择客户或仓库
+         */
+        tvStockInStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setPickView();
+            }
+        });
+
+        /**
          * 选择列表(暂无功能)
          */
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
@@ -221,18 +234,8 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
             }
         });
         //选择客户/仓库
-        spStockInStock.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                orderId = rfidUsers.get(position).getRfidUserId();
-                OrderIdType = 0;
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
 
-            }
-        });
         //输入托盘号
         tvStockInGood.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -349,6 +352,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 
     /**
      * 展示界面
+     *
      * @param rfidOrders
      */
     private void showView(List<RfidOrder> rfidOrders) {
@@ -418,8 +422,27 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 //        Log.i(TAG, "showData: "+user);
         //设置界面
         this.rfidUsers = rfidUsers;
-        spinnerAdapter.setDates(rfidUsers);
-        spStockInStock.setAdapter(spinnerAdapter);
+        for (int i = 0; i < rfidUsers.size(); i++) {
+            String name = rfidUsers.get(i).getRfidUserName();
+            rfidName.add(name);
+        }
+    }
 
+    List<String> rfidName = new ArrayList<>();
+
+    public void setPickView() {
+        //条件选择器
+        OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(),
+                new OptionsPickerView.OnOptionsSelectListener() {
+                    @Override
+                    public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                        //设置Text
+                        tvStockInStock.setText(rfidUsers.get(options1).getRfidUserName());
+                        orderId = rfidUsers.get(options1).getRfidUserId();
+                        OrderIdType = 0;
+                    }
+                }).build();
+        pvOptions.setPicker(rfidName, null, null);
+        pvOptions.show();
     }
 }

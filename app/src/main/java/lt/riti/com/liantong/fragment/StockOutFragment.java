@@ -23,9 +23,11 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.OptionsPickerView;
 import com.clouiotech.pda.rfid.EPCModel;
 import com.clouiotech.pda.rfid.IAsynchronousMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -53,8 +55,8 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         IRfidUserContract.View, IRfidOrderContract.View {
     private static final String TAG = "StockOutFragment";
 
-    @BindView(R.id.sp_stock_out_stock)
-    Spinner spStockOutStock;
+    @BindView(R.id.tv_stock_out_stock)
+    TextView tvStockOutStock;
     @BindView(R.id.et_stock_out_order)
     EditText etStockOutOrder;
     @BindView(R.id.cb_stock_out)
@@ -116,6 +118,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             initView();
+            rfidName.clear();
         }
     }
 
@@ -214,17 +217,13 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                 dialog.show();
             }
         });
-        //选择客户/仓库
-        spStockOutStock.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /**
+         * 选择客户或仓库
+         */
+        tvStockOutStock.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                orderId = rfidUsers.get(position).getRfidUserId();
-                OrderIdType = 0;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onClick(View view) {
+                setPickView();
             }
         });
         tvStockOutGood.setOnClickListener(new View.OnClickListener() {
@@ -393,13 +392,33 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         ToastUtil.showShortToast(description);
     }
 
+    //显示数据（客户/仓库）
     @Override
     public void showData(List<RfidUser> rfidUsers) {
-        Log.i(TAG, "showData: " + rfidUsers);
+//        Log.i(TAG, "showData: "+user);
         //设置界面
         this.rfidUsers = rfidUsers;
-        spinnerAdapter.setDates(rfidUsers);
-        spStockOutStock.setAdapter(spinnerAdapter);
+        for (int i = 0; i < rfidUsers.size(); i++) {
+            String name = rfidUsers.get(i).getRfidUserName();
+            rfidName.add(name);
+        }
+    }
 
+    List<String> rfidName = new ArrayList<>();
+
+    public void setPickView() {
+        //条件选择器
+        OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(),
+                new OptionsPickerView.OnOptionsSelectListener() {
+                    @Override
+                    public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                        //设置Text
+                        tvStockOutStock.setText(rfidUsers.get(options1).getRfidUserName());
+                        orderId = rfidUsers.get(options1).getRfidUserId();
+                        OrderIdType = 0;
+                    }
+                }).build();
+        pvOptions.setPicker(rfidName, null, null);
+        pvOptions.show();
     }
 }

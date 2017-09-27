@@ -39,4 +39,5 @@ dependencies {
     compile 'com.android.support:support-v4:26.+'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.contrarywind:Android-PickerView:3.2.6'//滚轮选择
 }
