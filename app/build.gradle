@@ -31,8 +31,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.+'
+    //retrofit网络上传
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.okhttp3:okhttp:3.1.2'
+    //gson解析
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.android.support:recyclerview-v7:26.+'
