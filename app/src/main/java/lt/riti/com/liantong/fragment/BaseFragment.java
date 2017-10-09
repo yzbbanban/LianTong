@@ -84,7 +84,8 @@ public class BaseFragment extends Fragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    protected void initListener(){}
+    protected void initListener() {
+    }
 
     protected void initView() {
 
@@ -94,7 +95,11 @@ public class BaseFragment extends Fragment {
         Log.i(TAG, "initData: ");
         usingBackBattery = canUsingBackBattery();
         if (!UHF_Init(usingBackBattery, am)) { // 打开模块电源失败
-            ShowPowerLow();
+            try {
+                ShowPowerLow();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             try {
                 UHF_GetReaderProperty(); // 获得读写器的能力
@@ -247,8 +252,8 @@ public class BaseFragment extends Fragment {
                 EPCModel val = (EPCModel) entry.getValue();
                 Map<String, Object> map = new HashMap<String, Object>();
                 RfidOrder storeId = new RfidOrder();
-                String idName=val._EPC;
-                idName=idName.substring(idName.length()-11);
+                String idName = val._EPC;
+                idName = idName.substring(idName.length() - 11);
                 storeId.setIdName(idName);
                 storeId.setIdTime(val._TotalCount);
                 storeIds.add(storeId);

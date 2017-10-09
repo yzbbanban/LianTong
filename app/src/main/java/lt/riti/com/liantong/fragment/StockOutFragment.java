@@ -401,10 +401,14 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     public void showData(List<RfidUser> rfidUsers) {
 //        Log.i(TAG, "showData: "+user);
         //设置界面
-        this.rfidUsers = rfidUsers;
-        for (int i = 0; i < rfidUsers.size(); i++) {
-            String name = rfidUsers.get(i).getRfidUserName();
-            rfidName.add(name);
+        if (rfidUsers != null && rfidUsers.size() > 0) {
+            this.rfidUsers = rfidUsers;
+            for (int i = 0; i < rfidUsers.size(); i++) {
+                String name = rfidUsers.get(i).getRfidUserName();
+                rfidName.add(name);
+            }
+        } else {
+            ToastUtil.showShortToast("请添加客户");
         }
     }
 

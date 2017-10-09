@@ -423,12 +423,16 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     //显示数据（客户/仓库）
     @Override
     public void showData(List<RfidUser> rfidUsers) {
-//        Log.i(TAG, "showData: "+user);
-        //设置界面
-        this.rfidUsers = rfidUsers;
-        for (int i = 0; i < rfidUsers.size(); i++) {
-            String name = rfidUsers.get(i).getRfidUserName();
-            rfidName.add(name);
+        //Log.i(TAG, "showData: "+user);
+        if (rfidUsers != null && rfidUsers.size() > 0) {
+            //设置界面
+            this.rfidUsers = rfidUsers;
+            for (int i = 0; i < rfidUsers.size(); i++) {
+                String name = rfidUsers.get(i).getRfidUserName();
+                rfidName.add(name);
+            }
+        } else {
+            ToastUtil.showShortToast("请添加客户");
         }
     }
 
