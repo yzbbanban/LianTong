@@ -13,7 +13,7 @@ import lt.riti.com.liantong.view.BaseView;
 
 public interface IRfidOrderContract {
     interface Model {
-        void addOrder(int orderIdType,String orderId,List<RfidOrder> rfidOrders, ICallBack callBack);
+        void addOrder(int orderIdType,String orderId,String stockInOrderl,List<RfidOrder> rfidOrders, ICallBack callBack);
     }
 
     interface View extends BaseView {
@@ -21,6 +21,6 @@ public interface IRfidOrderContract {
     }
 
     interface Presenter extends BasePresenter {
-        void addOrderTask(int orderIdType,String orderId,List<RfidOrder> rfidOrders);
+        void addOrderTask(int orderIdType,String orderId,String stockInOrderl,List<RfidOrder> rfidOrders);
     }
 }

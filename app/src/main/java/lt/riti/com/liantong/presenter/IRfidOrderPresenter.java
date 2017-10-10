@@ -21,8 +21,8 @@ public class IRfidOrderPresenter implements IRfidOrderContract.Presenter {
     }
 
     @Override
-    public void addOrderTask(int orderIdType,String orderId, List<RfidOrder> rfidOrders) {
-        model.addOrder(orderIdType,orderId, rfidOrders, new ICallBack() {
+    public void addOrderTask(int orderIdType,String orderId,String stockInOrder, List<RfidOrder> rfidOrders) {
+        model.addOrder(orderIdType,orderId, stockInOrder,rfidOrders, new ICallBack() {
             @Override
             public void setSuccess(Object message) {
                 view.showDescription((String) message);

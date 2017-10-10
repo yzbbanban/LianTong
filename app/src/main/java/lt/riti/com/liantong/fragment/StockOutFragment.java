@@ -191,10 +191,10 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                 Log.i(TAG, "btnStockInSubmit onClick: " + storeIds);
                 String stockInOrder = etStockOutOrder.getText().toString().trim();
                 if (!"".equals(stockInOrder)) {
-                    orderId = stockInOrder;
+//                    orderId = stockInOrder;
                     OrderIdType = 1;
                 }
-                orderPresent.addOrderTask(OrderIdType, orderId, storeIds);
+                orderPresent.addOrderTask(OrderIdType, orderId,stockInOrder, storeIds);
 
             }
         });

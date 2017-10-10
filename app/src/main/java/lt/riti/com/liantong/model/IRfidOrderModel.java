@@ -30,7 +30,7 @@ public class IRfidOrderModel implements IRfidOrderContract.Model {
     private static final String TAG = "IRfidOrderModel";
 
     @Override
-    public void addOrder(int orderIdType, String orderId, List<RfidOrder> rfidOrders, final ICallBack callBack) {
+    public void addOrder(int orderIdType, String orderId,String stockInOrder, List<RfidOrder> rfidOrders, final ICallBack callBack) {
 //        Log.i(TAG, "addOrder: " + rfidOrders);
         orderList.clear();
         //最好在线程执行
@@ -40,10 +40,10 @@ public class IRfidOrderModel implements IRfidOrderContract.Model {
                 RfidOrder rfidOrder = rfidOrders.get(i);
                 if (orderIdType == 0) {//仓库
                     rfidOrder.setRfidUserId(orderId);
-                    rfidOrder.setRfidOrderNum("");//没有则为空
+                    rfidOrder.setRfidOrderNum(stockInOrder);//没有则为空
                 } else {//单号
-                    rfidOrder.setRfidUserId("");//没有则为空
-                    rfidOrder.setRfidOrderNum(orderId);
+                    rfidOrder.setRfidUserId(orderId);//没有则为空
+                    rfidOrder.setRfidOrderNum(stockInOrder);
                 }
                 rfidOrder.setStockType(StockApplication.stockType);//设置为出库或入库
                 orderList.add(rfidOrders.get(i));
