@@ -190,9 +190,11 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                 }
                 Log.i(TAG, "btnStockInSubmit onClick: " + storeIds);
                 String stockInOrder = etStockOutOrder.getText().toString().trim();
-                if (!"".equals(stockInOrder)) {
+                if (!"".equals(stockInOrder) && cbStockOut.isChecked()) {//值不为空，且checkbox选中状态
 //                    orderId = stockInOrder;
                     OrderIdType = 1;
+                }else{
+                    stockInOrder="";
                 }
                 orderPresent.addOrderTask(OrderIdType, orderId,stockInOrder, storeIds);
 

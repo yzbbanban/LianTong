@@ -208,6 +208,8 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                 if (!"".equals(stockInOrder) && cbStockIn.isChecked()) {//值不为空，且checkbox选中状态
 //                    orderId = stockInOrder;
                     OrderIdType = 1;
+                }else{
+                    stockInOrder="";
                 }
                 orderPresent.addOrderTask(OrderIdType, orderId,stockInOrder, storeIds);
 
