@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ScaleView">
+        <attr name="arcColor" format="color"></attr>
+        <attr name="arcWidth" format="dimension"></attr>
+        <attr name="android:text"></attr>
+        <attr name="tikeCount" format="integer"></attr>
+        <attr name="pointerColor" format="color"></attr>
+        <attr name="android:textSize"></attr>
+        <attr name="android:background"></attr>
+    </declare-styleable>
+</resources>

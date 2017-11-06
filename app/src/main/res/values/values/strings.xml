@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">COOL</string>
+    <drawable name="btn_login_normal">#d900a6ff</drawable>
+    <drawable name="btn_login_pressed">#d675cfff</drawable>
+    <!--MainActivity-->
+    <string name="finish_all">確定退出程序？</string>
+    <string name="nfc">NFC</string>
+    <string name="main">主頁</string>
+    <string name="nfc_control">NFC</string>
+    <string name="send_bluetooth">藍牙</string>
+    <string name="set">設置</string>
+    <string name="message">消息</string>
+    <string name="list">報表</string>
+
+    <!--ParamsActivity-->
+    <string name="storage_nomal">正常存儲</string>
+    <string name="storage_recycle">循環存儲</string>
+    <string name="coarctation">密集模式</string>
+    <string name="up_tempareture">記錄所有的超溫數據</string>
+    <string name="close_to_tempareture">僅記錄超過臨界點的溫度</string>
+    <string name="immediately_start_up">立即啟動</string>
+    <string name="fixed_time_start_up">定時啟動</string>
+    <string name="delay_start_up">延時啟動</string>
+    <string name="manual_start_up">手動啟動</string>
+    <string name="choose_patterns">選擇模式</string>
+    <string name="set_params">參數設定</string>
+    <string name="update_params">修改</string>
+    <string name="import_params">請填入必填項</string>
+
+    <!--ParamsActivity layout-->
+    <string name="device_uid">唯一碼：</string>
+    <string name="device_name">設備名稱</string>
+    <string name="company_name">公司名稱</string>
+    <string name="device_num">貨物編號</string>
+    <string name="device_type">設備型號</string>
+    <string name="goods_name">貨品名稱</string>
+    <string name="interval">採集間隔(分)</string>
+    <string name="max_temperature">溫度上限(°C)</string>
+    <string name="min_temperature">溫度下限(°C)</string>
+    <string name="max_humidity">濕度上限RH%</string>
+    <string name="min_humidity">濕度下限RH%</string>
+    <string name="storage_pattern">存儲規則</string>
+    <string name="storage_or_not">是否循環</string>
+    <string name="storage_type">存儲模式</string>
+    <string name="write_pattern">記錄格式</string>
+    <string name="write_type">記錄模式</string>
+    <string name="start_pattern">啟動方式</string>
+    <string name="start_or_stop">是否讀停</string>
+    <string name="start_method">啟動模式</string>
+    <string name="btn_binding">綁定</string>
+    <string name="btn_stop">停止</string>
+    <string name="btn_send">發卡</string>
+    <string name="btn_cancel">取消</string>
+    <string name="finish">還未保存數據，是否退出</string>
+    <string name="delay_time">延时时间(分)</string>
+    <string name="stop_success">停止成功</string>
+    <string name="stop_failure">停止失敗，請重試</string>
+
+    <!--SetParamsActivity-->
+    <string name="save_data">還未保存數據，是否保存數據</string>
+    <string name="save_data_alarm">警告：</string>
+    <string name="save_data_complete">是</string>
+    <string name="save_data_cancel">否</string>
+
+    <!--CoolHomeFragment-->
+    <string name="edit_params">編輯</string>
+    <string name="delete_params">刪除</string>
+    <string name="offset_uploading_params">補傳數據</string>
+    <string name="uploading_params_failure">上傳數據失敗，請重新上傳</string>
+    <string name="other_function">其他功能</string>
+    <string name="other_function_development">敬請等待</string>
+    <string name="item_dialog">選項</string>
+    <string name="uploading_success">上傳成功</string>
+    <string name="type_one_flag">此為一次性標籤，在讀取之前請先配置標籤信息</string>
+
+    <string name="home_device_name">設備名:</string>
+    <string name="no_uploading_data">沒有未上傳數據，無需補傳</string>
+    <string name="uploading_data_again">補傳數據中。。。請等候</string>
+    <string name="home_product_name">產品名稱:</string>
+    <string name="home_temp_area">溫度區間:</string>
+    <string name="home_interval">時間間隔:</string>
+
+    <!--CoolListFragment layout-->
+    <string name="report_type">報表類型</string>
+    <string name="start_time">開始時間</string>
+    <string name="end_time">結束時間</string>
+    <string name="tem_report">溫度報表</string>
+    <string name="list_report">報表</string>
+    <string name="chart_report">圖形報表</string>
+    <string name="up_tem_report">超溫報表</string>
+    <string name="select_report">請選擇報表類型</string>
+    <string name="report_normal">溫度報表</string>
+    <string name="report_dynamic">溫度動態數據表</string>
+    <string name="serial_number">序號</string>
+    <string name="time">時間</string>
+    <string name="temperature">溫度</string>
+    <string name="hum">濕度</string>
+    <string name="searching">查詢中。。。</string>
+    <string name="search_data">無數據，請重新篩選數據</string>
+    <!--LoginActivity-->
+    <string name="username">用戶名</string>
+    <string name="user_company_name">公司名稱</string>
+    <string name="user_company_email">公司郵箱</string>
+    <string name="user_company_address">公司地址</string>
+    <string name="user_company_tel">公司電話</string>
+    <string name="checkNetWork">請檢查網絡</string>
+    <string name="user_register">註冊</string>
+    <string name="tv_tourist">遊客</string>
+    <!--LoginActivity layout-->
+    <string name="edit_username">賬號:</string>
+    <string name="edit_password">密碼:</string>
+    <string name="edit_final_password">確認密碼:</string>
+    <string name="edit_nick">暱稱:</string>
+    <string name="remember_pwd">記住密碼</string>
+    <string name="auto_login">自動登錄</string>
+    <string name="login">登錄</string>
+    <string name="user">賬號</string>
+    <!--CoolSetFragment-->
+    <string name="set_uer">賬號安全</string>
+    <string name="set_suggestion">意見反饋</string>
+    <string name="set_instructions">操作說明書</string>
+    <string name="set_logout">退出登錄</string>
+    <!--TemListActivity-->
+    <string name="upload_tem">上出數據</string>
+    <string name="export_tem">導出數據</string>
+    <string name="data_loading">等待數據加載</string>
+    <string name="storage_premission">申請存儲權限</string>
+    <string name="waiting_data">等待數據加載</string>
+    <string name="loading_tem_data">加载数据中。。</string>
+    <string name="time_interval">時間段</string>
+    <string name="temp_interval">溫度區間</string>
+    <string name="hum_interval">濕度區間</string>
+    <string name="create_record">正在生成報表。。。</string>
+
+    <!--NFC-->
+    <string name="interval_unit">%1$d 分鐘</string>
+    <string name="interval_unit2">%1$d 秒</string>
+    <string name="taginfo_batteryVoltage">電池電壓: %1$s</string>
+    <string name="taginfo_battery_normal">電源正常</string>
+    <string name="taginfo_battery_abnormal">電源異常</string>
+    <string name="status_exceeded">超限</string>
+    <string name="status_normal">正常</string>
+    <string name="taginfo_interval">採集間隔 %1$s </string>
+    <string name="taginfo_inactive">未激活</string>
+    <string name="taginfo_full">記錄已滿</string>
+    <string name="taginfo_measure_exceeded">已超限</string>
+    <string name="taginfo_limitexceeded">超限 %1$s/%2$s 次</string>
+    <string name="diagram">圖表</string>
+    <string name="temperature_diagram">溫度曲線圖</string>
+    <string name="data_numExceeded">超限次數:</string>
+    <string name="read_failure">讀取出錯，再試一次</string>
+    <string name="taginfo_tag">標籤 %1$s</string>
+    <string name="measure_exceed">記錄超限</string>
+    <string name="tag_normal">正常工作</string>
+
+    <!--DeviceModelImpl-->
+    <string name="binding_fail">綁定失敗，請重試</string>
+    <string name="binding_success">綁定成功</string>
+    <string name="updata_success">修改參數成功</string>
+    <string name="updata_fail">修改參數失敗，請重試</string>
+    <string name="delete_success">刪除設備成功</string>
+    <string name="delete_fail">刪除設備失敗，請重試</string>
+    <string name="receive_tem_failure">温度标签没有启动，请配置生效后。点按按键后三秒内长按按键至指示灯连闪</string>
+
+    <!--params-->
+    <string name="parameters1">請先觸碰標籤，再操作</string>
+    <string name="parameters2">NFC已連接</string>
+    <string name="parameters3">正在初始化&#8230;</string>
+    <string name="parameters4">設置記錄模式</string>
+    <string name="parameters5">設置超限模式</string>
+    <string name="parameters6">啟動時間： </string>
+    <string name="parameters7">發卡成功</string>
+    <string name="parameters8">停止記錄成功</string>
+    <string name="parameters9">NFC連接已斷開，或標籤不在讀寫範圍內，請將標籤貼近手機，再操作</string>
+    <string name="parameters10">採集時間間隔：1秒~9.小時(32768秒)</string>
+    <string name="parameters11">定時(延時)時間的範圍：8.53分鐘~582小時</string>
+    <string name="parameters12">溫度設定範圍：-40℃~110℃</string>
+    <string name="parameters13">溫度上限制不能＜溫度下限值</string>
+    <string name="parameters14">NFC鏈接已斷開</string>
+    <string name="parameters15">啟動成功</string>
+    <string name="parameters16">請檢查輸入格式</string>
+    <string name="default_good">未知物品</string>
+    <string name="nfc_connect_success">NFC已連接</string>
+    <!--MatcherUtils-->
+    <string name="num_En">請輸入數字或字母格式</string>
+    <string name="num">請輸入數字格式</string>
+    <string name="Zh_En">請輸入中文或英文格式</string>
+
+    <!--Premission-->
+    <string name="camera_premission">申請相機權限</string>
+    <string name="premission_allow">權限已申請</string>
+    <string name="premission_forbid">權限已被禁止</string>
+
+    <!--TagAprReadUtils   version-->
+    <string name="put_in_pwd">請輸入標籤密碼！</string>
+    <string name="duting">讀停</string>
+    <string name="noStop">讀停未啟用</string>
+    <string name="insType_T">溫度記錄標籤</string>
+    <string name="insType_T_one">溫度記錄標籤（一次性）</string>
+    <string name="insType_TH">溫濕度記錄標籤</string>
+    <string name="insType_TH_one">溫濕度記錄標籤（一次性）</string>
+    <string name="type_one">此為一次性標籤，在讀取之前請先配置標籤信息</string>
+
+    <!--TagAprParamsSetUtils-->
+    <string name="recording_cannot_config">此為一次性標籤，已記錄數據，不能配置！</string>
+
+    <!--ParamsAprActivity-->
+    <string name="make_sure">確定</string>
+    <string name="loading">nfc數據加載中斷，請長時間連接</string>
+    <string name="storage_recording">正在讀取溫度。。。</string>
+    <string name="set_failure">設置失敗請。。。重試</string>
+    <string name="temp_compare">溫度下限要低於溫度上限</string>
+    <string name="hum_compare">濕度下限要低於濕度上限</string>
+    <!--activity_params_apr-->
+    <string name="operation_start">啟動：配置生效后。點按按鍵后三秒內長按按鍵至指示燈連閃。</string>
+    <!--TagAprParamsSetUtils-->
+    <!-- alert message -->
+    <string name="notice">警告</string>
+    <string name="nfc_not_support">你的手機不支持NFC</string>
+    <string name="close">關閉</string>
+    <string name="open_nfc_first">請開啟手機NFC功能！</string>
+    <string name="place_phone_near_card">請把手機靠近標籤！</string>
+    <string name="near_tag_to_config">請靠近標籤來配置標籤！</string>
+    <string name="configing">配置中，請把手機靠近標籤！</string>
+    <string name="config_succeed">配置成功！</string>
+    <string name="config_failed">配置失敗！</string>
+    <string name="ok">確定</string>
+    <!--ExcelUtils-->
+    <string name="write_obj_list_to_excel_success">導出到手機存儲文件夾Cool成功</string>
+    <string name="write_obj_list_to_excel_failure">操作失敗</string>
+
+</resources>
