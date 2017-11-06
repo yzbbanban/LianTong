@@ -42,9 +42,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
             android:name=".activity.StockActivity"
             android:screenOrientation="portrait"
@@ -57,7 +55,8 @@
             android:name=".activity.SettingUserActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-
+        <activity android:name=".activity.NewRfidActivity" />
+        <activity android:name=".activity.RecycleActivity"></activity>
     </application>
 
 </manifest>
