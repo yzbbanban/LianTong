@@ -90,7 +90,7 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:text="托盘号"
+                android:text="吨桶编号"
                 android:textColor="@color/colorBlack" />
 
             <TextView

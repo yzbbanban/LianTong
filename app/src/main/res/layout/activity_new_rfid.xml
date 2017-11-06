@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="lt.riti.com.liantong.activity.NewRfidActivity">
+    <fragment
+        android:id="@+id/fg_new_rifd"
+        android:name="lt.riti.com.liantong.fragment.NewRfidFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></fragment>
+</LinearLayout>
