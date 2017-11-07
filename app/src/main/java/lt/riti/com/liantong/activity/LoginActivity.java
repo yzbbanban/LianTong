@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginContract.V
         if ("".equals(name) || "".equals(password)) {
             ToastUtil.showShortToast("请输入用户名或密码");
         } else {
-            user.setName(name);
+            user.setUser_name(name);
             user.setPassword(password);
             presenter.loginTask(user);
         }

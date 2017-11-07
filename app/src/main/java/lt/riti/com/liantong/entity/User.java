@@ -4,52 +4,32 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class User implements Serializable {
-	private String id;
-	private String companyId;
-	private String name;
+	private long id;
+	private String user_name;
 	private String password;
-	private String token;
-	private String nick;
-//	private String gender;
-//	private String email;
-//	private Date createTime;
-//	private int userLevel;
+	private String salt;
+	private String email;
+	private int depots;
+	private Date create_time;
+	private int status;
+	private String remark;
+	private int is_jb;
+	private String pid;
 
-	public User() {
-		
-	}
-
-	public User(String id, String name, String password, String token, String nick) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.password = password;
-		this.token = token;
-		this.nick = nick;
-	}
-
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public String getCompanyId() {
-		return companyId;
+	public String getUser_name() {
+		return user_name;
 	}
 
-	public void setCompanyId(String companyId) {
-		this.companyId = companyId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 
 	public String getPassword() {
@@ -60,67 +40,76 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public String getToken() {
-		return token;
+	public String getSalt() {
+		return salt;
 	}
 
-	public void setToken(String token) {
-		this.token = token;
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
-	public String getNick() {
-		return nick;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setNick(String nick) {
-		this.nick = nick;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-//	public String getGender() {
-//		return gender;
-//	}
-//
-//	public void setGender(String gender) {
-//		this.gender = gender;
-//	}
-//
-//	public String getEmail() {
-//		return email;
-//	}
-//
-//	public void setEmail(String email) {
-//		this.email = email;
-//	}
-//
-//	public Date getCreateTime() {
-//		return createTime;
-//	}
-//
-//	public void setCreateTime(Date createTime) {
-//		this.createTime = createTime;
-//	}
-//
-//	public int getUserLevel() {
-//		return userLevel;
-//	}
-//
-//	public void setUserLevel(int userLevel) {
-//		this.userLevel = userLevel;
-//	}
+	public int getDepots() {
+		return depots;
+	}
+
+	public void setDepots(int depots) {
+		this.depots = depots;
+	}
+
+	public Date getCreate_time() {
+		return create_time;
+	}
+
+	public void setCreate_time(Date create_time) {
+		this.create_time = create_time;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public int getIs_jb() {
+		return is_jb;
+	}
+
+	public void setIs_jb(int is_jb) {
+		this.is_jb = is_jb;
+	}
+
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
 
 	@Override
 	public String toString() {
-		return "User{" +
-				"id='" + id + '\'' +
-				", companyId='" + companyId + '\'' +
-				", name='" + name + '\'' +
-				", password='" + password + '\'' +
-				", token='" + token + '\'' +
-				", nick='" + nick + '\'' +
-//				", gender='" + gender + '\'' +
-//				", email='" + email + '\'' +
-//				", createTime=" + createTime +
-//				", userLevel=" + userLevel +
-				'}';
+		return "User [id=" + id + ", user_name=" + user_name + ", password="
+				+ password + ", salt=" + salt + ", email=" + email
+				+ ", depots=" + depots + ", create_time=" + create_time
+				+ ", status=" + status + ", remark=" + remark + ", is_jb="
+				+ is_jb + ", pid=" + pid + "]";
 	}
 }

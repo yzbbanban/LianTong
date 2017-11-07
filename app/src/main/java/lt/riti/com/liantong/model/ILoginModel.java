@@ -15,7 +15,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 /**
- * Created by Administrator on 2017/9/24.
+ * Created by brander on 2017/9/24.
  */
 
 public class ILoginModel implements ILoginContract.Model {
@@ -24,16 +24,16 @@ public class ILoginModel implements ILoginContract.Model {
     @Override
     public void login(User user, final ICallBack callback) {
         LoginService request = RetrofitUtils.getRetrofit(Urls.COOL_USER_AL).create(LoginService.class);
-        Call<ResultCode<User>> call = request.call(user.getName(), user.getPassword());
+        Call<ResultCode<User>> call = request.call(user.getUser_name(), user.getPassword());
         call.enqueue(new MyCallback<ResultCode<User>>() {
             @Override
             public void onSuc(Response<ResultCode<User>> response) {
-                Log.i(TAG, "onSuc: "+response.code());
+                Log.i(TAG, "onSuc: " + response.code());
                 if ("10000".equals(response.body().getCode())) {
                     LogUtil.info(TAG, response.body().getMessage());
                     LogUtil.info(TAG, response.body().getCode());
-                    String userId = response.body().getResult().getId();
-                    String userName = response.body().getResult().getName();
+                    String userId = String.valueOf(response.body().getResult().getId());
+                    String userName = response.body().getResult().getUser_name();
                     //登陆成功将userId保存到CoolApplication中，退出app自动消失；
                     StockApplication.USER_ID = userId;
                     StockApplication.USER_NAME = userName;
@@ -41,7 +41,6 @@ public class ILoginModel implements ILoginContract.Model {
                 } else {
                     callback.setSuccess(response.body().getMessage());
                 }
-
             }
 
             @Override

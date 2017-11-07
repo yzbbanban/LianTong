@@ -35,11 +35,14 @@ import lt.riti.com.liantong.adapter.BaseRecyclerViewAdapter;
 import lt.riti.com.liantong.adapter.RfidUserSpinnerAdapter;
 import lt.riti.com.liantong.adapter.StockIdAdapter;
 import lt.riti.com.liantong.app.StockApplication;
+import lt.riti.com.liantong.contract.IRfidManufactorContract;
 import lt.riti.com.liantong.contract.IRfidOrderContract;
 import lt.riti.com.liantong.contract.IRfidUserContract;
+import lt.riti.com.liantong.entity.Manufacture;
 import lt.riti.com.liantong.entity.PublicData;
 import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.entity.RfidUser;
+import lt.riti.com.liantong.presenter.IRfidManufactorPresenter;
 import lt.riti.com.liantong.presenter.IRfidOrderPresenter;
 import lt.riti.com.liantong.presenter.IRfidUserPresenter;
 import lt.riti.com.liantong.util.ToastUtil;
@@ -49,7 +52,7 @@ import lt.riti.com.liantong.util.ToastUtil;
  */
 
 public class NewRfidFragment extends BaseFragment implements IAsynchronousMessage,
-        IRfidUserContract.View, IRfidOrderContract.View {
+        IRfidManufactorContract.View, IRfidOrderContract.View {
     private static final String TAG = "StockInFragment";
     @BindView(R.id.tv_product_stock)
     TextView tvProductStock;
@@ -72,9 +75,9 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
 
     protected StockIdAdapter adapter;
     private RfidUserSpinnerAdapter spinnerAdapter;
-    private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);
+    private IRfidManufactorContract.Presenter presenter = new IRfidManufactorPresenter(this);
     private IRfidOrderContract.Presenter orderPresent = new IRfidOrderPresenter(this);
-    private List<RfidUser> rfidUsers;
+    private List<Manufacture> manufactures;
     private String orderId;
     private int OrderIdType;//0仓库或1订单
     private List<RfidUser> pickView;
@@ -101,7 +104,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     protected void initView() {
         adapter = new StockIdAdapter(getContext());
         spinnerAdapter = new RfidUserSpinnerAdapter(getActivity());
-        presenter.getRfidUserTask(StockApplication.USER_ID);
+        presenter.getRfidManufactorTask(StockApplication.USER_ID);
 
     }
 
@@ -184,7 +187,6 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
                     ToastUtil.showShortToast("请选择仓库");
                     return;
                 }
-
 
                 orderPresent.addOrderTask(OrderIdType, orderId,"", storeIds);
 
@@ -399,13 +401,13 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
 
     //显示数据（客户/仓库）
     @Override
-    public void showData(List<RfidUser> rfidUsers) {
+    public void showData(List<Manufacture> manufactures) {
         //Log.i(TAG, "showData: "+user);
-        if (rfidUsers != null && rfidUsers.size() > 0) {
+        if (manufactures != null && manufactures.size() > 0) {
             //设置界面
-            this.rfidUsers = rfidUsers;
-            for (int i = 0; i < rfidUsers.size(); i++) {
-                String name = rfidUsers.get(i).getRfidUserName();
+            this.manufactures = manufactures;
+            for (int i = 0; i < manufactures.size(); i++) {
+                String name = manufactures.get(i).getManufactor_name();
                 rfidName.add(name);
             }
         } else {
@@ -422,8 +424,8 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
                     @Override
                     public void onOptionsSelect(int options1, int options2, int options3, View v) {
                         //设置Text
-                        tvProductStock.setText(rfidUsers.get(options1).getRfidUserName());
-                        orderId = rfidUsers.get(options1).getRfidUserId();
+                        tvProductStock.setText(manufactures.get(options1).getManufactor_name());
+                        orderId = String.valueOf(manufactures.get(options1).getId());
                         OrderIdType = 0;
                     }
                 }).build();
