@@ -56,10 +56,10 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
 
     @BindView(R.id.tv_stock_out_stock)
     TextView tvStockOutStock;
-    @BindView(R.id.et_stock_out_order)
-    EditText etStockOutOrder;
-    @BindView(R.id.cb_stock_out)
-    CheckBox cbStockOut;
+//    @BindView(R.id.et_stock_out_order)
+//    EditText etStockOutOrder;
+//    @BindView(R.id.cb_stock_out)
+//    CheckBox cbStockOut;
     @BindView(R.id.tv_stock_out_good)
     TextView tvStockOutGood;
     @BindView(R.id.cb_stock_out_all)
@@ -81,9 +81,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<RfidUser> rfidUsers;
-    private String orderId;
-    private int OrderIdType;//0仓库或1订单
-
+    private int customer_id;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -102,9 +100,9 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         presenter.getRfidUserTask(StockApplication.USER_ID);
         Log.i(TAG, "initView: ");
         //初始化单号不可用
-        if (!cbStockOut.isChecked()) {
-            etStockOutOrder.setEnabled(false);
-        }
+//        if (!cbStockOut.isChecked()) {
+//            etStockOutOrder.setEnabled(false);
+//        }
     }
 
 
@@ -125,17 +123,17 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     @Override
     protected void initListener() {
         //点击使用单号
-        cbStockOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!cbStockOut.isChecked()) {
-                    etStockOutOrder.setEnabled(false);
-                } else {
-                    etStockOutOrder.setEnabled(true);
-                }
-
-            }
-        });
+//        cbStockOut.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (!cbStockOut.isChecked()) {
+//                    etStockOutOrder.setEnabled(false);
+//                } else {
+//                    etStockOutOrder.setEnabled(true);
+//                }
+//
+//            }
+//        });
         //全选/全不选
         cbStockOutAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,15 +186,18 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                     return;
                 }
                 Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
-                String stockInOrder = etStockOutOrder.getText().toString().trim();
-                if (!"".equals(stockInOrder) && cbStockOut.isChecked()) {//值不为空，且checkbox选中状态
+//                String stockInOrder = etStockOutOrder.getText().toString().trim();
+//                if (!"".equals(stockInOrder) && cbStockOut.isChecked()) {//值不为空，且checkbox选中状态
 //                    orderId = stockInOrder;
-                    OrderIdType = 1;
-                }else{
-                    stockInOrder="";
-                }
+//                    OrderIdType = 1;
+//                }else{
+//                    stockInOrder="";
+//                }
 
-                UploadingBucket uploadingBucket=new UploadingBucket();
+                UploadingBucket uploadingBucket = new UploadingBucket();
+                uploadingBucket.setBucket_address(2);//表示在空桶区
+                uploadingBucket.setCustomer_id(customer_id);//客户
+
                 orderPresent.addBucketTask(uploadingBucket, buckets);
 
             }
@@ -255,16 +256,19 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                             ToastUtil.showShortToast("请输入");
                         } else {
                             //向列表添加数据
-                            Bucket ro = new Bucket();
-                            ro.setStatus(0);
-                            ro.setBucket_code(name);
-                            ro.setIdTime(1L);
+                            Bucket bu = new Bucket();
+
+                            bu.setBucket_code(name);//吨桶编号
+                            bu.setBucket_address(2);//客户绑定
+                            bu.setCustomer_id(customer_id);
+                            bu.setAdmin_id(StockApplication.USER_ID);
+                            bu.setIdTime(1L);//读取次数
                             //没有数据则直接显示
                             if (buckets.size() == 0) {
-                                buckets.add(ro);
+                                buckets.add(bu);
                                 showView(buckets);
                             } else {
-                                buckets.add(ro);
+                                buckets.add(bu);
                                 adapter.notifyDataSetChanged();
                             }
 
@@ -425,8 +429,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                     public void onOptionsSelect(int options1, int options2, int options3, View v) {
                         //设置Text
                         tvStockOutStock.setText(rfidUsers.get(options1).getCustomer_name());
-                        orderId = String.valueOf(rfidUsers.get(options1).getId());
-                        OrderIdType = 0;
+                        customer_id = rfidUsers.get(options1).getId();
                     }
                 }).build();
         pvOptions.setPicker(rfidName, null, null);

@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="lt.riti.com.liantong.activity.NewRfidActivity">
-    <fragment
-        android:id="@+id/fg_new_rifd"
-        android:name="lt.riti.com.liantong.fragment.NewRfidFragment"
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_new_fg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></fragment>
+        android:layout_height="wrap_content"
+        ></android.support.v4.view.ViewPager>
 </LinearLayout>

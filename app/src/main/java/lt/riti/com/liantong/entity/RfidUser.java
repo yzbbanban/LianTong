@@ -8,7 +8,7 @@ import java.util.Date;
  */
 
 public class RfidUser implements Serializable {
-    private long id;
+    private int id;
     private String customer_name;
     private String customer_address;
     private long number;
@@ -29,11 +29,11 @@ public class RfidUser implements Serializable {
         this.create_time = create_time;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

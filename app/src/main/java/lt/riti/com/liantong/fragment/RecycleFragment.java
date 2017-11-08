@@ -40,6 +40,7 @@ import lt.riti.com.liantong.entity.Bucket;
 import lt.riti.com.liantong.entity.PublicData;
 import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.entity.RfidUser;
+import lt.riti.com.liantong.entity.UploadingBucket;
 import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
 import lt.riti.com.liantong.presenter.IRfidUserPresenter;
 import lt.riti.com.liantong.util.ToastUtil;
@@ -168,8 +169,13 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
+                UploadingBucket uploadingBucket=new UploadingBucket();
+                uploadingBucket.setManufactor_id(0);//厂商
+                uploadingBucket.setBucket_address(3);//表示在回收
+                uploadingBucket.setProduct_code("");//产品空
+                uploadingBucket.setCustomer_id(0);//客户空
 
-//                orderPresent.addBucketTask(OrderIdType, orderId,"", buckets);
+                orderPresent.addBucketTask(uploadingBucket, buckets);
 
             }
         });
@@ -223,16 +229,21 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
                             ToastUtil.showShortToast("请输入");
                         } else {
                             //向列表添加数据
-                            Bucket ro = new Bucket();
-//                            ro.setDepot_code(0);
-                            ro.setBucket_code(name);
-                            ro.setIdTime(1L);
+                            Bucket bu = new Bucket();
+
+                            bu.setBucket_code(name);//吨桶编号
+                            bu.setBucket_address(3);//回收
+
+                            bu.setManufactor_id(0);
+                            bu.setDepot_code("");//创建公司编号
+                            bu.setAdmin_id(StockApplication.USER_ID);
+                            bu.setIdTime(1L);//读取次数
                             //没有数据则直接显示
                             if (buckets.size() == 0) {
-                                buckets.add(ro);
-//                                showView(buckets);
+                                buckets.add(bu);
+                                showView(buckets);
                             } else {
-                                buckets.add(ro);
+                                buckets.add(bu);
                                 adapter.notifyDataSetChanged();
                             }
 
@@ -311,7 +322,7 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
      */
     protected void showList() {
         Log.i(TAG, "showList: " + getData());
-//        showView(getData());
+        showView(getData());
     }
 
     /**

@@ -33,13 +33,13 @@ public class IRfidBucketModel implements IRfidBucketContract.Model {
 
     @Override
     public void addBucket(UploadingBucket uploadingBucket, List<Bucket> buckets, final ICallBack callBack) {
-//        Log.i(TAG, "addBucket: " + rfidOrders);
+        Log.i(TAG, "addBucket: " + buckets);
         orderList.clear();
         //最好在线程执行
         if (uploadingBucket.getManufactor_id() != 0 && uploadingBucket.getBucket_address() == 0) {//新桶
             orderList = setBucket(uploadingBucket, buckets);
             status = 0;
-        } else if ("".equals(uploadingBucket.getProduct_code()) && uploadingBucket.getBucket_address() == 1) {//产品
+        } else if (!"".equals(uploadingBucket.getProduct_code()) && uploadingBucket.getBucket_address() == 1) {//产品
             orderList = setBucket(uploadingBucket, buckets);
             status = 1;
         } else if (uploadingBucket.getCustomer_id() != 0L && uploadingBucket.getBucket_address() == 2) {//客户
@@ -49,7 +49,7 @@ public class IRfidBucketModel implements IRfidBucketContract.Model {
             orderList = setBucket(uploadingBucket, buckets);
             status = 3;
         }
-//        Log.i(TAG, "orderList addBucket: " + orderList);
+        Log.i(TAG, "orderList addBucket: " + orderList);
         if (orderList != null && orderList.size() > 0) {
             Gson gson = new Gson();
             String orderJs = gson.toJson(orderList);
@@ -98,9 +98,10 @@ public class IRfidBucketModel implements IRfidBucketContract.Model {
      * @return
      */
     private List<Bucket> setBucket(UploadingBucket uploadingBucket, List<Bucket> buckets) {
+        Log.i(TAG, "setBucket: "+buckets);
         for (int i = 0; i < buckets.size(); i++) {
             if (buckets.get(i).getChecked()) {
-//                Log.i(TAG, "isChecked: ");
+                Log.i(TAG, "isChecked: ");
                 Bucket bucket = buckets.get(i);
                 bucket.setAdmin_id(StockApplication.USER_ID);
                 bucket.setDepot_code(uploadingBucket.getDepot_code());

@@ -40,45 +40,45 @@
             android:layout_height="@dimen/x1"
             android:background="@color/colorBacGrey"></View>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/x45"
-            android:gravity="center"
-            android:padding="@dimen/x10">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/x45"-->
+            <!--android:gravity="center"-->
+            <!--android:padding="@dimen/x10">-->
 
-            <CheckBox
-                android:id="@+id/cb_stock_in"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
+            <!--<CheckBox-->
+                <!--android:id="@+id/cb_stock_in"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:gravity="right"
-                android:text="单号"
-                android:textColor="@color/colorBlack" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginRight="5dp"-->
+                <!--android:gravity="right"-->
+                <!--android:text="单号"-->
+                <!--android:textColor="@color/colorBlack" />-->
 
-            <EditText
-                android:id="@+id/et_stock_in_order"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/edit_stock_shape"
-                android:hint="单号"
-                android:paddingLeft="2dp"></EditText>
+            <!--<EditText-->
+                <!--android:id="@+id/et_stock_in_order"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/edit_stock_shape"-->
+                <!--android:hint="单号"-->
+                <!--android:paddingLeft="2dp"></EditText>-->
 
-            <ImageView
-                android:layout_width="@dimen/x20"
-                android:layout_height="@dimen/x20"
-                android:src="@drawable/rightsarr" />
-        </LinearLayout>
+            <!--<ImageView-->
+                <!--android:layout_width="@dimen/x20"-->
+                <!--android:layout_height="@dimen/x20"-->
+                <!--android:src="@drawable/rightsarr" />-->
+        <!--</LinearLayout>-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/x1"
-            android:background="@color/colorBacGrey"></View>
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/x1"-->
+            <!--android:background="@color/colorBacGrey"></View>-->
 
         <LinearLayout
             android:layout_width="match_parent"

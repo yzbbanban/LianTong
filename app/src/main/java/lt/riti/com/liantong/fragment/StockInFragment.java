@@ -40,7 +40,6 @@ import lt.riti.com.liantong.contract.IRfidProductContract;
 import lt.riti.com.liantong.entity.Bucket;
 import lt.riti.com.liantong.entity.Product;
 import lt.riti.com.liantong.entity.PublicData;
-import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.entity.RfidUser;
 import lt.riti.com.liantong.entity.UploadingBucket;
 import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
@@ -56,10 +55,10 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     private static final String TAG = "StockInFragment";
     @BindView(R.id.tv_stock_in_stock)
     TextView tvStockInStock;
-    @BindView(R.id.et_stock_in_order)
-    EditText etStockInOrder;
-    @BindView(R.id.cb_stock_in)
-    CheckBox cbStockIn;
+    //    @BindView(R.id.et_stock_in_order)
+//    EditText etStockInOrder;
+//    @BindView(R.id.cb_stock_in)
+//    CheckBox cbStockIn;
     @BindView(R.id.tv_stock_in_good)
     TextView tvStockInGood;
     @BindView(R.id.cb_stock_in_all)
@@ -76,14 +75,13 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     RadioButton rbStockInMass;
 
     Unbinder unbinder;
+    private String product_code;
 
     protected StockIdAdapter adapter;
     private RfidProductSpinnerAdapter spinnerAdapter;
     private IRfidProductContract.Presenter presenter = new IRfidProductPresenter(this);
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<Product> products;
-    private String orderId;
-    private int OrderIdType;//0仓库或1订单
     private List<RfidUser> pickView;
 
     @Override
@@ -110,9 +108,9 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
         spinnerAdapter = new RfidProductSpinnerAdapter(getActivity());
         presenter.getRfidProductTask(StockApplication.USER_ID);
         //初始化单号不可用
-        if (!cbStockIn.isChecked()) {
-            etStockInOrder.setEnabled(false);
-        }
+//        if (!cbStockIn.isChecked()) {
+//            etStockInOrder.setEnabled(false);
+//        }
     }
 
     /**
@@ -132,17 +130,17 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     protected void initListener() {
         //点击使用单号
-        cbStockIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!cbStockIn.isChecked()) {
-                    etStockInOrder.setEnabled(false);
-                } else {
-                    etStockInOrder.setEnabled(true);
-                }
-
-            }
-        });
+//        cbStockIn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (!cbStockIn.isChecked()) {
+//                    etStockInOrder.setEnabled(false);
+//                } else {
+//                    etStockInOrder.setEnabled(true);
+//                }
+//
+//            }
+//        });
         //全选/全不选
         cbStockInAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,15 +203,13 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                     ToastUtil.showShortToast("请选择仓库");
                     return;
                 }
-                String stockInOrder = etStockInOrder.getText().toString().trim();
-                if (!"".equals(stockInOrder) && cbStockIn.isChecked()) {//值不为空，且checkbox选中状态
-//                    orderId = stockInOrder;
-                    OrderIdType = 1;
-                }else{
-                    stockInOrder="";
-                }
-                UploadingBucket uploadingBucket=new UploadingBucket();
-                orderPresent.addBucketTask(uploadingBucket,buckets);
+//                String stockInOrder = etStockInOrder.getText().toString().trim();
+
+                UploadingBucket uploadingBucket = new UploadingBucket();
+                uploadingBucket.setBucket_address(1);//表示在空桶区
+                uploadingBucket.setProduct_code(product_code);//产品
+
+                orderPresent.addBucketTask(uploadingBucket, buckets);
 
             }
         });
@@ -267,16 +263,19 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                             ToastUtil.showShortToast("请输入");
                         } else {
                             //向列表添加数据
-                            Bucket ro = new Bucket();
-                            ro.setStatus(0);
-                            ro.setBucket_code(name);
-                            ro.setIdTime(1L);
+                            Bucket bu = new Bucket();
+                            
+                            bu.setBucket_code(name);//吨桶编号
+                            bu.setBucket_address(1);//产品绑定
+                            bu.setProduct_code(product_code);
+                            bu.setAdmin_id(StockApplication.USER_ID);
+                            bu.setIdTime(1L);//读取次数
                             //没有数据则直接显示
                             if (buckets.size() == 0) {
-                                buckets.add(ro);
+                                buckets.add(bu);
                                 showView(buckets);
                             } else {
-                                buckets.add(ro);
+                                buckets.add(bu);
                                 adapter.notifyDataSetChanged();
                             }
 
@@ -450,8 +449,8 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                     public void onOptionsSelect(int options1, int options2, int options3, View v) {
                         //设置Text
                         tvStockInStock.setText(products.get(options1).getProduct_name());
-                        orderId = String.valueOf(products.get(options1).getId());
-                        OrderIdType = 0;
+                        product_code = products.get(options1).getProduct_code();
+
                     }
                 }).build();
         pvOptions.setPicker(rfidName, null, null);

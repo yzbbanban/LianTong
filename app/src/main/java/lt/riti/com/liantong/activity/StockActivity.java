@@ -35,6 +35,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.app.StockApplication;
+import lt.riti.com.liantong.fragment.NewRfidFragment;
+import lt.riti.com.liantong.fragment.RecycleFragment;
 import lt.riti.com.liantong.fragment.StockInFragment;
 import lt.riti.com.liantong.fragment.StockOutFragment;
 import lt.riti.com.liantong.util.ToastUtil;
@@ -238,7 +240,7 @@ public class StockActivity extends BaseActivity {
         if (fg instanceof StockInFragment) {
             Log.i(TAG, "instanceof: " + keyCode);
             ((StockInFragment) fragments.get(0)).onKeyDown(keyCode, event);
-        } else {
+        } else if (fg instanceof StockOutFragment) {
             ((StockOutFragment) fragments.get(1)).onKeyDown(keyCode, event);
         }
         return super.onKeyDown(keyCode, event);

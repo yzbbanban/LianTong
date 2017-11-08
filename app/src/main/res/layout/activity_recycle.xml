@@ -7,10 +7,9 @@
     android:orientation="vertical"
     tools:context="lt.riti.com.liantong.activity.RecycleActivity">
 
-    <fragment
-        android:id="@+id/fg_recycle_rfid"
-        android:name="lt.riti.com.liantong.fragment.RecycleFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></fragment>
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_recycle_fg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v4.view.ViewPager>
 </LinearLayout>

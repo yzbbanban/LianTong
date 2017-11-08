@@ -11,7 +11,7 @@ public class Bucket implements Serializable {
     private String product_code;//产品编号
     private int customer_id;//客户id
 
-    private long bucket_address;// 0:表示在空桶区 1:表示在产品区 2:表示在客户那里 3:表示在物料课清洗
+    private int bucket_address;// 0:表示在空桶区 1:表示在产品区 2:表示在客户那里 3:表示在物料课清洗
     private int status;// 0表示报废 1.表示正常
     private String depot_code;// 创建公司编号
     private String create_time;// 创建时间
@@ -71,11 +71,11 @@ public class Bucket implements Serializable {
         this.manufactor_id = manufactor_id;
     }
 
-    public long getBucket_address() {
+    public int getBucket_address() {
         return bucket_address;
     }
 
-    public void setBucket_address(long bucket_address) {
+    public void setBucket_address(int bucket_address) {
         this.bucket_address = bucket_address;
     }
 
