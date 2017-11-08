@@ -28,7 +28,7 @@ public class ILoginModel implements ILoginContract.Model {
         call.enqueue(new MyCallback<ResultCode<User>>() {
             @Override
             public void onSuc(Response<ResultCode<User>> response) {
-                Log.i(TAG, "onSuc: " + response.code());
+                Log.i(TAG, "onSuc-->: " + response.code());
                 if ("10000".equals(response.body().getCode())) {
                     LogUtil.info(TAG, response.body().getMessage());
                     LogUtil.info(TAG, response.body().getCode());

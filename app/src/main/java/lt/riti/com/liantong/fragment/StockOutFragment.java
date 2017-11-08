@@ -406,7 +406,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         if (rfidUsers != null && rfidUsers.size() > 0) {
             this.rfidUsers = rfidUsers;
             for (int i = 0; i < rfidUsers.size(); i++) {
-                String name = rfidUsers.get(i).getRfidUserName();
+                String name = rfidUsers.get(i).getCustomer_name();
                 rfidName.add(name);
             }
         } else {
@@ -423,8 +423,8 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                     @Override
                     public void onOptionsSelect(int options1, int options2, int options3, View v) {
                         //设置Text
-                        tvStockOutStock.setText(rfidUsers.get(options1).getRfidUserName());
-                        orderId = rfidUsers.get(options1).getRfidUserId();
+                        tvStockOutStock.setText(rfidUsers.get(options1).getCustomer_name());
+                        orderId = String.valueOf(rfidUsers.get(options1).getId());
                         OrderIdType = 0;
                     }
                 }).build();

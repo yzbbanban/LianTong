@@ -14,11 +14,11 @@ import lt.riti.com.liantong.view.BaseView;
 public interface IRfidUserContract {
     //业务
     interface Model {
-        void addRfidUser(RfidUser rfidUser, ICallBack callBack);
+//        void addRfidUser(RfidUser rfidUser, ICallBack callBack);
 
-        void updateRfidUser(RfidUser rfidUser, ICallBack callBack);
+//        void updateRfidUser(RfidUser rfidUser, ICallBack callBack);
 
-        void deleteRfidUser(String id, ICallBack callBack);
+//        void deleteRfidUser(String id, ICallBack callBack);
 
         void getRfidUser(String id, ICallBack callBack);
     }
@@ -30,11 +30,11 @@ public interface IRfidUserContract {
 
     //连接
     interface Presenter extends BasePresenter {
-        void addRfidUserTask(RfidUser rfidUser);
+//        void addRfidUserTask(RfidUser rfidUser);
 
-        void updateRfidUserTask(RfidUser rfidUser);
+//        void updateRfidUserTask(RfidUser rfidUser);
 
-        void deleteRfidUserTask(String id);
+//        void deleteRfidUserTask(String id);
 
         void getRfidUserTask(String id);
     }

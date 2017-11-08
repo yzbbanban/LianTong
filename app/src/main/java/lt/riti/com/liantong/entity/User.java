@@ -10,7 +10,7 @@ public class User implements Serializable {
 	private String salt;
 	private String email;
 	private int depots;
-	private Date create_time;
+	private String create_time;
 	private int status;
 	private String remark;
 	private int is_jb;
@@ -64,11 +64,11 @@ public class User implements Serializable {
 		this.depots = depots;
 	}
 
-	public Date getCreate_time() {
+	public String getCreate_time() {
 		return create_time;
 	}
 
-	public void setCreate_time(Date create_time) {
+	public void setCreate_time(String create_time) {
 		this.create_time = create_time;
 	}
 
@@ -106,10 +106,18 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", user_name=" + user_name + ", password="
-				+ password + ", salt=" + salt + ", email=" + email
-				+ ", depots=" + depots + ", create_time=" + create_time
-				+ ", status=" + status + ", remark=" + remark + ", is_jb="
-				+ is_jb + ", pid=" + pid + "]";
+		return "User{" +
+				"id=" + id +
+				", user_name='" + user_name + '\'' +
+				", password='" + password + '\'' +
+				", salt='" + salt + '\'' +
+				", email='" + email + '\'' +
+				", depots=" + depots +
+				", create_time='" + create_time + '\'' +
+				", status=" + status +
+				", remark='" + remark + '\'' +
+				", is_jb=" + is_jb +
+				", pid='" + pid + '\'' +
+				'}';
 	}
 }

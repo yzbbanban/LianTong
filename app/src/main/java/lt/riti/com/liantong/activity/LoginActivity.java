@@ -3,6 +3,7 @@ package lt.riti.com.liantong.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 
 import butterknife.BindView;
@@ -62,8 +63,10 @@ public class LoginActivity extends AppCompatActivity implements ILoginContract.V
 
     }
 
+    private static final String TAG = "LoginActivity";
     @Override
     public void showDescription(String description) {
+        Log.i(TAG, "showDescription: "+description);
         ToastUtil.showShortToast(description);
         if ("登录成功".equals(description)) {
             startActivity(new Intent(this, MainActivity.class));

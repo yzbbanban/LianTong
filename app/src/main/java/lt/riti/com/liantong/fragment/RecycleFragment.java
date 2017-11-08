@@ -390,7 +390,7 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
             //设置界面
             this.rfidUsers = rfidUsers;
             for (int i = 0; i < rfidUsers.size(); i++) {
-                String name = rfidUsers.get(i).getRfidUserName();
+                String name = rfidUsers.get(i).getCustomer_name();
                 rfidName.add(name);
             }
         } else {

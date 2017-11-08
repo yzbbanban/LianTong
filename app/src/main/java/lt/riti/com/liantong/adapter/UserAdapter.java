@@ -36,7 +36,7 @@ public class UserAdapter extends BaseRecyclerViewAdapter<RfidUser> {
         UserViewHolder userViewHolder = (UserViewHolder) holder;
         RfidUser user = mList.get(position);
         userViewHolder.tv_item_id.setText("" + (position + 1));
-        userViewHolder.tv_item_name.setText(user.getRfidUserName());
+        userViewHolder.tv_item_name.setText(user.getCustomer_name());
         if (position  % 2 == 0 && position != 0) {//条纹色
             userViewHolder.ll_bac.setBackgroundColor(Color.WHITE);
         }

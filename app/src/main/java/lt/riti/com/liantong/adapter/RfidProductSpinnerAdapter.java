@@ -1,29 +1,28 @@
-package lt.riti.com.liantong.adapter;
+    package lt.riti.com.liantong.adapter;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import lt.riti.com.liantong.R;
+import lt.riti.com.liantong.entity.Product;
 import lt.riti.com.liantong.entity.RfidUser;
 
 /**
  * Created by brander on 2017/9/25.
  */
 
-public class RfidUserSpinnerAdapter extends BaseAdapter {
+public class RfidProductSpinnerAdapter extends BaseAdapter {
 
-    public RfidUserSpinnerAdapter(Context context) {
+    public RfidProductSpinnerAdapter(Context context) {
         super(context);
     }
 
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        RfidUser rfidUser = (RfidUser) getItem(position);
+        Product product = (Product) getItem(position);
         convertView = getInflater().inflate(R.layout.item_spinner, null);
         ViewHolder holder;
         if (convertView != null) {
@@ -32,7 +31,7 @@ public class RfidUserSpinnerAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
         holder = (ViewHolder) convertView.getTag();
-        holder.textView.setText(rfidUser.getCustomer_name());
+        holder.textView.setText(product.getProduct_name());
         return convertView;
     }
 

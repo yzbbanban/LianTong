@@ -24,20 +24,20 @@ public class IRfidUserPresenter implements IRfidUserContract.Presenter {
         callback = new MyCallBack();
     }
 
-    @Override
-    public void addRfidUserTask(RfidUser rfidUser) {
-        model.addRfidUser(rfidUser, callback);
-    }
+//    @Override
+//    public void addRfidUserTask(RfidUser rfidUser) {
+//        model.addRfidUser(rfidUser, callback);
+//    }
 
-    @Override
-    public void updateRfidUserTask(RfidUser rfidUser) {
-        model.updateRfidUser(rfidUser, callback);
-    }
-
-    @Override
-    public void deleteRfidUserTask(String id) {
-        model.deleteRfidUser(id, callback);
-    }
+//    @Override
+//    public void updateRfidUserTask(RfidUser rfidUser) {
+//        model.updateRfidUser(rfidUser, callback);
+//    }
+//
+//    @Override
+//    public void deleteRfidUserTask(String id) {
+//        model.deleteRfidUser(id, callback);
+//    }
 
     @Override
     public void getRfidUserTask(String id) {

@@ -8,60 +8,86 @@ import java.util.Date;
  */
 
 public class RfidUser implements Serializable {
-    private String rfidUserId;
-    private String userId;
-    private String rfidUserName;
-    private String rfidUserLocation;
-    private String rfidUserCreatTime;
+    private long id;
+    private String customer_name;
+    private String customer_address;
+    private long number;
+    private String depot_code;
+    private String create_time;
+    private String admin_id;
 
-    public String getRfidUserCreatTime() {
-        return rfidUserCreatTime;
+
+    public void setNumber(long number) {
+        this.number = number;
     }
 
-    public void setRfidUserCreatTime(String rfidUserCreatTime) {
-        this.rfidUserCreatTime = rfidUserCreatTime;
+    public String getCreate_time() {
+        return create_time;
     }
 
-    public String getRfidUserId() {
-        return rfidUserId;
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 
-    public void setRfidUserId(String rfidUserId) {
-        this.rfidUserId = rfidUserId;
+    public long getId() {
+        return id;
     }
 
-    public String getUserId() {
-        return userId;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public String getCustomer_name() {
+        return customer_name;
     }
 
-    public String getRfidUserName() {
-        return rfidUserName;
+    public void setCustomer_name(String customer_name) {
+        this.customer_name = customer_name;
     }
 
-    public void setRfidUserName(String rfidUserName) {
-        this.rfidUserName = rfidUserName;
+    public String getCustomer_address() {
+        return customer_address;
     }
 
-    public String getRfidUserLocation() {
-        return rfidUserLocation;
+    public void setCustomer_address(String customer_address) {
+        this.customer_address = customer_address;
     }
 
-    public void setRfidUserLocation(String rfidUserLocation) {
-        this.rfidUserLocation = rfidUserLocation;
+    public long getNumber() {
+        return number;
+    }
+
+    public void setNumer(long number) {
+        this.number = number;
+    }
+
+    public String getDepot_code() {
+        return depot_code;
+    }
+
+    public void setDepot_code(String depot_code) {
+        this.depot_code = depot_code;
+    }
+
+
+    public String getAdmin_id() {
+        return admin_id;
+    }
+
+    public void setAdmin_id(String admin_id) {
+        this.admin_id = admin_id;
     }
 
     @Override
     public String toString() {
         return "RfidUser{" +
-                "rfidUserId='" + rfidUserId + '\'' +
-                ", userId='" + userId + '\'' +
-                ", rfidUserName='" + rfidUserName + '\'' +
-                ", rfidUserLocation='" + rfidUserLocation + '\'' +
-                ", rfidUserCreatTime=" + rfidUserCreatTime +
+                "id=" + id +
+                ", customer_name='" + customer_name + '\'' +
+                ", customer_address='" + customer_address + '\'' +
+                ", number=" + number +
+                ", depot_code='" + depot_code + '\'' +
+                ", create_time='" + create_time + '\'' +
+                ", admin_id='" + admin_id + '\'' +
                 '}';
     }
 }

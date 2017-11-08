@@ -188,7 +188,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
                     return;
                 }
 
-                orderPresent.addOrderTask(OrderIdType, orderId,"", storeIds);
+                orderPresent.addOrderTask(OrderIdType, orderId, "", storeIds);
 
             }
         });

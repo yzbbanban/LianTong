@@ -34,16 +34,19 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.adapter.BaseRecyclerViewAdapter;
+import lt.riti.com.liantong.adapter.RfidProductSpinnerAdapter;
 import lt.riti.com.liantong.adapter.RfidUserSpinnerAdapter;
 import lt.riti.com.liantong.adapter.StockIdAdapter;
 import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.contract.IRfidOrderContract;
+import lt.riti.com.liantong.contract.IRfidProductContract;
 import lt.riti.com.liantong.contract.IRfidUserContract;
+import lt.riti.com.liantong.entity.Product;
 import lt.riti.com.liantong.entity.PublicData;
 import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.entity.RfidUser;
 import lt.riti.com.liantong.presenter.IRfidOrderPresenter;
-import lt.riti.com.liantong.presenter.IRfidUserPresenter;
+import lt.riti.com.liantong.presenter.IRfidProductPresenter;
 import lt.riti.com.liantong.util.ToastUtil;
 
 /**
@@ -51,7 +54,7 @@ import lt.riti.com.liantong.util.ToastUtil;
  */
 
 public class StockInFragment extends BaseFragment implements IAsynchronousMessage,
-        IRfidUserContract.View, IRfidOrderContract.View {
+        IRfidProductContract.View, IRfidOrderContract.View {
     private static final String TAG = "StockInFragment";
     @BindView(R.id.tv_stock_in_stock)
     TextView tvStockInStock;
@@ -77,10 +80,10 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     Unbinder unbinder;
 
     protected StockIdAdapter adapter;
-    private RfidUserSpinnerAdapter spinnerAdapter;
-    private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);
+    private RfidProductSpinnerAdapter spinnerAdapter;
+    private IRfidProductContract.Presenter presenter = new IRfidProductPresenter(this);
     private IRfidOrderContract.Presenter orderPresent = new IRfidOrderPresenter(this);
-    private List<RfidUser> rfidUsers;
+    private List<Product> products;
     private String orderId;
     private int OrderIdType;//0仓库或1订单
     private List<RfidUser> pickView;
@@ -106,8 +109,8 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     protected void initView() {
         adapter = new StockIdAdapter(getContext());
-        spinnerAdapter = new RfidUserSpinnerAdapter(getActivity());
-        presenter.getRfidUserTask(StockApplication.USER_ID);
+        spinnerAdapter = new RfidProductSpinnerAdapter(getActivity());
+        presenter.getRfidProductTask(StockApplication.USER_ID);
         //初始化单号不可用
         if (!cbStockIn.isChecked()) {
             etStockInOrder.setEnabled(false);
@@ -424,13 +427,13 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 
     //显示数据（客户/仓库）
     @Override
-    public void showData(List<RfidUser> rfidUsers) {
+    public void showData(List<Product> products) {
         //Log.i(TAG, "showData: "+user);
-        if (rfidUsers != null && rfidUsers.size() > 0) {
+        if (products != null && products.size() > 0) {
             //设置界面
-            this.rfidUsers = rfidUsers;
-            for (int i = 0; i < rfidUsers.size(); i++) {
-                String name = rfidUsers.get(i).getRfidUserName();
+            this.products = products;
+            for (int i = 0; i < products.size(); i++) {
+                String name = products.get(i).getProduct_name();
                 rfidName.add(name);
             }
         } else {
@@ -447,8 +450,8 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                     @Override
                     public void onOptionsSelect(int options1, int options2, int options3, View v) {
                         //设置Text
-                        tvStockInStock.setText(rfidUsers.get(options1).getRfidUserName());
-                        orderId = rfidUsers.get(options1).getRfidUserId();
+                        tvStockInStock.setText(products.get(options1).getProduct_name());
+                        orderId = String.valueOf(products.get(options1).getId());
                         OrderIdType = 0;
                     }
                 }).build();
