@@ -210,7 +210,6 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                 uploadingBucket.setProduct_code(product_code);//产品
                 uploadingBucket.setDepot_code(depot_code);//创建公司编号
                 uploadingBucket.setStatus(1);//正常桶
-
                 orderPresent.addBucketTask(uploadingBucket, buckets);
 
             }

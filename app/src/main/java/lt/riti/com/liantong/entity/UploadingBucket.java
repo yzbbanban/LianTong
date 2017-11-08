@@ -13,6 +13,15 @@ public class UploadingBucket implements Serializable{
     private String depot_code;//创建公司编号
     private int bucket_address;//桶所在位置
     private int status;//0表示报废 1.表示正常
+    private int outInStatus;//1进来、0出去
+
+    public int getOutInStatus() {
+        return outInStatus;
+    }
+
+    public void setOutInStatus(int outInStatus) {
+        this.outInStatus = outInStatus;
+    }
 
     public int getBucket_address() {
         return bucket_address;
@@ -71,6 +80,7 @@ public class UploadingBucket implements Serializable{
                 ", depot_code='" + depot_code + '\'' +
                 ", bucket_address=" + bucket_address +
                 ", status=" + status +
+                ", outInStatus=" + outInStatus +
                 '}';
     }
 }

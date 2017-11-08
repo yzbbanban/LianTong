@@ -18,6 +18,15 @@ public class Bucket implements Serializable {
     private boolean checked;
     private long admin_id;// 创建人
     private long idTime;// 读取次数
+//    private int outInStatus;//1进来、0出去
+
+//    public int getOutInStatus() {
+//        return outInStatus;
+//    }
+//
+//    public void setOutInStatus(int outInStatus) {
+//        this.outInStatus = outInStatus;
+//    }
 
     public String getProduct_code() {
         return product_code;
@@ -134,6 +143,7 @@ public class Bucket implements Serializable {
                 ", checked=" + checked +
                 ", admin_id=" + admin_id +
                 ", idTime=" + idTime +
+//                ", outInStatus=" + outInStatus +
                 '}';
     }
 }
