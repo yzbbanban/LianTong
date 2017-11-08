@@ -26,7 +26,6 @@ import com.clouiotech.pda.rfid.IAsynchronousMessage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +33,7 @@ import butterknife.Unbinder;
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.adapter.BaseRecyclerViewAdapter;
 import lt.riti.com.liantong.adapter.RfidUserSpinnerAdapter;
-import lt.riti.com.liantong.adapter.StockIdAdapter;
+import lt.riti.com.liantong.adapter.StockOutAdapter;
 import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.contract.IRfidBucketContract;
 import lt.riti.com.liantong.contract.IRfidProductContract;
@@ -42,7 +41,6 @@ import lt.riti.com.liantong.contract.IRfidUserContract;
 import lt.riti.com.liantong.entity.Bucket;
 import lt.riti.com.liantong.entity.Product;
 import lt.riti.com.liantong.entity.PublicData;
-import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.entity.RfidUser;
 import lt.riti.com.liantong.entity.UploadingBucket;
 import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
@@ -82,7 +80,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     RadioButton rbStockInMass;
 
     Unbinder unbinder;
-    protected StockIdAdapter adapter;
+    protected StockOutAdapter adapter;
     private RfidUserSpinnerAdapter spinnerAdapter;
     private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);
     private IRfidProductContract.Presenter productPresenter = new IRfidProductPresenter(this);
@@ -106,7 +104,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
 
     @Override
     protected void initView() {
-        adapter = new StockIdAdapter(getContext());
+        adapter = new StockOutAdapter(getContext());
         spinnerAdapter = new RfidUserSpinnerAdapter(getActivity());
         presenter.getRfidUserTask(StockApplication.USER_ID);
         productPresenter.getRfidProductTask(StockApplication.USER_ID);
@@ -171,18 +169,18 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                ToastUtil.showShortToast("item: " + position);
+                ToastUtil.showShortToast("item: " + position);
             }
         });
 
         /**
          * 选择checkbox
          */
-        adapter.checkboxSetOnclick(new StockIdAdapter.CheckItemInterface() {
+        adapter.checkboxSetOnclick(new StockOutAdapter.CheckItemInterface() {
 
             @Override
             public void onclick(CompoundButton compoundButton, boolean b, int position) {
-//                ToastUtil.showShortToast("item: " + position + "check：" + b);
+                ToastUtil.showShortToast("item: " + position + "check：" + b);
                 //设置值是否为check
                 buckets.get(position).setChecked(b);
             }

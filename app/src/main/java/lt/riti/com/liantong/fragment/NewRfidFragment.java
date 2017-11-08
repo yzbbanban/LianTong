@@ -250,7 +250,9 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
                             Bucket bu = new Bucket();
 
                             bu.setBucket_code(name);//吨桶编号
-                            bu.setManufactor_id(Long.parseLong(manufactor_id));
+                            if (!"".equals(manufactor_id)){
+                                bu.setManufactor_id(Long.parseLong(manufactor_id));
+                            }
                             bu.setBucket_address(0);
                             bu.setDepot_code(depot_code);//创建公司编号
                             bu.setStatus(1);//正常
