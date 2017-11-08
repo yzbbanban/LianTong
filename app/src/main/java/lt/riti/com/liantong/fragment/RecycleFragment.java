@@ -169,10 +169,8 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
             public void onClick(View view) {
                 Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
                 UploadingBucket uploadingBucket=new UploadingBucket();
-                uploadingBucket.setManufactor_id(0);//厂商
                 uploadingBucket.setBucket_address(3);//表示在回收
-                uploadingBucket.setProduct_code("");//产品空
-                uploadingBucket.setCustomer_id(0);//客户空
+                uploadingBucket.setDepot_code("");//创建公司编号
 
                 orderPresent.addBucketTask(uploadingBucket, buckets);
 
@@ -202,8 +200,6 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
 
             }
         });
-        //选择客户/仓库
-
 
         //输入托盘号
         tvStockRecycleGood.setOnClickListener(new View.OnClickListener() {
@@ -229,13 +225,9 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
                         } else {
                             //向列表添加数据
                             Bucket bu = new Bucket();
-
                             bu.setBucket_code(name);//吨桶编号
                             bu.setBucket_address(3);//回收
-
-                            bu.setManufactor_id(0);
                             bu.setDepot_code("");//创建公司编号
-                            bu.setAdmin_id(StockApplication.USER_ID);
                             bu.setIdTime(1L);//读取次数
                             //没有数据则直接显示
                             if (buckets.size() == 0) {
