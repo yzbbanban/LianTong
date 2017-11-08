@@ -82,7 +82,6 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     private IRfidProductContract.Presenter presenter = new IRfidProductPresenter(this);
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<Product> products;
-    private List<RfidUser> pickView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -264,7 +263,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                         } else {
                             //向列表添加数据
                             Bucket bu = new Bucket();
-                            
+
                             bu.setBucket_code(name);//吨桶编号
                             bu.setBucket_address(1);//产品绑定
                             bu.setProduct_code(product_code);

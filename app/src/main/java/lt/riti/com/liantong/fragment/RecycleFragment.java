@@ -72,7 +72,6 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
     protected StockIdAdapter adapter;
     private RfidUserSpinnerAdapter spinnerAdapter;
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
-    private List<Bucket> buckets;
     private String orderId;
     private int OrderIdType;//0仓库或1订单
     private List<RfidUser> pickView;
