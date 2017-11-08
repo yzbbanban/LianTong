@@ -213,7 +213,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                 UploadingBucket uploadingBucket = new UploadingBucket();
                 uploadingBucket.setBucket_address(2);//表示在空桶区
                 uploadingBucket.setCustomer_id(customer_id);//客户
-//                uploadingBucket.setProduct_code(product_code);//产品
+                uploadingBucket.setProduct_code(product_code);//产品
                 uploadingBucket.setDepot_code(depot_code);//创建公司编号
                 uploadingBucket.setStatus(1);//正常桶
 
