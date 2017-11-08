@@ -1,7 +1,6 @@
 package lt.riti.com.liantong.fragment;
 
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,14 +12,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -38,12 +35,14 @@ import lt.riti.com.liantong.adapter.BaseRecyclerViewAdapter;
 import lt.riti.com.liantong.adapter.RfidUserSpinnerAdapter;
 import lt.riti.com.liantong.adapter.StockIdAdapter;
 import lt.riti.com.liantong.app.StockApplication;
-import lt.riti.com.liantong.contract.IRfidOrderContract;
+import lt.riti.com.liantong.contract.IRfidBucketContract;
 import lt.riti.com.liantong.contract.IRfidUserContract;
+import lt.riti.com.liantong.entity.Bucket;
 import lt.riti.com.liantong.entity.PublicData;
 import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.entity.RfidUser;
-import lt.riti.com.liantong.presenter.IRfidOrderPresenter;
+import lt.riti.com.liantong.entity.UploadingBucket;
+import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
 import lt.riti.com.liantong.presenter.IRfidUserPresenter;
 import lt.riti.com.liantong.util.ToastUtil;
 
@@ -52,7 +51,7 @@ import lt.riti.com.liantong.util.ToastUtil;
  */
 
 public class StockOutFragment extends BaseFragment implements IAsynchronousMessage,
-        IRfidUserContract.View, IRfidOrderContract.View {
+        IRfidUserContract.View, IRfidBucketContract.View {
     private static final String TAG = "StockOutFragment";
 
     @BindView(R.id.tv_stock_out_stock)
@@ -80,7 +79,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     protected StockIdAdapter adapter;
     private RfidUserSpinnerAdapter spinnerAdapter;
     private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);
-    private IRfidOrderContract.Presenter orderPresent = new IRfidOrderPresenter(this);
+    private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<RfidUser> rfidUsers;
     private String orderId;
     private int OrderIdType;//0仓库或1订单
@@ -143,14 +142,14 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
             public void onClick(View view) {
                 if (!cbStockOutAll.isChecked()) {//不选
                     Log.i(TAG, "onClick: 1");
-                    for (int i = 0; i < storeIds.size(); i++) {
-                        storeIds.get(i).setChecked(false);
+                    for (int i = 0; i < buckets.size(); i++) {
+                        buckets.get(i).setChecked(false);
                         adapter.notifyDataSetChanged();
                     }
                 } else {//全选
                     Log.i(TAG, "onClick: 2");
-                    for (int i = 0; i < storeIds.size(); i++) {
-                        storeIds.get(i).setChecked(true);
+                    for (int i = 0; i < buckets.size(); i++) {
+                        buckets.get(i).setChecked(true);
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -175,7 +174,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
             public void onclick(CompoundButton compoundButton, boolean b, int position) {
 //                ToastUtil.showShortToast("item: " + position + "check：" + b);
                 //设置值是否为check
-                storeIds.get(position).setChecked(b);
+                buckets.get(position).setChecked(b);
             }
         });
         /**
@@ -188,7 +187,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                     ToastUtil.showShortToast("请选择仓库");
                     return;
                 }
-                Log.i(TAG, "btnStockInSubmit onClick: " + storeIds);
+                Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
                 String stockInOrder = etStockOutOrder.getText().toString().trim();
                 if (!"".equals(stockInOrder) && cbStockOut.isChecked()) {//值不为空，且checkbox选中状态
 //                    orderId = stockInOrder;
@@ -196,7 +195,9 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                 }else{
                     stockInOrder="";
                 }
-                orderPresent.addOrderTask(OrderIdType, orderId,stockInOrder, storeIds);
+
+                UploadingBucket uploadingBucket=new UploadingBucket();
+                orderPresent.addBucketTask(uploadingBucket, buckets);
 
             }
         });
@@ -254,16 +255,16 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                             ToastUtil.showShortToast("请输入");
                         } else {
                             //向列表添加数据
-                            RfidOrder ro = new RfidOrder();
-                            ro.setStockType(0);
-                            ro.setIdName(name);
+                            Bucket ro = new Bucket();
+                            ro.setStatus(0);
+                            ro.setBucket_code(name);
                             ro.setIdTime(1L);
                             //没有数据则直接显示
-                            if (storeIds.size() == 0) {
-                                storeIds.add(ro);
-                                showView(storeIds);
+                            if (buckets.size() == 0) {
+                                buckets.add(ro);
+                                showView(buckets);
                             } else {
-                                storeIds.add(ro);
+                                buckets.add(ro);
                                 adapter.notifyDataSetChanged();
                             }
 
@@ -309,10 +310,10 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     /**
      * 展示界面
      *
-     * @param rfidOrders
+     * @param buckets
      */
-    private void showView(List<RfidOrder> rfidOrders) {
-        adapter.setList(rfidOrders);
+    private void showView(List<Bucket> buckets) {
+        adapter.setList(buckets);
         LinearLayoutManager lM = new LinearLayoutManager(getActivity());
         recycleViewStockOut.setLayoutManager(lM);
         recycleViewStockOut.setAdapter(adapter);

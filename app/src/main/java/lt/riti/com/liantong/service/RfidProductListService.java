@@ -18,5 +18,5 @@ import retrofit2.http.POST;
 public interface RfidProductListService {
     @POST("getRfidProductList.do")
     @FormUrlEncoded
-    Call<ResultCode<List<Product>>> call(@Field("id") String id);
+    Call<ResultCode<List<Product>>> call(@Field("id") long id);
 }

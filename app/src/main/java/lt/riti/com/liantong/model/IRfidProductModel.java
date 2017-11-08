@@ -22,7 +22,7 @@ import retrofit2.Retrofit;
 public class IRfidProductModel implements IRfidProductContract.Model {
     private static final String TAG = "IRfidProductModel";
     @Override
-    public void getRfidProduct(String id,final ICallBack callBack) {
+    public void getRfidProduct(long id,final ICallBack callBack) {
         Retrofit retrofit= RetrofitUtils.getRetrofit(Urls.COOL_RFID_PRODUCT_AL);
         RfidProductListService request = retrofit.create(RfidProductListService.class);
         Call<ResultCode<List<Product>>> call = request.call(id);

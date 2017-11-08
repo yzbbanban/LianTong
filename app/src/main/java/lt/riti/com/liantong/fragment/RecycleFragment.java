@@ -20,7 +20,6 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.OptionsPickerView;
 import com.clouiotech.pda.rfid.EPCModel;
 import com.clouiotech.pda.rfid.IAsynchronousMessage;
 
@@ -35,12 +34,13 @@ import lt.riti.com.liantong.adapter.BaseRecyclerViewAdapter;
 import lt.riti.com.liantong.adapter.RfidUserSpinnerAdapter;
 import lt.riti.com.liantong.adapter.StockIdAdapter;
 import lt.riti.com.liantong.app.StockApplication;
-import lt.riti.com.liantong.contract.IRfidOrderContract;
+import lt.riti.com.liantong.contract.IRfidBucketContract;
 import lt.riti.com.liantong.contract.IRfidUserContract;
+import lt.riti.com.liantong.entity.Bucket;
 import lt.riti.com.liantong.entity.PublicData;
 import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.entity.RfidUser;
-import lt.riti.com.liantong.presenter.IRfidOrderPresenter;
+import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
 import lt.riti.com.liantong.presenter.IRfidUserPresenter;
 import lt.riti.com.liantong.util.ToastUtil;
 
@@ -49,7 +49,7 @@ import lt.riti.com.liantong.util.ToastUtil;
  */
 
 public class RecycleFragment extends BaseFragment implements IAsynchronousMessage,
-        IRfidUserContract.View, IRfidOrderContract.View {
+        IRfidUserContract.View, IRfidBucketContract.View {
     private static final String TAG = "StockInFragment";
     @BindView(R.id.tv_stock_recycle_good)
     TextView tvStockRecycleGood;
@@ -70,9 +70,8 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
 
     protected StockIdAdapter adapter;
     private RfidUserSpinnerAdapter spinnerAdapter;
-    private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);
-    private IRfidOrderContract.Presenter orderPresent = new IRfidOrderPresenter(this);
-    private List<RfidUser> rfidUsers;
+    private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
+    private List<Bucket> buckets;
     private String orderId;
     private int OrderIdType;//0仓库或1订单
     private List<RfidUser> pickView;
@@ -99,7 +98,6 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
     protected void initView() {
         adapter = new StockIdAdapter(getContext());
         spinnerAdapter = new RfidUserSpinnerAdapter(getActivity());
-        presenter.getRfidUserTask(StockApplication.USER_ID);
 
     }
 
@@ -126,14 +124,14 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
             public void onClick(View view) {
                 if (!cbStockInAll.isChecked()) {//不选
                     Log.i(TAG, "onClick: 1");
-                    for (int i = 0; i < storeIds.size(); i++) {
-                        storeIds.get(i).setChecked(false);
+                    for (int i = 0; i < buckets.size(); i++) {
+                        buckets.get(i).setChecked(false);
                         adapter.notifyDataSetChanged();
                     }
                 } else {//全选
                     Log.i(TAG, "onClick: 2");
-                    for (int i = 0; i < storeIds.size(); i++) {
-                        storeIds.get(i).setChecked(true);
+                    for (int i = 0; i < buckets.size(); i++) {
+                        buckets.get(i).setChecked(true);
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -160,7 +158,7 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
             public void onclick(CompoundButton compoundButton, boolean b, int position) {
 //                ToastUtil.showShortToast("item: " + position + "check：" + b);
                 //设置值是否为check
-                storeIds.get(position).setChecked(b);
+                buckets.get(position).setChecked(b);
             }
         });
         /**
@@ -169,9 +167,9 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
         btnStockInSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "btnStockInSubmit onClick: " + storeIds);
+                Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
 
-                orderPresent.addOrderTask(OrderIdType, orderId,"", storeIds);
+//                orderPresent.addBucketTask(OrderIdType, orderId,"", buckets);
 
             }
         });
@@ -225,16 +223,16 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
                             ToastUtil.showShortToast("请输入");
                         } else {
                             //向列表添加数据
-                            RfidOrder ro = new RfidOrder();
-                            ro.setStockType(0);
-                            ro.setIdName(name);
+                            Bucket ro = new Bucket();
+//                            ro.setDepot_code(0);
+                            ro.setBucket_code(name);
                             ro.setIdTime(1L);
                             //没有数据则直接显示
-                            if (storeIds.size() == 0) {
-                                storeIds.add(ro);
-                                showView(storeIds);
+                            if (buckets.size() == 0) {
+                                buckets.add(ro);
+//                                showView(buckets);
                             } else {
-                                storeIds.add(ro);
+                                buckets.add(ro);
                                 adapter.notifyDataSetChanged();
                             }
 
@@ -313,16 +311,16 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
      */
     protected void showList() {
         Log.i(TAG, "showList: " + getData());
-        showView(getData());
+//        showView(getData());
     }
 
     /**
      * 展示界面
      *
-     * @param rfidOrders
+     * @param buckets
      */
-    private void showView(List<RfidOrder> rfidOrders) {
-        adapter.setList(rfidOrders);
+    private void showView(List<Bucket> buckets) {
+        adapter.setList(buckets);
         LinearLayoutManager lM = new LinearLayoutManager(getActivity());
         recycleViewStockIn.setLayoutManager(lM);
         recycleViewStockIn.setAdapter(adapter);
@@ -388,7 +386,7 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
         //Log.i(TAG, "showData: "+user);
         if (rfidUsers != null && rfidUsers.size() > 0) {
             //设置界面
-            this.rfidUsers = rfidUsers;
+//            this.rfidUsers = rfidUsers;
             for (int i = 0; i < rfidUsers.size(); i++) {
                 String name = rfidUsers.get(i).getCustomer_name();
                 rfidName.add(name);

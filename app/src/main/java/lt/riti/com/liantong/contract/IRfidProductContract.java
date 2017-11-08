@@ -11,7 +11,7 @@ import lt.riti.com.liantong.model.ICallBack;
 
 public interface IRfidProductContract {
     interface Model {
-        void getRfidProduct(String id, ICallBack callBack);
+        void getRfidProduct(long id, ICallBack callBack);
 
     }
 
@@ -20,6 +20,6 @@ public interface IRfidProductContract {
     }
 
     interface Presenter {
-        void getRfidProductTask(String id);
+        void getRfidProductTask(long id);
     }
 }

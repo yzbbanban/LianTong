@@ -7,7 +7,7 @@ import android.content.Context;
  * Created by brander on 2017/9/21.
  */
 public class StockApplication extends Application {
-    public static String USER_ID = "";
+    public static long USER_ID = 0L;
     public static String USER_NAME = "";
     private static Context context;
     private static int isInStock = 0;

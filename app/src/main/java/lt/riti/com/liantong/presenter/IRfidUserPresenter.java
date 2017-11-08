@@ -40,7 +40,7 @@ public class IRfidUserPresenter implements IRfidUserContract.Presenter {
 //    }
 
     @Override
-    public void getRfidUserTask(String id) {
+    public void getRfidUserTask(long id) {
         model.getRfidUser(id, new ICallBack() {
             @Override
             public void setSuccess(Object message) {

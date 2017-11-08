@@ -13,7 +13,7 @@ import lt.riti.com.liantong.model.ICallBack;
 
 public interface IRfidManufactorContract {
     interface Model {
-       void getRfidManufactor(String id, ICallBack callBack);
+       void getRfidManufactor(long id, ICallBack callBack);
     }
 
     interface View {
@@ -21,6 +21,6 @@ public interface IRfidManufactorContract {
     }
 
     interface Presenter {
-        void getRfidManufactorTask(String id);
+        void getRfidManufactorTask(long id);
     }
 }

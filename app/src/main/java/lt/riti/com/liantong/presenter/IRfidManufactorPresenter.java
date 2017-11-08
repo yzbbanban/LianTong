@@ -20,7 +20,7 @@ public class IRfidManufactorPresenter implements IRfidManufactorContract.Present
     }
 
     @Override
-    public void getRfidManufactorTask(String id) {
+    public void getRfidManufactorTask(long id) {
         model.getRfidManufactor(id, new ICallBack() {
             @Override
             public void setSuccess(Object message) {

@@ -22,7 +22,6 @@ import com.clouiotech.port.Adapt;
 import com.clouiotech.util.Helper.Helper_ThreadPool;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +29,7 @@ import java.util.Map;
 
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.app.StockApplication;
+import lt.riti.com.liantong.entity.Bucket;
 import lt.riti.com.liantong.entity.RfidOrder;
 
 /**
@@ -74,7 +74,7 @@ public class BaseFragment extends Fragment {
     protected static boolean isSingle = false;
     protected boolean usingBackBattery = false;
     protected static int stockFlag = 1;
-    protected List<RfidOrder> storeIds = new ArrayList<>();
+    protected List<Bucket> buckets = new ArrayList<>();
 
     private IAsynchronousMessage am;
 
@@ -240,8 +240,8 @@ public class BaseFragment extends Fragment {
 
     // 获得更新数据源
     @SuppressWarnings({"rawtypes", "unused"})
-    protected List<RfidOrder> getData() {
-        storeIds.clear();
+    protected List<Bucket> getData() {
+        buckets.clear();
         synchronized (hmList_Lock) {
             // if(hmList.size() > 0){ //
             Iterator iter = hmList.entrySet().iterator();
@@ -251,17 +251,17 @@ public class BaseFragment extends Fragment {
                 String key = (String) entry.getKey();
                 EPCModel val = (EPCModel) entry.getValue();
                 Map<String, Object> map = new HashMap<String, Object>();
-                RfidOrder storeId = new RfidOrder();
+                Bucket bucket = new Bucket();
                 String idName = val._EPC;
                 idName = idName.substring(idName.length() - 11);
-                storeId.setIdName(idName);
-                storeId.setIdTime(val._TotalCount);
-                storeIds.add(storeId);
+                bucket.setBucket_code(idName);
+                bucket.setIdTime(val._TotalCount);
+                buckets.add(bucket);
             }
             // }
         }
-        Log.i(TAG, "getData: " + storeIds);
-        return storeIds;
+        Log.i(TAG, "getData: " + buckets);
+        return buckets;
     }
 
     /**

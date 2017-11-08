@@ -32,7 +32,7 @@ public class ILoginModel implements ILoginContract.Model {
                 if ("10000".equals(response.body().getCode())) {
                     LogUtil.info(TAG, response.body().getMessage());
                     LogUtil.info(TAG, response.body().getCode());
-                    String userId = String.valueOf(response.body().getResult().getId());
+                    long userId = response.body().getResult().getId();
                     String userName = response.body().getResult().getUser_name();
                     //登陆成功将userId保存到CoolApplication中，退出app自动消失；
                     StockApplication.USER_ID = userId;

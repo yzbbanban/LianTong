@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import lt.riti.com.liantong.R;
+import lt.riti.com.liantong.entity.Bucket;
 import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.util.ToastUtil;
 
@@ -21,7 +22,7 @@ import lt.riti.com.liantong.util.ToastUtil;
  * Created by brander on 2017/9/23.
  */
 
-public class StockIdAdapter extends BaseRecyclerViewAdapter<RfidOrder> {
+public class StockIdAdapter extends BaseRecyclerViewAdapter<Bucket> {
     private static final String TAG = "StockIdAdapter";
     private static HashMap<Integer, Boolean> isSelected;//checkbox的选中情况
 
@@ -48,9 +49,9 @@ public class StockIdAdapter extends BaseRecyclerViewAdapter<RfidOrder> {
     public void onBindViewHolder(BaseViewHolder holder, final int position) {
         super.onBindViewHolder(holder, position);
         StoreViewHolder storeViewHolder = (StoreViewHolder) holder;
-        RfidOrder storeId = mList.get(position);
+        Bucket storeId = mList.get(position);
         storeViewHolder.tv_item_stock_id.setText("" + (position + 1));
-        storeViewHolder.tv_item_stock_name.setText(storeId.getIdName());
+        storeViewHolder.tv_item_stock_name.setText(storeId.getBucket_code());
         storeViewHolder.tv_item_stock_time.setText("" + storeId.getIdTime());
         //设置被点击事件
         storeViewHolder.cb_item_stock.setChecked(storeId.getChecked());

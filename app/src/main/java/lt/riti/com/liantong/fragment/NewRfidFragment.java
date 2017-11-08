@@ -36,15 +36,14 @@ import lt.riti.com.liantong.adapter.RfidUserSpinnerAdapter;
 import lt.riti.com.liantong.adapter.StockIdAdapter;
 import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.contract.IRfidManufactorContract;
-import lt.riti.com.liantong.contract.IRfidOrderContract;
-import lt.riti.com.liantong.contract.IRfidUserContract;
+import lt.riti.com.liantong.contract.IRfidBucketContract;
+import lt.riti.com.liantong.entity.Bucket;
 import lt.riti.com.liantong.entity.Manufacture;
 import lt.riti.com.liantong.entity.PublicData;
 import lt.riti.com.liantong.entity.RfidOrder;
-import lt.riti.com.liantong.entity.RfidUser;
+import lt.riti.com.liantong.entity.UploadingBucket;
 import lt.riti.com.liantong.presenter.IRfidManufactorPresenter;
-import lt.riti.com.liantong.presenter.IRfidOrderPresenter;
-import lt.riti.com.liantong.presenter.IRfidUserPresenter;
+import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
 import lt.riti.com.liantong.util.ToastUtil;
 
 /**
@@ -52,7 +51,7 @@ import lt.riti.com.liantong.util.ToastUtil;
  */
 
 public class NewRfidFragment extends BaseFragment implements IAsynchronousMessage,
-        IRfidManufactorContract.View, IRfidOrderContract.View {
+        IRfidManufactorContract.View, IRfidBucketContract.View {
     private static final String TAG = "StockInFragment";
     @BindView(R.id.tv_product_stock)
     TextView tvProductStock;
@@ -76,11 +75,11 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     protected StockIdAdapter adapter;
     private RfidUserSpinnerAdapter spinnerAdapter;
     private IRfidManufactorContract.Presenter presenter = new IRfidManufactorPresenter(this);
-    private IRfidOrderContract.Presenter orderPresent = new IRfidOrderPresenter(this);
+    private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<Manufacture> manufactures;
-    private String orderId;
-    private int OrderIdType;//0仓库或1订单
-    private List<RfidUser> pickView;
+    private String manufactor_id;//厂家id
+    private String depot_code;//创建公司编号
+    private int status;//0表示报废 1.表示正常
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -131,14 +130,14 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
             public void onClick(View view) {
                 if (!cbStockInAll.isChecked()) {//不选
                     Log.i(TAG, "onClick: 1");
-                    for (int i = 0; i < storeIds.size(); i++) {
-                        storeIds.get(i).setChecked(false);
+                    for (int i = 0; i < buckets.size(); i++) {
+                        buckets.get(i).setChecked(false);
                         adapter.notifyDataSetChanged();
                     }
                 } else {//全选
                     Log.i(TAG, "onClick: 2");
-                    for (int i = 0; i < storeIds.size(); i++) {
-                        storeIds.get(i).setChecked(true);
+                    for (int i = 0; i < buckets.size(); i++) {
+                        buckets.get(i).setChecked(true);
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -173,7 +172,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
             public void onclick(CompoundButton compoundButton, boolean b, int position) {
 //                ToastUtil.showShortToast("item: " + position + "check：" + b);
                 //设置值是否为check
-                storeIds.get(position).setChecked(b);
+                buckets.get(position).setChecked(b);
             }
         });
         /**
@@ -182,13 +181,19 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
         btnStockInSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "btnStockInSubmit onClick: " + storeIds);
+                Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
                 if ("".equals(tvProductStock.getText().toString().trim())) {
                     ToastUtil.showShortToast("请选择仓库");
                     return;
                 }
-
-                orderPresent.addOrderTask(OrderIdType, orderId, "", storeIds);
+                UploadingBucket uploadingBucket=new UploadingBucket();
+                uploadingBucket.setDepot_code(depot_code);//创建公司编号
+                uploadingBucket.setManufactor_id(Long.valueOf(manufactor_id));//厂商
+                uploadingBucket.setStatus(1);//正常桶
+                uploadingBucket.setBucket_address(0);//表示在空桶区
+                uploadingBucket.setProduct_code("");//产品空
+                uploadingBucket.setCustomer_id(0);//客户空
+                orderPresent.addBucketTask( uploadingBucket,  buckets);
 
             }
         });
@@ -242,16 +247,21 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
                             ToastUtil.showShortToast("请输入");
                         } else {
                             //向列表添加数据
-                            RfidOrder ro = new RfidOrder();
-                            ro.setStockType(0);
-                            ro.setIdName(name);
-                            ro.setIdTime(1L);
+                            Bucket bu = new Bucket();
+
+                            bu.setBucket_code(name);//吨桶编号
+                            bu.setManufactor_id(Long.parseLong(manufactor_id));
+                            bu.setBucket_address(0L);
+                            bu.setDepot_code(depot_code);//创建公司编号
+                            bu.setStatus(1);//正常
+                            bu.setAdmin_id(StockApplication.USER_ID);
+                            bu.setIdTime(1L);//读取次数
                             //没有数据则直接显示
-                            if (storeIds.size() == 0) {
-                                storeIds.add(ro);
-                                showView(storeIds);
+                            if (buckets.size() == 0) {
+                                buckets.add(bu);
+                                showView(buckets);
                             } else {
-                                storeIds.add(ro);
+                                buckets.add(bu);
                                 adapter.notifyDataSetChanged();
                             }
 
@@ -336,10 +346,10 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     /**
      * 展示界面
      *
-     * @param rfidOrders
+     * @param buckets
      */
-    private void showView(List<RfidOrder> rfidOrders) {
-        adapter.setList(rfidOrders);
+    private void showView(List<Bucket> buckets) {
+        adapter.setList(buckets);
         LinearLayoutManager lM = new LinearLayoutManager(getActivity());
         recycleViewStockIn.setLayoutManager(lM);
         recycleViewStockIn.setAdapter(adapter);
@@ -425,8 +435,9 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
                     public void onOptionsSelect(int options1, int options2, int options3, View v) {
                         //设置Text
                         tvProductStock.setText(manufactures.get(options1).getManufactor_name());
-                        orderId = String.valueOf(manufactures.get(options1).getId());
-                        OrderIdType = 0;
+                        manufactor_id = String.valueOf(manufactures.get(options1).getId());
+                        depot_code = String.valueOf(manufactures.get(options1).getDepot_code());
+                        status = 0;//正常
                     }
                 }).build();
         pvOptions.setPicker(rfidName, null, null);

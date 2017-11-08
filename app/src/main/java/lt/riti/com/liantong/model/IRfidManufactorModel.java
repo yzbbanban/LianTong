@@ -22,7 +22,7 @@ import retrofit2.Retrofit;
 public class IRfidManufactorModel implements IRfidManufactorContract.Model {
     private static final String TAG = "IRfidManufactorModel";
     @Override
-    public void getRfidManufactor(String id, final ICallBack callBack) {
+    public void getRfidManufactor(long id, final ICallBack callBack) {
         Log.i(TAG, "getRfidManufactor: "+id);
         Retrofit retrofit= RetrofitUtils.getRetrofit(Urls.COOL_RFID_MANUFACTOR_AL);
         final RfidManufactorListService request = retrofit.create(RfidManufactorListService.class);

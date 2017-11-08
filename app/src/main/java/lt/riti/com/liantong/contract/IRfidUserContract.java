@@ -20,7 +20,7 @@ public interface IRfidUserContract {
 
 //        void deleteRfidUser(String id, ICallBack callBack);
 
-        void getRfidUser(String id, ICallBack callBack);
+        void getRfidUser(long id, ICallBack callBack);
     }
 
     //视图
@@ -36,6 +36,6 @@ public interface IRfidUserContract {
 
 //        void deleteRfidUserTask(String id);
 
-        void getRfidUserTask(String id);
+        void getRfidUserTask(long id);
     }
 }

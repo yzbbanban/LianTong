@@ -21,7 +21,7 @@ public class IRfidProductPresenter implements IRfidProductContract.Presenter {
     }
 
     @Override
-    public void getRfidProductTask(String id) {
+    public void getRfidProductTask(long id) {
         model.getRfidProduct(id, new ICallBack() {
             @Override
             public void setSuccess(Object message) {

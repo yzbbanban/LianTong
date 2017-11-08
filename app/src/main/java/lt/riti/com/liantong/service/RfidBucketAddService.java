@@ -15,8 +15,9 @@ import retrofit2.http.POST;
  * 添加Rfid订单
  */
 
-public interface RfidOrderAddService {
+public interface RfidBucketAddService {
     @POST("addRfidOrderList.do")
     @FormUrlEncoded
     Call<ResultCode<String>> call(@Field("orderJs") String orderJs);
+
 }

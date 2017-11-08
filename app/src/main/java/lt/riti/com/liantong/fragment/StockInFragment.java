@@ -12,14 +12,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -35,17 +33,17 @@ import butterknife.Unbinder;
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.adapter.BaseRecyclerViewAdapter;
 import lt.riti.com.liantong.adapter.RfidProductSpinnerAdapter;
-import lt.riti.com.liantong.adapter.RfidUserSpinnerAdapter;
 import lt.riti.com.liantong.adapter.StockIdAdapter;
 import lt.riti.com.liantong.app.StockApplication;
-import lt.riti.com.liantong.contract.IRfidOrderContract;
+import lt.riti.com.liantong.contract.IRfidBucketContract;
 import lt.riti.com.liantong.contract.IRfidProductContract;
-import lt.riti.com.liantong.contract.IRfidUserContract;
+import lt.riti.com.liantong.entity.Bucket;
 import lt.riti.com.liantong.entity.Product;
 import lt.riti.com.liantong.entity.PublicData;
 import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.entity.RfidUser;
-import lt.riti.com.liantong.presenter.IRfidOrderPresenter;
+import lt.riti.com.liantong.entity.UploadingBucket;
+import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
 import lt.riti.com.liantong.presenter.IRfidProductPresenter;
 import lt.riti.com.liantong.util.ToastUtil;
 
@@ -54,7 +52,7 @@ import lt.riti.com.liantong.util.ToastUtil;
  */
 
 public class StockInFragment extends BaseFragment implements IAsynchronousMessage,
-        IRfidProductContract.View, IRfidOrderContract.View {
+        IRfidProductContract.View, IRfidBucketContract.View {
     private static final String TAG = "StockInFragment";
     @BindView(R.id.tv_stock_in_stock)
     TextView tvStockInStock;
@@ -82,7 +80,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     protected StockIdAdapter adapter;
     private RfidProductSpinnerAdapter spinnerAdapter;
     private IRfidProductContract.Presenter presenter = new IRfidProductPresenter(this);
-    private IRfidOrderContract.Presenter orderPresent = new IRfidOrderPresenter(this);
+    private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<Product> products;
     private String orderId;
     private int OrderIdType;//0仓库或1订单
@@ -151,14 +149,14 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
             public void onClick(View view) {
                 if (!cbStockInAll.isChecked()) {//不选
                     Log.i(TAG, "onClick: 1");
-                    for (int i = 0; i < storeIds.size(); i++) {
-                        storeIds.get(i).setChecked(false);
+                    for (int i = 0; i < buckets.size(); i++) {
+                        buckets.get(i).setChecked(false);
                         adapter.notifyDataSetChanged();
                     }
                 } else {//全选
                     Log.i(TAG, "onClick: 2");
-                    for (int i = 0; i < storeIds.size(); i++) {
-                        storeIds.get(i).setChecked(true);
+                    for (int i = 0; i < buckets.size(); i++) {
+                        buckets.get(i).setChecked(true);
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -193,7 +191,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
             public void onclick(CompoundButton compoundButton, boolean b, int position) {
 //                ToastUtil.showShortToast("item: " + position + "check：" + b);
                 //设置值是否为check
-                storeIds.get(position).setChecked(b);
+                buckets.get(position).setChecked(b);
             }
         });
         /**
@@ -202,7 +200,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
         btnStockInSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "btnStockInSubmit onClick: " + storeIds);
+                Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
                 if ("".equals(tvStockInStock.getText().toString().trim())) {
                     ToastUtil.showShortToast("请选择仓库");
                     return;
@@ -214,7 +212,8 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                 }else{
                     stockInOrder="";
                 }
-                orderPresent.addOrderTask(OrderIdType, orderId,stockInOrder, storeIds);
+                UploadingBucket uploadingBucket=new UploadingBucket();
+                orderPresent.addBucketTask(uploadingBucket,buckets);
 
             }
         });
@@ -268,16 +267,16 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                             ToastUtil.showShortToast("请输入");
                         } else {
                             //向列表添加数据
-                            RfidOrder ro = new RfidOrder();
-                            ro.setStockType(0);
-                            ro.setIdName(name);
+                            Bucket ro = new Bucket();
+                            ro.setStatus(0);
+                            ro.setBucket_code(name);
                             ro.setIdTime(1L);
                             //没有数据则直接显示
-                            if (storeIds.size() == 0) {
-                                storeIds.add(ro);
-                                showView(storeIds);
+                            if (buckets.size() == 0) {
+                                buckets.add(ro);
+                                showView(buckets);
                             } else {
-                                storeIds.add(ro);
+                                buckets.add(ro);
                                 adapter.notifyDataSetChanged();
                             }
 
@@ -362,10 +361,10 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     /**
      * 展示界面
      *
-     * @param rfidOrders
+     * @param buckets
      */
-    private void showView(List<RfidOrder> rfidOrders) {
-        adapter.setList(rfidOrders);
+    private void showView(List<Bucket> buckets) {
+        adapter.setList(buckets);
         LinearLayoutManager lM = new LinearLayoutManager(getActivity());
         recycleViewStockIn.setLayoutManager(lM);
         recycleViewStockIn.setAdapter(adapter);
