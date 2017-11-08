@@ -412,7 +412,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     //显示数据（客户/仓库）
     @Override
     public void showData(List<Manufacture> manufactures) {
-        //Log.i(TAG, "showData: "+user);
+        //Log.i(TAG, "showProductData: "+user);
         if (manufactures != null && manufactures.size() > 0) {
             //设置界面
             this.manufactures = manufactures;

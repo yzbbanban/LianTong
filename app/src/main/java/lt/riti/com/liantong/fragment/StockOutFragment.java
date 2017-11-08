@@ -26,6 +26,7 @@ import com.clouiotech.pda.rfid.IAsynchronousMessage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,13 +37,16 @@ import lt.riti.com.liantong.adapter.RfidUserSpinnerAdapter;
 import lt.riti.com.liantong.adapter.StockIdAdapter;
 import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.contract.IRfidBucketContract;
+import lt.riti.com.liantong.contract.IRfidProductContract;
 import lt.riti.com.liantong.contract.IRfidUserContract;
 import lt.riti.com.liantong.entity.Bucket;
+import lt.riti.com.liantong.entity.Product;
 import lt.riti.com.liantong.entity.PublicData;
 import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.entity.RfidUser;
 import lt.riti.com.liantong.entity.UploadingBucket;
 import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
+import lt.riti.com.liantong.presenter.IRfidProductPresenter;
 import lt.riti.com.liantong.presenter.IRfidUserPresenter;
 import lt.riti.com.liantong.util.ToastUtil;
 
@@ -51,12 +55,14 @@ import lt.riti.com.liantong.util.ToastUtil;
  */
 
 public class StockOutFragment extends BaseFragment implements IAsynchronousMessage,
-        IRfidUserContract.View, IRfidBucketContract.View {
+        IRfidUserContract.View, IRfidProductContract.View, IRfidBucketContract.View {
     private static final String TAG = "StockOutFragment";
 
     @BindView(R.id.tv_stock_out_stock)
     TextView tvStockOutStock;
-//    @BindView(R.id.et_stock_out_order)
+    @BindView(R.id.tv_stock_out_product)
+    TextView tvStockOutProduct;
+    //    @BindView(R.id.et_stock_out_order)
 //    EditText etStockOutOrder;
 //    @BindView(R.id.cb_stock_out)
 //    CheckBox cbStockOut;
@@ -79,9 +85,14 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     protected StockIdAdapter adapter;
     private RfidUserSpinnerAdapter spinnerAdapter;
     private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);
+    private IRfidProductContract.Presenter productPresenter = new IRfidProductPresenter(this);
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<RfidUser> rfidUsers;
     private int customer_id;
+    private String depot_code;
+    private List<Product> products;
+    private String product_code;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -98,6 +109,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         adapter = new StockIdAdapter(getContext());
         spinnerAdapter = new RfidUserSpinnerAdapter(getActivity());
         presenter.getRfidUserTask(StockApplication.USER_ID);
+        productPresenter.getRfidProductTask(StockApplication.USER_ID);
         Log.i(TAG, "initView: ");
         //初始化单号不可用
 //        if (!cbStockOut.isChecked()) {
@@ -182,7 +194,11 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
             @Override
             public void onClick(View view) {
                 if ("".equals(tvStockOutStock.getText().toString().trim())) {
-                    ToastUtil.showShortToast("请选择仓库");
+                    ToastUtil.showShortToast("请选择客户/仓库");
+                    return;
+                }
+                if ("".equals(tvStockOutProduct.getText().toString().trim())) {
+                    ToastUtil.showShortToast("请选择产品");
                     return;
                 }
                 Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
@@ -197,6 +213,9 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                 UploadingBucket uploadingBucket = new UploadingBucket();
                 uploadingBucket.setBucket_address(2);//表示在空桶区
                 uploadingBucket.setCustomer_id(customer_id);//客户
+//                uploadingBucket.setProduct_code(product_code);//产品
+                uploadingBucket.setDepot_code(depot_code);//创建公司编号
+                uploadingBucket.setStatus(1);//正常桶
 
                 orderPresent.addBucketTask(uploadingBucket, buckets);
 
@@ -234,6 +253,15 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                 setPickView();
             }
         });
+        /**
+         * 选择产品
+         */
+        tvStockOutProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setProductPickView();
+            }
+        });
         tvStockOutGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -260,7 +288,8 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
 
                             bu.setBucket_code(name);//吨桶编号
                             bu.setBucket_address(2);//客户绑定
-                            bu.setCustomer_id(customer_id);
+                            bu.setCustomer_id(customer_id);//客户
+                            bu.setProduct_code(product_code);//产品
                             bu.setAdmin_id(StockApplication.USER_ID);
                             bu.setIdTime(1L);//读取次数
                             //没有数据则直接显示
@@ -406,7 +435,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     //显示数据（客户/仓库）
     @Override
     public void showData(List<RfidUser> rfidUsers) {
-//        Log.i(TAG, "showData: "+user);
+//        Log.i(TAG, "showProductData: "+user);
         //设置界面
         if (rfidUsers != null && rfidUsers.size() > 0) {
             this.rfidUsers = rfidUsers;
@@ -420,9 +449,14 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     }
 
     List<String> rfidName = new ArrayList<>();
+    List<String> productsName = new ArrayList<>();
 
+    /**
+     * 客户选择器
+     */
     public void setPickView() {
         //条件选择器
+        rfidName.clear();
         OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(),
                 new OptionsPickerView.OnOptionsSelectListener() {
                     @Override
@@ -430,9 +464,45 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                         //设置Text
                         tvStockOutStock.setText(rfidUsers.get(options1).getCustomer_name());
                         customer_id = rfidUsers.get(options1).getId();
+                        depot_code = rfidUsers.get(options1).getDepot_code();
                     }
                 }).build();
         pvOptions.setPicker(rfidName, null, null);
         pvOptions.show();
+    }
+
+    /**
+     * 产品选择器
+     */
+    public void setProductPickView() {
+        //条件选择器
+        OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(),
+                new OptionsPickerView.OnOptionsSelectListener() {
+                    @Override
+                    public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                        //设置Text
+                        tvStockOutProduct.setText(products.get(options1).getProduct_name());
+                        product_code = products.get(options1).getProduct_code();
+                        depot_code = products.get(options1).getDepot_code();
+                    }
+                }).build();
+        pvOptions.setPicker(productsName, null, null);
+        pvOptions.show();
+    }
+
+    @Override
+    public void showProductData(List<Product> products) {
+        //Log.i(TAG, "showProductData: "+user);
+        productsName.clear();
+        if (products != null && products.size() > 0) {
+            //设置界面
+            this.products = products;
+            for (int i = 0; i < products.size(); i++) {
+                String name = products.get(i).getProduct_name();
+                productsName.add(name);
+            }
+        } else {
+            ToastUtil.showShortToast("请绑定产品");
+        }
     }
 }

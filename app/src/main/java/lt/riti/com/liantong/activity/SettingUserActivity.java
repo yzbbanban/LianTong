@@ -213,7 +213,7 @@ public class SettingUserActivity extends BaseActivity implements IRfidUserContra
     @Override
     public void showData(List<RfidUser> users) {
         if (users != null) {
-            Log.i(TAG, "showData: ");
+            Log.i(TAG, "showProductData: ");
             this.users.clear();
             this.users.addAll(users);
         } else {

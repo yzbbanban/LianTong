@@ -25,7 +25,7 @@ public class IRfidProductPresenter implements IRfidProductContract.Presenter {
         model.getRfidProduct(id, new ICallBack() {
             @Override
             public void setSuccess(Object message) {
-                view.showData((List<Product>) message);
+                view.showProductData((List<Product>) message);
             }
 
             @Override

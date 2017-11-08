@@ -16,7 +16,7 @@ public interface IRfidProductContract {
     }
 
     interface View {
-        void showData(List<Product> productList);
+        void showProductData(List<Product> productList);
     }
 
     interface Presenter {

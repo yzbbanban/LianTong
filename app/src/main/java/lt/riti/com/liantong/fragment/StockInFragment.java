@@ -82,6 +82,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     private IRfidProductContract.Presenter presenter = new IRfidProductPresenter(this);
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<Product> products;
+    private String depot_code;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -160,7 +161,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
             }
         });
         /**
-         * 选择客户或仓库
+         * 选择产品
          */
         tvStockInStock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,6 +208,8 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                 UploadingBucket uploadingBucket = new UploadingBucket();
                 uploadingBucket.setBucket_address(1);//表示在空桶区
                 uploadingBucket.setProduct_code(product_code);//产品
+                uploadingBucket.setDepot_code(depot_code);//创建公司编号
+                uploadingBucket.setStatus(1);//正常桶
 
                 orderPresent.addBucketTask(uploadingBucket, buckets);
 
@@ -236,7 +239,6 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 
             }
         });
-        //选择客户/仓库
 
 
         //输入托盘号
@@ -267,7 +269,8 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                             bu.setBucket_code(name);//吨桶编号
                             bu.setBucket_address(1);//产品绑定
                             bu.setProduct_code(product_code);
-                            bu.setAdmin_id(StockApplication.USER_ID);
+                            bu.setDepot_code(depot_code);//创建公司编号
+                            bu.setStatus(1);//正常
                             bu.setIdTime(1L);//读取次数
                             //没有数据则直接显示
                             if (buckets.size() == 0) {
@@ -422,26 +425,27 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
         ToastUtil.showShortToast(description);
     }
 
-    //显示数据（客户/仓库）
+    //显示数据（产品）
     @Override
-    public void showData(List<Product> products) {
-        //Log.i(TAG, "showData: "+user);
+    public void showProductData(List<Product> products) {
+        //Log.i(TAG, "showProductData: "+user);
         if (products != null && products.size() > 0) {
             //设置界面
             this.products = products;
             for (int i = 0; i < products.size(); i++) {
                 String name = products.get(i).getProduct_name();
-                rfidName.add(name);
+                productsName.add(name);
             }
         } else {
-            ToastUtil.showShortToast("请添加客户");
+            ToastUtil.showShortToast("请绑定产品");
         }
     }
 
-    List<String> rfidName = new ArrayList<>();
+    List<String> productsName = new ArrayList<>();
 
     public void setPickView() {
         //条件选择器
+        productsName.clear();
         OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(),
                 new OptionsPickerView.OnOptionsSelectListener() {
                     @Override
@@ -449,10 +453,10 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                         //设置Text
                         tvStockInStock.setText(products.get(options1).getProduct_name());
                         product_code = products.get(options1).getProduct_code();
-
+                        depot_code=products.get(options1).getDepot_code();
                     }
                 }).build();
-        pvOptions.setPicker(rfidName, null, null);
+        pvOptions.setPicker(productsName, null, null);
         pvOptions.show();
     }
 }

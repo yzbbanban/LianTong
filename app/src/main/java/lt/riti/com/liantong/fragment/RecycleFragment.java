@@ -393,7 +393,7 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
     //显示数据（客户/仓库）
     @Override
     public void showData(List<RfidUser> rfidUsers) {
-        //Log.i(TAG, "showData: "+user);
+        //Log.i(TAG, "showProductData: "+user);
         if (rfidUsers != null && rfidUsers.size() > 0) {
             //设置界面
 //            this.rfidUsers = rfidUsers;
