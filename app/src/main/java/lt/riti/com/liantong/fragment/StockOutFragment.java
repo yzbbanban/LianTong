@@ -437,6 +437,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     public void showData(List<RfidUser> rfidUsers) {
 //        Log.i(TAG, "showProductData: "+user);
         //设置界面
+        rfidName.clear();
         if (rfidUsers != null && rfidUsers.size() > 0) {
             this.rfidUsers = rfidUsers;
             for (int i = 0; i < rfidUsers.size(); i++) {
@@ -456,7 +457,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
      */
     public void setPickView() {
         //条件选择器
-        rfidName.clear();
+
         OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(),
                 new OptionsPickerView.OnOptionsSelectListener() {
                     @Override

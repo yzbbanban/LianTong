@@ -428,6 +428,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     public void showProductData(List<Product> products) {
         //Log.i(TAG, "showProductData: "+user);
+        productsName.clear();
         if (products != null && products.size() > 0) {
             //设置界面
             this.products = products;
@@ -444,7 +445,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 
     public void setPickView() {
         //条件选择器
-        productsName.clear();
+
         OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(),
                 new OptionsPickerView.OnOptionsSelectListener() {
                     @Override
