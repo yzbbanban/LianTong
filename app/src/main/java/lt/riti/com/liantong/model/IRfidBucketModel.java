@@ -108,7 +108,6 @@ public class IRfidBucketModel implements IRfidBucketContract.Model {
                 bucket.setCustomer_id(uploadingBucket.getCustomer_id());
                 bucket.setManufactor_id(uploadingBucket.getManufactor_id());
                 bucket.setStatus(uploadingBucket.getStatus());
-                bucket.setOutInStatus(uploadingBucket.getOutInStatus());
                 bucket.setBucket_address(uploadingBucket.getBucket_address());
                 orderList.add(buckets.get(i));
             }
