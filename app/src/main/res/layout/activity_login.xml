@@ -1,72 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_bg"
-    android:gravity="center"
-    android:orientation="vertical"
     android:padding="@dimen/x20"
     tools:context=".activity.LoginActivity">
 
-    <ImageView
-        android:layout_width="@dimen/x150"
-        android:layout_height="@dimen/x150"
-        android:src="@drawable/login_logo" />
+    <TextView
+        android:id="@+id/tv_set_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting" />
 
     <LinearLayout
-        android:layout_width="@dimen/x250"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/x10">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_width="@dimen/x30"
-            android:layout_height="@dimen/x30"
-            android:src="@drawable/user" />
+            android:layout_width="@dimen/x150"
+            android:layout_height="@dimen/x150"
+            android:src="@drawable/login_logo" />
 
-        <lt.riti.com.liantong.ui.CleanEditText
-            android:id="@+id/et_login_username"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="@dimen/x250"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/login_edit"
-            android:hint="登录名"
-            android:text=""
-            android:lines="1"
-            android:padding="@dimen/x5" />
+            android:layout_margin="@dimen/x10">
+
+            <ImageView
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/x30"
+                android:src="@drawable/user" />
+
+            <lt.riti.com.liantong.ui.CleanEditText
+                android:id="@+id/et_login_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/login_edit"
+                android:hint="登录名"
+                android:lines="1"
+                android:padding="@dimen/x5"
+                android:text="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/x250"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/x10">
+
+            <ImageView
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/x30"
+                android:src="@drawable/password" />
+
+            <lt.riti.com.liantong.ui.CleanEditText
+                android:id="@+id/et_login_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/login_edit"
+                android:hint="密码"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:padding="@dimen/x5"
+                android:text="" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="@dimen/x250"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/x10"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_selector"
+            android:text="登录"
+            android:textColor="@color/colorWhite" />
+
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="@dimen/x250"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/x10">
-
-        <ImageView
-            android:layout_width="@dimen/x30"
-            android:layout_height="@dimen/x30"
-            android:src="@drawable/password" />
-
-        <lt.riti.com.liantong.ui.CleanEditText
-            android:id="@+id/et_login_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/login_edit"
-            android:hint="密码"
-            android:inputType="textPassword"
-            android:lines="1"
-            android:text=""
-            android:padding="@dimen/x5" />
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="@dimen/x250"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/x10"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/login_selector"
-        android:text="登录"
-        android:textColor="@color/colorWhite" />
-</LinearLayout>
+</RelativeLayout>

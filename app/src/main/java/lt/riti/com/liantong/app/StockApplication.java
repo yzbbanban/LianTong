@@ -13,7 +13,7 @@ public class StockApplication extends Application {
     private static int isInStock = 0;
     public static boolean isOnAppStore = false;
     public static int stockType = 0;//0入库或1出库
-
+    public static String url="http://119.23.228.4/rfid/";
     @Override
     public void onCreate() {
         super.onCreate();

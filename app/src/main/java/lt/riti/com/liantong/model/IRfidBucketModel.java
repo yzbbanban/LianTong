@@ -36,7 +36,7 @@ public class IRfidBucketModel implements IRfidBucketContract.Model {
         Log.i(TAG, "addBucket: " + buckets);
         orderList.clear();
         //最好在线程执行
-        if (uploadingBucket.getManufactor_id() != 0 && uploadingBucket.getBucket_address() == 0) {//新桶
+        if (uploadingBucket.getManufactor_id() != 0 || uploadingBucket.getBucket_address() == 0) {//空桶
             orderList = setBucket(uploadingBucket, buckets);
             status = 0;
         } else if (!"".equals(uploadingBucket.getProduct_code()) && uploadingBucket.getBucket_address() == 1) {//产品
@@ -45,7 +45,7 @@ public class IRfidBucketModel implements IRfidBucketContract.Model {
         } else if (uploadingBucket.getCustomer_id() != 0L && uploadingBucket.getBucket_address() == 2) {//客户
             orderList = setBucket(uploadingBucket, buckets);
             status = 2;
-        } else if (uploadingBucket.getBucket_address() == 3) {//回收
+        } else if (uploadingBucket.getBucket_address() == 3) {//在途
             orderList = setBucket(uploadingBucket, buckets);
             status = 3;
         }
@@ -109,6 +109,7 @@ public class IRfidBucketModel implements IRfidBucketContract.Model {
                 bucket.setManufactor_id(uploadingBucket.getManufactor_id());
                 bucket.setStatus(uploadingBucket.getStatus());
                 bucket.setBucket_address(uploadingBucket.getBucket_address());
+                bucket.setOutInStatus(uploadingBucket.getOutInStatus());
                 orderList.add(buckets.get(i));
             }
         }

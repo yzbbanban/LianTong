@@ -166,7 +166,7 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
             public void onClick(View view) {
                 Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
                 UploadingBucket uploadingBucket=new UploadingBucket();
-                uploadingBucket.setBucket_address(3);//表示在回收
+                uploadingBucket.setBucket_address(0);//表示在回收
                 uploadingBucket.setDepot_code("");//创建公司编号
 
                 orderPresent.addBucketTask(uploadingBucket, buckets);
@@ -223,7 +223,7 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
                             //向列表添加数据
                             Bucket bu = new Bucket();
                             bu.setBucket_code(name);//吨桶编号
-                            bu.setBucket_address(3);//回收
+                            bu.setBucket_address(0);//回收
                             bu.setDepot_code("");//创建公司编号
                             bu.setIdTime(1L);//读取次数
                             //没有数据则直接显示

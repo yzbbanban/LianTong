@@ -215,12 +215,12 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
 //                }
 
                 UploadingBucket uploadingBucket = new UploadingBucket();
-                uploadingBucket.setBucket_address(2);//表示在空桶区
+                uploadingBucket.setBucket_address(3);//表示在途
                 uploadingBucket.setCustomer_id(customer_id);//客户
                 uploadingBucket.setProduct_code(product_code);//产品
                 uploadingBucket.setDepot_code(depot_code);//创建公司编号
                 uploadingBucket.setStatus(1);//正常桶
-
+                uploadingBucket.setOutInStatus(0);//出库
                 orderPresent.addBucketTask(uploadingBucket, buckets);
 
             }
@@ -291,9 +291,10 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                             Bucket bu = new Bucket();
 
                             bu.setBucket_code(name);//吨桶编号
-                            bu.setBucket_address(2);//客户绑定
+                            bu.setBucket_address(3);//表示客户在途
                             bu.setCustomer_id(customer_id);//客户
                             bu.setProduct_code(product_code);//产品
+                            bu.setOutInStatus(0);//出库
                             bu.setAdmin_id(StockApplication.USER_ID);
                             bu.setIdTime(1L);//读取次数
                             //没有数据则直接显示

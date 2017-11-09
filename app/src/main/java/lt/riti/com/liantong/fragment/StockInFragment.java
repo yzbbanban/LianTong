@@ -204,10 +204,11 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 //                String stockInOrder = etStockInOrder.getText().toString().trim();
 
                 UploadingBucket uploadingBucket = new UploadingBucket();
-                uploadingBucket.setBucket_address(1);//表示在空桶区
+                uploadingBucket.setBucket_address(1);//表示在产品区
                 uploadingBucket.setProduct_code(product_code);//产品
                 uploadingBucket.setDepot_code(depot_code);//创建公司编号
                 uploadingBucket.setStatus(1);//正常桶
+                uploadingBucket.setOutInStatus(1);//入库
                 orderPresent.addBucketTask(uploadingBucket, buckets);
 
             }
@@ -267,6 +268,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                             bu.setBucket_address(1);//产品绑定
                             bu.setProduct_code(product_code);
                             bu.setDepot_code(depot_code);//创建公司编号
+                            bu.setOutInStatus(1);//入库
                             bu.setStatus(1);//正常
                             bu.setIdTime(1L);//读取次数
                             //没有数据则直接显示
