@@ -185,7 +185,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 
             @Override
             public void onclick(CompoundButton compoundButton, boolean b, int position) {
-                ToastUtil.showShortToast("item: " + position + "check：" + b);
+//                ToastUtil.showShortToast("item: " + position + "check：" + b);
                 //设置值是否为check
                 buckets.get(position).setChecked(b);
             }
