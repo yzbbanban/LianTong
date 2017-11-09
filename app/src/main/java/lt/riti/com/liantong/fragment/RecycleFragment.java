@@ -56,8 +56,8 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
     TextView tvStockRecycleGood;
     @BindView(R.id.cb_stock_in_all)
     CheckBox cbStockInAll;
-    @BindView(R.id.recycleView_stock_in)
-    RecyclerView recycleViewStockIn;
+    @BindView(R.id.recycleView_stock_recycle)
+    RecyclerView recycleViewStockRecycle;
     @BindView(R.id.btn_stock_in_submit)
     Button btnStockInSubmit;//提交
     @BindView(R.id.btn_stock_in_clear)
@@ -70,7 +70,6 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
     Unbinder unbinder;
 
     protected StockIdAdapter adapter;
-    private RfidUserSpinnerAdapter spinnerAdapter;
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private String orderId;
     private int OrderIdType;//0仓库或1订单
@@ -97,8 +96,6 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     protected void initView() {
         adapter = new StockIdAdapter(getContext());
-        spinnerAdapter = new RfidUserSpinnerAdapter(getActivity());
-
     }
 
     /**
@@ -156,7 +153,7 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
 
             @Override
             public void onclick(CompoundButton compoundButton, boolean b, int position) {
-//                ToastUtil.showShortToast("item: " + position + "check：" + b);
+                ToastUtil.showShortToast("item: " + position + "check：" + b);
                 //设置值是否为check
                 buckets.get(position).setChecked(b);
             }
@@ -324,8 +321,8 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
     private void showView(List<Bucket> buckets) {
         adapter.setList(buckets);
         LinearLayoutManager lM = new LinearLayoutManager(getActivity());
-        recycleViewStockIn.setLayoutManager(lM);
-        recycleViewStockIn.setAdapter(adapter);
+        recycleViewStockRecycle.setLayoutManager(lM);
+        recycleViewStockRecycle.setAdapter(adapter);
     }
 
     /**

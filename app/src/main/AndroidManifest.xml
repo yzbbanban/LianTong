@@ -57,6 +57,7 @@
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity android:name=".activity.NewRfidActivity" />
         <activity android:name=".activity.RecycleActivity"></activity>
+        <activity android:name=".activity.CustomerActivity"></activity>
     </application>
 
 </manifest>

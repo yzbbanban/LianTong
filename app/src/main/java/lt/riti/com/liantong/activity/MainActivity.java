@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
 //    LinearLayout llUser;
     @BindView(R.id.ll_new_rfid)
     LinearLayout ll_new_rfid;
+    @BindView(R.id.ll_customer_rfid)
+    LinearLayout ll_customer_rfid;
     @BindView(R.id.ll_recycle_rfid)
     LinearLayout ll_recycle_rfid;
 
@@ -65,6 +67,17 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.ll_new_rfid)
     public void startNewRfid(View view) {
         Intent intent = new Intent(this, NewRfidActivity.class);
+        startActivity(intent);
+
+    }
+    /**
+     * 新桶入库
+     *
+     * @param view
+     */
+    @OnClick(R.id.ll_customer_rfid)
+    public void startCustomerRfid(View view) {
+        Intent intent = new Intent(this, CustomerActivity.class);
         startActivity(intent);
     }
 

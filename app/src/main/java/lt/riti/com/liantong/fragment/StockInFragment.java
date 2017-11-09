@@ -75,14 +75,13 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     RadioButton rbStockInMass;
 
     Unbinder unbinder;
-    private String product_code;
+    private String product_code="";
 
     protected StockIdAdapter adapter;
-    private RfidProductSpinnerAdapter spinnerAdapter;
     private IRfidProductContract.Presenter presenter = new IRfidProductPresenter(this);
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<Product> products;
-    private String depot_code;
+    private String depot_code="";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,7 +104,6 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     protected void initView() {
         adapter = new StockIdAdapter(getContext());
-        spinnerAdapter = new RfidProductSpinnerAdapter(getActivity());
         presenter.getRfidProductTask(StockApplication.USER_ID);
         //初始化单号不可用
 //        if (!cbStockIn.isChecked()) {
@@ -187,7 +185,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 
             @Override
             public void onclick(CompoundButton compoundButton, boolean b, int position) {
-//                ToastUtil.showShortToast("item: " + position + "check：" + b);
+                ToastUtil.showShortToast("item: " + position + "check：" + b);
                 //设置值是否为check
                 buckets.get(position).setChecked(b);
             }

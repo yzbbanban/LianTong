@@ -126,4 +126,19 @@ public class RecycleActivity extends BaseActivity {
 
         }
     }
+    /**
+     * 按钮反弹
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (fg instanceof RecycleFragment) {
+            Log.i(TAG, "instanceof: " + keyCode);
+            ((RecycleFragment) fragments.get(0)).onKeyUp(keyCode, event);
+        }
+        return super.onKeyUp(keyCode, event);
+    }
 }

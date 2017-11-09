@@ -17,20 +17,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.app.StockApplication;
+import lt.riti.com.liantong.fragment.CustomerFragment;
 import lt.riti.com.liantong.fragment.NewRfidFragment;
 
-public class NewRfidActivity extends BaseActivity {
-    private static final String TAG = "NewRfidActivity";
-    @BindView(R.id.vp_new_fg)
+public class CustomerActivity extends BaseActivity {
+    private static final String TAG = "CustomerActivity";
+    @BindView(R.id.vp_customer_fg)
     ViewPager viewPager;
     private FragmentPagerAdapter adapter;
     private List<Fragment> fragments;
     Fragment fg = new Fragment();
-    private View newL;
+    private View customerL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_rfid);
+        setContentView(R.layout.activity_customer_rfid);
         ButterKnife.bind(this);
         initView();
         initData();
@@ -39,7 +40,7 @@ public class NewRfidActivity extends BaseActivity {
     @Override
     public void onCreateCustomToolBar(Toolbar toolbar) {
         super.onCreateCustomToolBar(toolbar);
-        tv_center.setText("新桶入库");
+        tv_center.setText("客户入库");
     }
 
     /**
@@ -52,7 +53,7 @@ public class NewRfidActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.i(TAG, "onKeyDown: "+keyCode);
-        ((NewRfidFragment)fg).onKeyDown(keyCode, event);
+        ((CustomerFragment)fg).onKeyDown(keyCode, event);
         return super.onKeyDown(keyCode, event);
     }
 
@@ -60,8 +61,8 @@ public class NewRfidActivity extends BaseActivity {
      * 初始化界面
      */
     protected void initView() {
-        newL = LayoutInflater.from(this).inflate(R.layout.fragment_new_rfid, null);
-        ButterKnife.bind(newL);
+        customerL = LayoutInflater.from(this).inflate(R.layout.fragment_customer_rfid, null);
+        ButterKnife.bind(customerL);
     }
 
 
@@ -71,7 +72,7 @@ public class NewRfidActivity extends BaseActivity {
     protected void initData() {
         //界面数据
         fragments = new ArrayList<>();
-        fragments.add(new NewRfidFragment());
+        fragments.add(new CustomerFragment());
         adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -89,7 +90,7 @@ public class NewRfidActivity extends BaseActivity {
         viewPager.setCurrentItem(0);
         StockApplication.stockType = 0;//默认入库
         fg = fragments.get(0);
-        viewPager.addOnPageChangeListener(new NewRfidActivity.MyOnPageChangeListener());
+        viewPager.addOnPageChangeListener(new CustomerActivity.MyOnPageChangeListener());
     }
 
     /**
@@ -134,7 +135,7 @@ public class NewRfidActivity extends BaseActivity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (fg instanceof NewRfidFragment) {
             Log.i(TAG, "instanceof: " + keyCode);
-            ((NewRfidFragment) fragments.get(0)).onKeyUp(keyCode, event);
+            ((CustomerFragment) fragments.get(0)).onKeyUp(keyCode, event);
         }
         return super.onKeyUp(keyCode, event);
     }

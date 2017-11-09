@@ -33,6 +33,7 @@ import butterknife.Unbinder;
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.adapter.BaseRecyclerViewAdapter;
 import lt.riti.com.liantong.adapter.RfidUserSpinnerAdapter;
+import lt.riti.com.liantong.adapter.StockIdAdapter;
 import lt.riti.com.liantong.adapter.StockOutAdapter;
 import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.contract.IRfidBucketContract;
@@ -81,15 +82,14 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
 
     Unbinder unbinder;
     protected StockOutAdapter adapter;
-    private RfidUserSpinnerAdapter spinnerAdapter;
     private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);
     private IRfidProductContract.Presenter productPresenter = new IRfidProductPresenter(this);
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<RfidUser> rfidUsers;
     private int customer_id;
-    private String depot_code;
+    private String depot_code="";
     private List<Product> products;
-    private String product_code;
+    private String product_code="";
 
     @Nullable
     @Override
@@ -101,11 +101,16 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         initListener();
         return view;
     }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate: ");
+    }
+
 
     @Override
     protected void initView() {
         adapter = new StockOutAdapter(getContext());
-        spinnerAdapter = new RfidUserSpinnerAdapter(getActivity());
         presenter.getRfidUserTask(StockApplication.USER_ID);
         productPresenter.getRfidProductTask(StockApplication.USER_ID);
         Log.i(TAG, "initView: ");
@@ -124,8 +129,8 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
-            initView();
-            rfidName.clear();
+//            initView();
+//            rfidName.clear();
         }
     }
 
@@ -172,6 +177,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                 ToastUtil.showShortToast("item: " + position);
             }
         });
+
 
         /**
          * 选择checkbox

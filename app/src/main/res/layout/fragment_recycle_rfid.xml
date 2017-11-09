@@ -10,8 +10,6 @@
         android:orientation="vertical">
 
 
-
-
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"
@@ -92,7 +90,7 @@
         android:layout_weight="1">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleView_stock_in"
+            android:id="@+id/recycleView_stock_recycle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
     </LinearLayout>
