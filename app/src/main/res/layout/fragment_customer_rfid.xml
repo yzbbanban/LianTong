@@ -26,7 +26,8 @@
                 android:id="@+id/tv_stock_customer_stock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"></TextView>
+                android:layout_weight="1"
+                android:gravity="right"></TextView>
 
             <ImageView
                 android:layout_width="@dimen/x20"
@@ -46,6 +47,7 @@
             android:padding="@dimen/x10">
 
             <TextView
+                android:id="@+id/textView"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
