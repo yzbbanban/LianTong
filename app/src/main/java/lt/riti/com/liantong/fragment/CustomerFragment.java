@@ -58,8 +58,8 @@ import lt.riti.com.liantong.util.ToastUtil;
 public class CustomerFragment extends BaseFragment implements IAsynchronousMessage,
         IRfidUserContract.View, IRfidProductContract.View, IRfidBucketContract.View {
     private static final String TAG = "StockInFragment";
-    @BindView(R.id.tv_customer_product_stock)
-    TextView tvCustomerProductStock;//产品
+//    @BindView(R.id.tv_customer_product_stock)
+//    TextView tvCustomerProductStock;//产品
     @BindView(R.id.tv_stock_customer_stock)
     TextView tvStockCustomerStock;//客户
     @BindView(R.id.tv_stock_customer_good)
@@ -80,7 +80,7 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
     Unbinder unbinder;
 
     protected StockIdAdapter adapter;
-    private IRfidProductContract.Presenter productPresenter = new IRfidProductPresenter(this);//产品
+//    private IRfidProductContract.Presenter productPresenter = new IRfidProductPresenter(this);//产品
     private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);//客户
 
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
@@ -112,7 +112,7 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
     protected void initView() {
         adapter = new StockIdAdapter(getContext());
         presenter.getRfidUserTask(StockApplication.USER_ID);
-        productPresenter.getRfidProductTask(StockApplication.USER_ID);
+//        productPresenter.getRfidProductTask(StockApplication.USER_ID);
     }
 
     /**
@@ -151,13 +151,13 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
                 }
             }
         });
-        //产品
-        tvCustomerProductStock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setProductPickView();
-            }
-        });
+//        //产品
+//        tvCustomerProductStock.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                setProductPickView();
+//            }
+//        });
         //选择客户或仓库
         tvStockCustomerStock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,10 +195,10 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
-                if ("".equals(tvCustomerProductStock.getText().toString().trim())) {
-                    ToastUtil.showShortToast("请选择产品");
-                    return;
-                }
+//                if ("".equals(tvCustomerProductStock.getText().toString().trim())) {
+//                    ToastUtil.showShortToast("请选择产品");
+//                    return;
+//                }
                 Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
                 if ("".equals(tvStockCustomerStock.getText().toString().trim())) {
                     ToastUtil.showShortToast("请选择客户/仓库");
@@ -489,22 +489,22 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
         pvOptions.show();
     }
 
-    /**
-     * 产品选择器
-     */
-    public void setProductPickView() {
-        //条件选择器
-        OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(),
-                new OptionsPickerView.OnOptionsSelectListener() {
-                    @Override
-                    public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                        //设置Text
-                        tvCustomerProductStock.setText(products.get(options1).getProduct_name());
-                        product_code = products.get(options1).getProduct_code();
-                        depot_code = products.get(options1).getDepot_code();
-                    }
-                }).build();
-        pvOptions.setPicker(productsName, null, null);
-        pvOptions.show();
-    }
+//    /**
+//     * 产品选择器
+//     */
+//    public void setProductPickView() {
+//        //条件选择器
+//        OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(),
+//                new OptionsPickerView.OnOptionsSelectListener() {
+//                    @Override
+//                    public void onOptionsSelect(int options1, int options2, int options3, View v) {
+//                        //设置Text
+//                        tvCustomerProductStock.setText(products.get(options1).getProduct_name());
+//                        product_code = products.get(options1).getProduct_code();
+//                        depot_code = products.get(options1).getDepot_code();
+//                    }
+//                }).build();
+//        pvOptions.setPicker(productsName, null, null);
+//        pvOptions.show();
+//    }
 }
