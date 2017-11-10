@@ -251,6 +251,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
                             if (!"".equals(manufactor_id)){
                                 bu.setManufactor_id(Long.parseLong(manufactor_id));
                             }
+                            bu.setChecked(true);
                             bu.setBucket_address(0);
                             bu.setDepot_code(depot_code);//创建公司编号
                             bu.setStatus(1);//正常
@@ -408,6 +409,9 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     public void showDescription(String description) {
         ToastUtil.showShortToast(description);
+        if ("提交成功".equals(description)) {
+            Clear(null);
+        }
     }
 
     //显示数据（客户/仓库）

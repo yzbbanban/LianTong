@@ -3,6 +3,17 @@
     <string name="app_name">RFID</string>
     <drawable name="btn_login_normal">#d900a6ff</drawable>
     <drawable name="btn_login_pressed">#d675cfff</drawable>
+
+
+    <string name="str_please_waitting">please_waitting</string>
+    <string name="str_loading">loading</string>
+    <string name="str_busy">busy</string>
+    <string name="str_success">success</string>
+    <string name="str_faild">faild</string>
+    <string name="str_configure">configure</string>
+    <string name="str_ok">ok</string>
+    <string name="str_cancel">cancel</string>
+    <string name="str_confirm">confirm</string>
     <!-- MenuMain -->
     <string name="tv_MainMenu_Title">PDADemo</string>
     <string name="btn_MainMenu_UHF">UHF</string>

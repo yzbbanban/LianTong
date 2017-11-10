@@ -75,13 +75,13 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     RadioButton rbStockInMass;
 
     Unbinder unbinder;
-    private String product_code="";
+    private String product_code = "";
 
     protected StockIdAdapter adapter;
     private IRfidProductContract.Presenter presenter = new IRfidProductPresenter(this);
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<Product> products;
-    private String depot_code="";
+    private String depot_code = "";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -263,7 +263,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                         } else {
                             //向列表添加数据
                             Bucket bu = new Bucket();
-
+                            bu.setChecked(true);
                             bu.setBucket_code(name);//吨桶编号
                             bu.setBucket_address(1);//产品绑定
                             bu.setProduct_code(product_code);
@@ -422,6 +422,9 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     public void showDescription(String description) {
         ToastUtil.showShortToast(description);
+        if ("提交成功".equals(description)) {
+            Clear(null);
+        }
     }
 
     //显示数据（产品）
@@ -453,7 +456,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                         //设置Text
                         tvStockInStock.setText(products.get(options1).getProduct_name());
                         product_code = products.get(options1).getProduct_code();
-                        depot_code=products.get(options1).getDepot_code();
+                        depot_code = products.get(options1).getDepot_code();
                     }
                 }).build();
         pvOptions.setPicker(productsName, null, null);

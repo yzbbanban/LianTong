@@ -222,6 +222,7 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
                         } else {
                             //向列表添加数据
                             Bucket bu = new Bucket();
+                            bu.setChecked(true);
                             bu.setBucket_code(name);//吨桶编号
                             bu.setBucket_address(0);//回收
                             bu.setDepot_code("");//创建公司编号
@@ -377,6 +378,9 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     public void showDescription(String description) {
         ToastUtil.showShortToast(description);
+        if ("提交成功".equals(description)) {
+            Clear(null);
+        }
     }
 
     //显示数据（客户/仓库）

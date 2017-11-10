@@ -14,7 +14,7 @@ import lt.riti.com.liantong.R;
 /**
  * Created by brander on 2017/9/21.
  */
-
+@SuppressWarnings("ResourceType")
 public class ToolbarHelper {
     private Context mContext;
     private FrameLayout mContentView;

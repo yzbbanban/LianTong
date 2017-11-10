@@ -256,6 +256,7 @@ public class BaseFragment extends Fragment {
                 idName = idName.substring(idName.length() - 11);
                 bucket.setBucket_code(idName);
                 bucket.setIdTime(val._TotalCount);
+                bucket.setChecked(true);
                 buckets.add(bucket);
             }
             // }

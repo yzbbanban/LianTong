@@ -289,7 +289,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                         } else {
                             //向列表添加数据
                             Bucket bu = new Bucket();
-
+                            bu.setChecked(true);
                             bu.setBucket_code(name);//吨桶编号
                             bu.setBucket_address(3);//表示客户在途
                             bu.setCustomer_id(customer_id);//客户
@@ -435,6 +435,9 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     @Override
     public void showDescription(String description) {
         ToastUtil.showShortToast(description);
+        if ("提交成功".equals(description)) {
+            Clear(null);
+        }
     }
 
     //显示数据（客户/仓库）
