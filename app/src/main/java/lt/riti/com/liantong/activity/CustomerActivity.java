@@ -28,6 +28,9 @@ public class CustomerActivity extends BaseActivity {
     private List<Fragment> fragments;
     Fragment fg = new Fragment();
     private View customerL;
+
+    private int inputType = 0;//默认pda扫描
+    private boolean isRCode = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +44,21 @@ public class CustomerActivity extends BaseActivity {
     public void onCreateCustomToolBar(Toolbar toolbar) {
         super.onCreateCustomToolBar(toolbar);
         tv_center.setText("客户入库");
+        tv_right.setText("PDA扫描");
+        tv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isRCode) {//是扫码
+                    tv_right.setText("扫码");
+                    inputType = 1;
+                    isRCode = false;
+                } else {//PDA扫描
+                    tv_right.setText("PDA扫描");
+                    inputType = 0;
+                    isRCode = true;
+                }
+            }
+        });
     }
 
     /**
@@ -53,7 +71,7 @@ public class CustomerActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.i(TAG, "onKeyDown: "+keyCode);
-        ((CustomerFragment)fg).onKeyDown(keyCode, event);
+        ((CustomerFragment)fg).onKeyDown(keyCode, event,inputType);
         return super.onKeyDown(keyCode, event);
     }
 

@@ -2,6 +2,7 @@ package lt.riti.com.liantong.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,8 @@ public class UserAdapter extends BaseRecyclerViewAdapter<RfidUser> {
         RfidUser user = mList.get(position);
         userViewHolder.tv_item_id.setText("" + (position + 1));
         userViewHolder.tv_item_name.setText(user.getCustomer_name());
-        if (position  % 2 == 0 && position != 0) {//条纹色
+        Log.i(TAG, "onBindViewHolder: " + position + "," + position % 2);
+        if (position % 2 == 0) {//条纹色
             userViewHolder.ll_bac.setBackgroundColor(Color.WHITE);
         }
         userViewHolder.tv_item_update.setOnClickListener(new View.OnClickListener() {

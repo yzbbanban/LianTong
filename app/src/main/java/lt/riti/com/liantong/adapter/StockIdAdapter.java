@@ -55,10 +55,13 @@ public class StockIdAdapter extends BaseRecyclerViewAdapter<Bucket> {
         storeViewHolder.tv_item_stock_time.setText("" + storeId.getIdTime());
         //设置被点击事件
         storeViewHolder.cb_item_stock.setChecked(storeId.getChecked());
-        Log.i(TAG, "onBindViewHolder: "+(position / 2 ));
-        if (position % 2 == 0 && position != 0) {
-            storeViewHolder.ll_stock.setBackgroundColor(Color.WHITE);
-        }
+        Log.i(TAG, "onBindViewHolder1: "+(position / 2 ));
+        Log.i(TAG, "onBindViewHolder2: " + position + "," + position % 2);
+//        if (position % 2 == 0 ) {
+//            storeViewHolder.ll_stock.setBackgroundColor(Color.WHITE);
+//        }else {
+//
+//        }
         storeViewHolder.cb_item_stock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

@@ -47,6 +47,7 @@ import lt.riti.com.liantong.entity.UploadingBucket;
 import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
 import lt.riti.com.liantong.presenter.IRfidProductPresenter;
 import lt.riti.com.liantong.presenter.IRfidUserPresenter;
+import lt.riti.com.liantong.ui.RecyclerViewDivider;
 import lt.riti.com.liantong.util.ToastUtil;
 
 /**
@@ -87,9 +88,9 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<RfidUser> rfidUsers;
     private int customer_id;
-    private String depot_code="";
+    private String depot_code = "";
     private List<Product> products;
-    private String product_code="";
+    private String product_code = "";
 
     @Nullable
     @Override
@@ -101,6 +102,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         initListener();
         return view;
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -353,6 +355,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     private void showView(List<Bucket> buckets) {
         adapter.setList(buckets);
         LinearLayoutManager lM = new LinearLayoutManager(getActivity());
+//        recycleViewStockOut.addItemDecoration(new RecyclerViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
         recycleViewStockOut.setLayoutManager(lM);
         recycleViewStockOut.setAdapter(adapter);
     }
@@ -373,35 +376,41 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
      * @param event
      * @return
      */
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.d(TAG, "onKeyDown keyCode = " + keyCode);
-        if (keyCode == 131 || keyCode == 135) { // 按下扳机
-            if (rbStockInSingle.isChecked()) {
-                isSingle = true;
-            }
-            if (rbStockInMass.isChecked()) {
-                isSingle = false;
-            }
-            showList();
-            if (!isKeyDown) {
-                isKeyDown = true;
-                StockApplication.setIsInStock(2);
-                Clear(null);
-                CLReader.Read_EPC(_NowReadParam);
-                if (PublicData._IsCommand6Cor6B.equals("6C")) {// 读6C标签
-                    CLReader.Read_EPC(_NowReadParam);
-                } else {// 读6B标签
-                    CLReader.Get6B(_NowAntennaNo + "|1" + "|1" + "|"
-                            + "1,000F");
+    public boolean onKeyDown(int keyCode, KeyEvent event, int inputType) {
+//        Log.d(TAG, "onKeyDown keyCode = " + keyCode);
+        if (inputType == 1) {
+            DeCode();
+            showView(getRCodeData());
+        } else {
+            if (keyCode == 131 || keyCode == 135) { // 按下扳机
+                if (rbStockInSingle.isChecked()) {
+                    isSingle = true;
                 }
-            } else {
-                if (keyDownCount < 10000)
-                    keyDownCount++;
-            }
-            if (keyDownCount > 100) {
-                isLongKeyDown = true;
+                if (rbStockInMass.isChecked()) {
+                    isSingle = false;
+                }
+                showList();
+                if (!isKeyDown) {
+                    isKeyDown = true;
+                    StockApplication.setIsInStock(2);
+                    Clear(null);
+                    CLReader.Read_EPC(_NowReadParam);
+                    if (PublicData._IsCommand6Cor6B.equals("6C")) {// 读6C标签
+                        CLReader.Read_EPC(_NowReadParam);
+                    } else {// 读6B标签
+                        CLReader.Get6B(_NowAntennaNo + "|1" + "|1" + "|"
+                                + "1,000F");
+                    }
+                } else {
+                    if (keyDownCount < 10000)
+                        keyDownCount++;
+                }
+                if (keyDownCount > 100) {
+                    isLongKeyDown = true;
+                }
             }
         }
+
         return true;
     }
 
@@ -513,5 +522,11 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         } else {
             ToastUtil.showShortToast("请绑定产品");
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ScanDispose();
     }
 }

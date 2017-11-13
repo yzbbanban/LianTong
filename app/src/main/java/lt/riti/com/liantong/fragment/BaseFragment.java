@@ -13,24 +13,32 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.clouiotech.pda.rfid.EPCModel;
 import com.clouiotech.pda.rfid.IAsynchronousMessage;
 import com.clouiotech.pda.rfid.uhf.UHF;
 import com.clouiotech.pda.rfid.uhf.UHFReader;
+import com.clouiotech.pda.scanner.ScanReader;
+import com.clouiotech.pda.scanner.Scanner;
 import com.clouiotech.port.Adapt;
 import com.clouiotech.util.Helper.Helper_ThreadPool;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.entity.Bucket;
 import lt.riti.com.liantong.entity.RfidOrder;
+import lt.riti.com.liantong.util.ToastUtil;
 
 /**
  * Created by brander on 2017/9/22.
@@ -77,6 +85,10 @@ public class BaseFragment extends Fragment {
     protected List<Bucket> buckets = new ArrayList<>();
 
     private IAsynchronousMessage am;
+    //二维码扫描
+    boolean busy = false;
+    private Scanner scanReader = ScanReader.getScannerInstance();
+
 
     @Nullable
     @Override
@@ -228,6 +240,7 @@ public class BaseFragment extends Fragment {
      * @return
      */
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+
         if (keyCode == 131 || keyCode == 135) { // 放开扳机
             Log.i(TAG, TAG + "onKeyUp: ");
             CLReader.Stop();
@@ -236,6 +249,115 @@ public class BaseFragment extends Fragment {
             isLongKeyDown = false;
         }
         return true;
+    }
+
+    /**
+     * 二维码扫描
+     */
+
+    protected void ScanDispose() {
+        scanReader.close();
+    }
+
+    String idString;
+    HashMap<String, String> bs = new HashMap<>();
+
+    protected void DeCode() {
+        scaninit();
+        if (busy) {
+//            ToastUtil.showShortToast(getString(R.string.str_busy));
+            return;
+        }
+
+        busy = true;
+        ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+
+        singleThreadExecutor.execute(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    byte[] id = scanReader.decode();
+                    if (id != null) {
+                        idString = new String(id, Charset.forName("gbk")) + "\n";
+                        toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                Toast.makeText(getActivity(), "id: " + idString, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        if (bs.containsKey(("Bucket_code" + idString))) {//有
+
+                        } else {
+                            bs.put("Bucket_code" + idString, idString);
+                        }
+
+                    } else {
+                        idString = null;
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                Toast.makeText(getActivity(), getString(R.string.str_faild), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    busy = false;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+//        new Thread() {
+//            @Override
+//            public void run() {
+//
+//            }
+//
+//        }.start();
+
+    }
+
+
+    private boolean scaninit() {
+        if (null == scanReader) {
+            return false;
+        }
+        boolean ret = scanReader.open(getActivity().getApplicationContext());
+//        Toast.makeText(getActivity(), "scaninit: " + ret, Toast.LENGTH_SHORT).show();
+        return ret;
+    }
+
+
+    /**
+     * 获取bucket
+     *
+     * @return
+     */
+    protected List<Bucket> getRCodeData() {
+        List<Bucket> buckets = new ArrayList<>();
+        Iterator iterator = bs.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String key = (String) entry.getKey();
+            String val = (String) entry.getValue();
+            Bucket bucket = new Bucket();
+            String idName = val;
+            bucket.setBucket_code(idName);
+            bucket.setIdTime(1);
+            bucket.setChecked(true);
+            buckets.add(bucket);
+        }
+        return buckets;
     }
 
     // 获得更新数据源
@@ -372,6 +494,12 @@ public class BaseFragment extends Fragment {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ScanDispose();
     }
 
 

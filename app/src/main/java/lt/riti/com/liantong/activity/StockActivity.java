@@ -69,6 +69,8 @@ public class StockActivity extends BaseActivity {
     Fragment fg = new Fragment();
     private static final String TAG = "StockActivity";
 
+    private int inputType = 0;//默认pda扫描
+    private boolean isRCode = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +90,21 @@ public class StockActivity extends BaseActivity {
     public void onCreateCustomToolBar(Toolbar toolbar) {
         super.onCreateCustomToolBar(toolbar);
         tv_center.setText("出入库作业");
+        tv_right.setText("PDA扫描");
+        tv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isRCode) {//是扫码
+                    tv_right.setText("扫码");
+                    inputType = 1;
+                    isRCode = false;
+                } else {//PDA扫描
+                    tv_right.setText("PDA扫描");
+                    inputType = 0;
+                    isRCode = true;
+                }
+            }
+        });
     }
 
     /**
@@ -237,9 +254,9 @@ public class StockActivity extends BaseActivity {
         Log.i(TAG, "onKeyDown: " + keyCode);
         if (fg instanceof StockInFragment) {
             Log.i(TAG, "instanceof: " + keyCode);
-            ((StockInFragment) fragments.get(0)).onKeyDown(keyCode, event);
+            ((StockInFragment) fragments.get(0)).onKeyDown(keyCode, event,inputType);
         } else if (fg instanceof StockOutFragment) {
-            ((StockOutFragment) fragments.get(1)).onKeyDown(keyCode, event);
+            ((StockOutFragment) fragments.get(1)).onKeyDown(keyCode, event,inputType);
         }
         return super.onKeyDown(keyCode, event);
     }

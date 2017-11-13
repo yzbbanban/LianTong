@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_stock"
     android:layout_width="match_parent"
     android:layout_height="@dimen/x30"
+    android:background="@drawable/edit_adapter_shape"
     android:orientation="horizontal"
-    android:id="@+id/ll_stock"
-    android:background="@color/ll_bac"
     android:padding="1dp">
 
     <CheckBox
@@ -13,19 +13,19 @@
         android:layout_height="match_parent" />
 
     <TextView
-        android:background="@drawable/rfid_user_item_bac_left"
         android:id="@+id/tv_item_stock_id"
         android:layout_width="@dimen/x40"
         android:layout_height="match_parent"
+        android:background="@drawable/rfid_user_item_bac_left"
         android:gravity="center"
         android:text="ID" />
 
     <TextView
-        android:background="@drawable/rfid_user_item_bac"
         android:id="@+id/tv_item_stock_name"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:background="@drawable/rfid_user_item_bac"
         android:gravity="center"
         android:text="NAME" />
 
@@ -35,4 +35,5 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="TIME" />
+
 </LinearLayout>

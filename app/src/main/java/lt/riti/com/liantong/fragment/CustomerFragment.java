@@ -49,6 +49,7 @@ import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
 import lt.riti.com.liantong.presenter.IRfidManufactorPresenter;
 import lt.riti.com.liantong.presenter.IRfidProductPresenter;
 import lt.riti.com.liantong.presenter.IRfidUserPresenter;
+import lt.riti.com.liantong.ui.RecyclerViewDivider;
 import lt.riti.com.liantong.util.ToastUtil;
 
 /**
@@ -58,7 +59,7 @@ import lt.riti.com.liantong.util.ToastUtil;
 public class CustomerFragment extends BaseFragment implements IAsynchronousMessage,
         IRfidUserContract.View, IRfidProductContract.View, IRfidBucketContract.View {
     private static final String TAG = "StockInFragment";
-//    @BindView(R.id.tv_customer_product_stock)
+    //    @BindView(R.id.tv_customer_product_stock)
 //    TextView tvCustomerProductStock;//产品
     @BindView(R.id.tv_stock_customer_stock)
     TextView tvStockCustomerStock;//客户
@@ -80,14 +81,14 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
     Unbinder unbinder;
 
     protected StockIdAdapter adapter;
-//    private IRfidProductContract.Presenter productPresenter = new IRfidProductPresenter(this);//产品
+    //    private IRfidProductContract.Presenter productPresenter = new IRfidProductPresenter(this);//产品
     private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);//客户
 
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<Product> products;
     private List<RfidUser> rfidUsers;
-    private String depot_code="";//创建公司编号
-    private String product_code="";
+    private String depot_code = "";//创建公司编号
+    private String product_code = "";
     private int customer_id;
 
     @Override
@@ -323,33 +324,38 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
      * @param event
      * @return
      */
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event, int inputType) {
 //        Log.d(TAG, "onKeyDown keyCode = " + keyCode);
-        if (keyCode == 131 || keyCode == 135) { // 按下扳机
-            if (rbStockCustomerSingle.isChecked()) {
-                isSingle = true;
-            }
-            if (rbStockCustomerMass.isChecked()) {
-                isSingle = false;
-            }
-            showList();
-            if (!isKeyDown) {
-                isKeyDown = true; //
-                StockApplication.setIsInStock(1);
-                Clear(null);
-                CLReader.Read_EPC(_NowReadParam);
-                if (PublicData._IsCommand6Cor6B.equals("6C")) {// 读6C标签
-                    CLReader.Read_EPC(_NowReadParam);
-                } else {// 读6B标签
-                    CLReader.Get6B(_NowAntennaNo + "|1" + "|1" + "|"
-                            + "1,000F");
+        if (inputType == 1) {
+            DeCode();
+            showView(getRCodeData());
+        } else {
+            if (keyCode == 131 || keyCode == 135) { // 按下扳机
+                if (rbStockCustomerSingle.isChecked()) {
+                    isSingle = true;
                 }
-            } else {
-                if (keyDownCount < 10000)
-                    keyDownCount++;
-            }
-            if (keyDownCount > 100) {
-                isLongKeyDown = true;
+                if (rbStockCustomerMass.isChecked()) {
+                    isSingle = false;
+                }
+                showList();
+                if (!isKeyDown) {
+                    isKeyDown = true; //
+                    StockApplication.setIsInStock(1);
+                    Clear(null);
+                    CLReader.Read_EPC(_NowReadParam);
+                    if (PublicData._IsCommand6Cor6B.equals("6C")) {// 读6C标签
+                        CLReader.Read_EPC(_NowReadParam);
+                    } else {// 读6B标签
+                        CLReader.Get6B(_NowAntennaNo + "|1" + "|1" + "|"
+                                + "1,000F");
+                    }
+                } else {
+                    if (keyDownCount < 10000)
+                        keyDownCount++;
+                }
+                if (keyDownCount > 100) {
+                    isLongKeyDown = true;
+                }
             }
         }
         return true;
@@ -372,6 +378,7 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
     private void showView(List<Bucket> buckets) {
         adapter.setList(buckets);
         LinearLayoutManager lM = new LinearLayoutManager(getActivity());
+//        recycleViewStockCustomer.addItemDecoration(new RecyclerViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
         recycleViewStockCustomer.setLayoutManager(lM);
         recycleViewStockCustomer.setAdapter(adapter);
     }
@@ -507,4 +514,10 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
 //        pvOptions.setPicker(productsName, null, null);
 //        pvOptions.show();
 //    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ScanDispose();
+    }
 }

@@ -2,6 +2,8 @@ package lt.riti.com.liantong.fragment;
 
 
 import android.content.DialogInterface;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -19,11 +21,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.clouiotech.pda.rfid.EPCModel;
 import com.clouiotech.pda.rfid.IAsynchronousMessage;
+import com.clouiotech.pda.scanner.ScanReader;
+import com.clouiotech.pda.scanner.Scanner;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +50,7 @@ import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.entity.UploadingBucket;
 import lt.riti.com.liantong.presenter.IRfidManufactorPresenter;
 import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
+import lt.riti.com.liantong.ui.RecyclerViewDivider;
 import lt.riti.com.liantong.util.ToastUtil;
 
 /**
@@ -76,8 +83,8 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     private IRfidManufactorContract.Presenter presenter = new IRfidManufactorPresenter(this);
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<Manufacture> manufactures;
-    private String manufactor_id="";//厂家id
-    private String depot_code="";//创建公司编号
+    private String manufactor_id = "";//厂家id
+    private String depot_code = "";//创建公司编号
     private int status;//0表示报废 1.表示正常
 
     @Override
@@ -184,14 +191,14 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
                     ToastUtil.showShortToast("请选择仓库");
                     return;
                 }
-                UploadingBucket uploadingBucket=new UploadingBucket();
+                UploadingBucket uploadingBucket = new UploadingBucket();
                 uploadingBucket.setDepot_code(depot_code);//创建公司编号
                 uploadingBucket.setManufactor_id(Long.valueOf(manufactor_id));//厂商
                 uploadingBucket.setStatus(1);//正常桶
                 uploadingBucket.setBucket_address(0);//表示在空桶区
                 uploadingBucket.setProduct_code("");//产品空
                 uploadingBucket.setCustomer_id(0);//客户空
-                orderPresent.addBucketTask( uploadingBucket,  buckets);
+                orderPresent.addBucketTask(uploadingBucket, buckets);
 
             }
         });
@@ -248,7 +255,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
                             Bucket bu = new Bucket();
 
                             bu.setBucket_code(name);//吨桶编号
-                            if (!"".equals(manufactor_id)){
+                            if (!"".equals(manufactor_id)) {
                                 bu.setManufactor_id(Long.parseLong(manufactor_id));
                             }
                             bu.setChecked(true);
@@ -297,6 +304,8 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
         unbinder.unbind();
     }
 
+
+
     /**
      * 按钮按下
      *
@@ -304,33 +313,39 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
      * @param event
      * @return
      */
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event, int inputType) {
 //        Log.d(TAG, "onKeyDown keyCode = " + keyCode);
-        if (keyCode == 131 || keyCode == 135) { // 按下扳机
-            if (rbStockInSingle.isChecked()) {
-                isSingle = true;
-            }
-            if (rbStockInMass.isChecked()) {
-                isSingle = false;
-            }
-            showList();
-            if (!isKeyDown) {
-                isKeyDown = true; //
-                StockApplication.setIsInStock(1);
-                Clear(null);
-                CLReader.Read_EPC(_NowReadParam);
-                if (PublicData._IsCommand6Cor6B.equals("6C")) {// 读6C标签
-                    CLReader.Read_EPC(_NowReadParam);
-                } else {// 读6B标签
-                    CLReader.Get6B(_NowAntennaNo + "|1" + "|1" + "|"
-                            + "1,000F");
+        if (inputType == 1) {
+            DeCode();
+            showView(getRCodeData());
+        } else {
+//            Toast.makeText(getActivity(), "onKeyDown 33--->: ", Toast.LENGTH_SHORT).show();
+            if (keyCode == 131 || keyCode == 135) { // 按下扳机
+                if (rbStockInSingle.isChecked()) {
+                    isSingle = true;
                 }
-            } else {
-                if (keyDownCount < 10000)
-                    keyDownCount++;
-            }
-            if (keyDownCount > 100) {
-                isLongKeyDown = true;
+                if (rbStockInMass.isChecked()) {
+                    isSingle = false;
+                }
+                showList();
+                if (!isKeyDown) {
+                    isKeyDown = true; //
+                    StockApplication.setIsInStock(1);
+                    Clear(null);
+                    CLReader.Read_EPC(_NowReadParam);
+                    if (PublicData._IsCommand6Cor6B.equals("6C")) {// 读6C标签
+                        CLReader.Read_EPC(_NowReadParam);
+                    } else {// 读6B标签
+                        CLReader.Get6B(_NowAntennaNo + "|1" + "|1" + "|"
+                                + "1,000F");
+                    }
+                } else {
+                    if (keyDownCount < 10000)
+                        keyDownCount++;
+                }
+                if (keyDownCount > 100) {
+                    isLongKeyDown = true;
+                }
             }
         }
         return true;
@@ -353,6 +368,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     private void showView(List<Bucket> buckets) {
         adapter.setList(buckets);
         LinearLayoutManager lM = new LinearLayoutManager(getActivity());
+//        recycleViewStockNew.addItemDecoration(new RecyclerViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
         recycleViewStockNew.setLayoutManager(lM);
         recycleViewStockNew.setAdapter(adapter);
     }
@@ -447,5 +463,11 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
                 }).build();
         pvOptions.setPicker(rfidName, null, null);
         pvOptions.show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ScanDispose();
     }
 }
