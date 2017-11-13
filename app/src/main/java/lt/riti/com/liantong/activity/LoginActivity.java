@@ -1,6 +1,7 @@
 package lt.riti.com.liantong.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -33,22 +34,23 @@ public class LoginActivity extends AppCompatActivity implements ILoginContract.V
     CleanEditText etLoginPassword;
     @BindView(R.id.btn_login)
     Button btnLogin;
-
+    private String name;
+    private String password;
     private ILoginContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        initData();
         ButterKnife.bind(this);
+        initData();
     }
 
     @OnClick(R.id.btn_login)
     public void login() {
         User user = new User();
-        String name = etLoginUsername.getText().toString().trim();
-        String password = etLoginPassword.getText().toString().trim();
+        name = etLoginUsername.getText().toString().trim();
+        password = etLoginPassword.getText().toString().trim();
         if ("".equals(name) || "".equals(password)) {
             ToastUtil.showShortToast("请输入用户名或密码");
         } else {
@@ -78,8 +80,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginContract.V
                 if ("".equals(name)) {
                     ToastUtil.showShortToast("请输入");
                 } else {
-                    StockApplication.url="http://"+name+"/rfid/";
-                    Log.i(TAG, "onClick: "+StockApplication.url);
+                    StockApplication.url = "http://" + name + "/rfid/";
+                    Log.i(TAG, "onClick: " + StockApplication.url);
                     alertDialog.dismiss();
                 }
 
@@ -103,6 +105,14 @@ public class LoginActivity extends AppCompatActivity implements ILoginContract.V
 
     private void initData() {
         presenter = new ILoginPresenter(this);
+        SharedPreferences preferences = getSharedPreferences("user", this.MODE_PRIVATE);
+        String n = preferences.getString("name", "");
+        String pwd = preferences.getString("password", "");
+        Log.i(TAG, "initData: "+n+","+pwd);
+        if (!"".equals(n) && !"".equals(pwd)) {
+            etLoginUsername.setText(n);
+            etLoginPassword.setText(pwd);
+        }
     }
 
     @Override
@@ -121,12 +131,17 @@ public class LoginActivity extends AppCompatActivity implements ILoginContract.V
     @Override
     public void showDescription(String description) {
         Log.i(TAG, "showDescription: " + description);
-        if (description==null){
+        if (description == null) {
             ToastUtil.showShortToast("登录超时请重新登录！");
             return;
         }
         ToastUtil.showShortToast(description);
         if ("登录成功".equals(description)) {
+            SharedPreferences.Editor editor = getSharedPreferences("user", this.MODE_PRIVATE).edit();
+            Log.i(TAG, "showDescription: "+name+","+password);
+            editor.putString("name", name);
+            editor.putString("password", password);
+            editor.commit();
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }

@@ -15,4 +15,6 @@ public class Urls {
     public static final String COOL_RFID_ORDER_AL = COOL_UPLOAD_AL + "rfidOrder/";//rfid上传order信息
     public static final String COOL_RFID_MANUFACTOR_AL = COOL_UPLOAD_AL + "rfidManufactor/";//rfid上传order信息
     public static final String COOL_RFID_PRODUCT_AL = COOL_UPLOAD_AL + "rfidProduct/";//rfid上传order信息
+
+    public static final String COOL_RFID_EXCEPTION_AL = COOL_UPLOAD_AL + "exception/";//捕获rfid异常信息
 }

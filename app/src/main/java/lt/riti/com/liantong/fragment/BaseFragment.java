@@ -253,7 +253,7 @@ public class BaseFragment extends Fragment {
                 Map<String, Object> map = new HashMap<String, Object>();
                 Bucket bucket = new Bucket();
                 String idName = val._EPC;
-                idName = idName.substring(idName.length() - 11);
+//                idName = idName.substring(idName.length() - 11);
                 bucket.setBucket_code(idName);
                 bucket.setIdTime(val._TotalCount);
                 bucket.setChecked(true);
