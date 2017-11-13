@@ -280,6 +280,8 @@ public class BaseFragment extends Fragment {
                     byte[] id = scanReader.decode();
                     if (id != null) {
                         idString = new String(id, Charset.forName("gbk")) + "\n";
+//                        idString=new String(id);
+                        idString=idString.trim();
                         toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP);
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
@@ -344,7 +346,7 @@ public class BaseFragment extends Fragment {
      * @return
      */
     protected List<Bucket> getRCodeData() {
-        List<Bucket> buckets = new ArrayList<>();
+        buckets.clear();
         Iterator iterator = bs.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry entry = (Map.Entry) iterator.next();
