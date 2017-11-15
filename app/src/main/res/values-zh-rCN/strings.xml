@@ -11,7 +11,7 @@
     <string name="str_cancel">取消</string>
     <string name="str_confirm">确认</string>
     <!-- MenuMain -->
-    <string name="tv_MainMenu_Title">PDA示例程序</string>
+    <string name="tv_MainMenu_Title">RFID</string>
     <string name="btn_MainMenu_UHF">超高频</string>
     <string name="btn_MainMenu_HF">高频</string>
     <string name="btn_MainMenu_Psam">PSAM卡</string>
@@ -30,7 +30,7 @@
     <string name="btn_UHFMenu_Back">返回</string>
 
     <!-- UHF Read -->
-    <string name="app_name">PDA示例程序</string>
+    <string name="app_name">RFID</string>
     <string name="List_TagID">EPC</string>
     <string name="List_ReadCount">次数</string>
     <string name="Tag_Time">Time:0 S </string>

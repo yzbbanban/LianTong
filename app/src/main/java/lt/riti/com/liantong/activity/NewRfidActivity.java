@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,7 @@ public class NewRfidActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.i(TAG, "onKeyDown: " + keyCode);
+//        Toast.makeText(this, "onKeyDown22: " + keyCode, Toast.LENGTH_SHORT).show();
         ((NewRfidFragment) fg).onKeyDown(keyCode, event, inputType);
         return super.onKeyDown(keyCode, event);
     }
