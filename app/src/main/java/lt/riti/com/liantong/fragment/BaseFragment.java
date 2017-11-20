@@ -256,7 +256,9 @@ public class BaseFragment extends Fragment {
      */
 
     protected void ScanDispose() {
-        scanReader.close();
+        if (scanReader != null) {
+            scanReader.close();
+        }
     }
 
     String idString;
@@ -281,7 +283,7 @@ public class BaseFragment extends Fragment {
                     if (id != null) {
                         idString = new String(id, Charset.forName("gbk")) + "\n";
 //                        idString=new String(id);
-                        idString=idString.trim();
+                        idString = idString.trim();
                         toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP);
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
