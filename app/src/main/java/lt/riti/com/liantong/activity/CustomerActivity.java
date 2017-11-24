@@ -84,7 +84,6 @@ public class CustomerActivity extends BaseActivity {
         ButterKnife.bind(customerL);
     }
 
-
     /**
      * 初始化数据
      */
