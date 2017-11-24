@@ -2,9 +2,9 @@ package lt.riti.com.liantong.fragment;
 
 
 import android.content.DialogInterface;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,17 +19,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.clouiotech.pda.rfid.EPCModel;
 import com.clouiotech.pda.rfid.IAsynchronousMessage;
-import com.clouiotech.pda.scanner.ScanReader;
-import com.clouiotech.pda.scanner.Scanner;
+import com.clouiotech.util.Helper.Helper_ThreadPool;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,19 +35,17 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.adapter.BaseRecyclerViewAdapter;
-import lt.riti.com.liantong.adapter.RfidUserSpinnerAdapter;
 import lt.riti.com.liantong.adapter.StockIdAdapter;
 import lt.riti.com.liantong.app.StockApplication;
-import lt.riti.com.liantong.contract.IRfidManufactorContract;
 import lt.riti.com.liantong.contract.IRfidBucketContract;
+import lt.riti.com.liantong.contract.IRfidManufactorContract;
 import lt.riti.com.liantong.entity.Bucket;
 import lt.riti.com.liantong.entity.Manufacture;
 import lt.riti.com.liantong.entity.PublicData;
-import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.entity.UploadingBucket;
-import lt.riti.com.liantong.presenter.IRfidManufactorPresenter;
 import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
-import lt.riti.com.liantong.ui.RecyclerViewDivider;
+import lt.riti.com.liantong.presenter.IRfidManufactorPresenter;
+import lt.riti.com.liantong.util.LogUtil;
 import lt.riti.com.liantong.util.ToastUtil;
 
 /**
@@ -59,7 +54,7 @@ import lt.riti.com.liantong.util.ToastUtil;
 
 public class NewRfidFragment extends BaseFragment implements IAsynchronousMessage,
         IRfidManufactorContract.View, IRfidBucketContract.View {
-    private static final String TAG = "StockInFragment";
+    private static final String TAG = "NewRfidFragment";
     @BindView(R.id.tv_product_stock)
     TextView tvProductStock;
     @BindView(R.id.tv_stock_new_good)
@@ -72,14 +67,21 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     Button btnStockInSubmit;//提交
     @BindView(R.id.btn_stock_in_clear)
     Button btnStockInClear;//清除
-    @BindView(R.id.rb_stock_in_single)
-    RadioButton rbStockInSingle;
-    @BindView(R.id.rb_stock_in_mass)
-    RadioButton rbStockInMass;
+//    @BindView(R.id.rb_stock_in_single)
+//    RadioButton rbStockInSingle;
+//    @BindView(R.id.rb_stock_in_mass)
+//    RadioButton rbStockInMass;
 
+    @BindView(R.id.ll_product_stock)
+    LinearLayout llProductStock;
+    @BindView(R.id.ll_stock_new_good)
+    LinearLayout llStockNewGood;
     Unbinder unbinder;
 
     protected StockIdAdapter adapter;
+    @BindView(R.id.btn_stock_in_open)
+    Button btnStockInOpen;
+
     private IRfidManufactorContract.Presenter presenter = new IRfidManufactorPresenter(this);
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<Manufacture> manufactures;
@@ -106,6 +108,12 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        initData(this);
+    }
+
+    @Override
     protected void initView() {
         adapter = new StockIdAdapter(getContext());
         presenter.getRfidManufactorTask(StockApplication.USER_ID);
@@ -128,6 +136,19 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
 
     @Override
     protected void initListener() {
+        btnStockInOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String controlText = btnStockInOpen.getText().toString();
+                if (controlText.equals(getString(R.string.btn_read))) {
+                    PingPong_Read();
+                    btnStockInOpen.setText(getString(R.string.btn_read_stop));
+                } else {
+                    Pingpong_Stop();
+                    btnStockInOpen.setText(getString(R.string.btn_read));
+                }
+            }
+        });
 
         //全选/全不选
         cbStockNewAll.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +172,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
         /**
          * 选择客户或仓库
          */
-        tvProductStock.setOnClickListener(new View.OnClickListener() {
+        llProductStock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setPickView();
@@ -230,7 +251,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
 
 
         //输入托盘号
-        tvStockNewGood.setOnClickListener(new View.OnClickListener() {
+        llStockNewGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -305,7 +326,6 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     }
 
 
-
     /**
      * 按钮按下
      *
@@ -321,34 +341,85 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
         } else {
 //            Toast.makeText(getActivity(), "onKeyDown 33--->: ", Toast.LENGTH_SHORT).show();
             if (keyCode == 131 || keyCode == 135) { // 按下扳机
-                if (rbStockInSingle.isChecked()) {
-                    isSingle = true;
-                }
-                if (rbStockInMass.isChecked()) {
-                    isSingle = false;
-                }
-                showList();
-                if (!isKeyDown) {
-                    isKeyDown = true; //
-                    StockApplication.setIsInStock(1);
-                    Clear(null);
-                    CLReader.Read_EPC(_NowReadParam);
-                    if (PublicData._IsCommand6Cor6B.equals("6C")) {// 读6C标签
-                        CLReader.Read_EPC(_NowReadParam);
-                    } else {// 读6B标签
-                        CLReader.Get6B(_NowAntennaNo + "|1" + "|1" + "|"
-                                + "1,000F");
-                    }
-                } else {
-                    if (keyDownCount < 10000)
-                        keyDownCount++;
-                }
-                if (keyDownCount > 100) {
-                    isLongKeyDown = true;
-                }
+                openRfid();
             }
         }
         return true;
+    }
+
+    // 间歇性读
+    private void PingPong_Read() {
+        if (isStartPingPong)
+            return;
+        isStartPingPong = true;
+        Helper_ThreadPool.ThreadPool_StartSingle(new Runnable() {
+            @Override
+            public void run() {
+                while (isStartPingPong) {
+                    try {
+                        if (!isPowerLowShow) {
+                            if (usingBackBattery && !canUsingBackBattery()) {
+                                ToastUtil.showShortToast("电量低");
+                            }
+                            handler.sendEmptyMessage(0);
+                            Thread.sleep(1000); // 一秒钟刷新一次
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 0:
+                    openRfid();
+                    break;
+            }
+
+        }
+    };
+
+    // 停止间歇性读
+    private void Pingpong_Stop() {
+        isStartPingPong = false;
+        CLReader.Stop();
+        keyDownCount = 0;
+        isKeyDown = false;
+        isLongKeyDown = false;
+    }
+
+    private void openRfid() {
+        LogUtil.info(TAG, "openRfid");
+//        if (rbStockInSingle.isChecked()) {
+//                    isSingle = true;
+//                }
+//                if (rbStockInMass.isChecked()) {
+        isSingle = false;
+//                }
+        showList();
+        if (!isKeyDown) {
+            isKeyDown = true; //
+            StockApplication.setIsInStock(1);
+            Clear(null);
+            CLReader.Read_EPC(_NowReadParam);
+            if (PublicData._IsCommand6Cor6B.equals("6C")) {// 读6C标签
+                CLReader.Read_EPC(_NowReadParam);
+            } else {// 读6B标签
+                CLReader.Get6B(_NowAntennaNo + "|1" + "|1" + "|"
+                        + "1,000F");
+            }
+        } else {
+            if (keyDownCount < 10000)
+                keyDownCount++;
+        }
+        if (keyDownCount > 100) {
+            isLongKeyDown = true;
+        }
     }
 
 
@@ -357,6 +428,9 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
      */
     protected void showList() {
         Log.i(TAG, "showList: " + getData());
+//        if (getData() !=null && getData().size() > 0){
+//            ToastUtil.showShortToast(getData().get(0).getBucket_code());
+//        }
         showView(getData());
     }
 
@@ -470,4 +544,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
         super.onDestroy();
         ScanDispose();
     }
+
+
+
 }

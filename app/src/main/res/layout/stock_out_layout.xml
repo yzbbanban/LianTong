@@ -10,6 +10,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_stock_out_stock"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x45"
             android:gravity="center"
@@ -41,6 +42,7 @@
             android:background="@color/colorBacGrey"></View>
 
         <LinearLayout
+            android:id="@+id/ll_stock_out_product"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x45"
             android:gravity="center"
@@ -113,6 +115,7 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_stock_out_good"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x45"
             android:gravity="center"
@@ -197,26 +200,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        <!--<RadioGroup-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
 
-            <RadioButton
-                android:id="@+id/rb_stock_in_mass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checked="true"
-                android:text="批量作业" />
+        <!--<RadioButton-->
+        <!--android:id="@+id/rb_stock_in_mass"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:checked="true"-->
+        <!--android:text="批量作业" />-->
 
-            <RadioButton
-                android:id="@+id/rb_stock_in_single"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="单次作业" />
-        </RadioGroup>
+        <!--<RadioButton-->
+        <!--android:id="@+id/rb_stock_in_single"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="单次作业" />-->
+        <!--</RadioGroup>-->
     </LinearLayout>
 
     <LinearLayout
@@ -225,23 +228,33 @@
         android:layout_gravity="bottom"
         android:padding="@dimen/x10">
 
-        <Button
-            android:id="@+id/btn_stock_out_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/btn_rfiduser_selector"
-            android:text="提交"
-            android:textColor="@color/colorWhite" />
 
         <Button
             android:id="@+id/btn_stock_out_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x30"
             android:layout_weight="1"
             android:background="@drawable/btn_rfiduser_selector"
             android:text="清除"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+            android:id="@+id/btn_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x30"
+            android:background="@drawable/btn_rfiduser_selector"
+            android:text="@string/btn_read"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+            android:id="@+id/btn_stock_out_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_weight="1"
+            android:background="@drawable/btn_rfiduser_selector"
+            android:text="提交"
             android:textColor="@color/colorWhite" />
 
     </LinearLayout>

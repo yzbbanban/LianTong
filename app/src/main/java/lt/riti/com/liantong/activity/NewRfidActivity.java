@@ -62,6 +62,7 @@ public class NewRfidActivity extends BaseActivity {
     }
 
 
+
     /**
      * 按下按钮
      *

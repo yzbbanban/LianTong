@@ -1,166 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
     tools:context="lt.riti.com.liantong.activity.MainActivity">
 
-    <ImageView
-        android:layout_width="@dimen/x160"
-        android:layout_height="@dimen/x160"
-        android:src="@drawable/login_logo" />
-
     <LinearLayout
-        android:id="@+id/ll_new_rfid"
-        android:layout_width="@dimen/x200"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/x50"
-
-        android:background="@drawable/btn_rfiduser_selector"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:padding="@dimen/x10">
+        android:orientation="vertical">
+
 
         <ImageView
-            android:layout_width="@dimen/x15"
-            android:layout_height="@dimen/x15"
-            android:src="@drawable/new_rfid" />
+            android:layout_width="@dimen/x160"
+            android:layout_height="@dimen/x160"
+            android:src="@drawable/login_logo" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/ll_new_rfid"
+            android:layout_width="@dimen/x200"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x10"
-            android:gravity="center"
-            android:text=" 新 桶 入 库"
-            android:textColor="@color/colorWhite" />
+            android:layout_marginTop="@dimen/x50"
 
+            android:background="@drawable/btn_rfiduser_selector"
+            android:gravity="center"
+            android:padding="@dimen/x10">
+
+            <ImageView
+                android:layout_width="@dimen/x15"
+                android:layout_height="@dimen/x15"
+                android:src="@drawable/new_rfid" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:gravity="center"
+                android:text=" 新 桶 入 库"
+                android:textColor="@color/colorWhite" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_store"
+            android:layout_width="@dimen/x200"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_stock_selector"
+            android:gravity="center"
+            android:padding="@dimen/x10">
+
+            <ImageView
+                android:layout_width="@dimen/x15"
+                android:layout_height="@dimen/x15"
+                android:src="@drawable/manage" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:gravity="center"
+                android:text="出入库作业"
+                android:textColor="@color/colorWhite" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_customer_rfid"
+            android:layout_width="@dimen/x200"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_rfid_selector"
+            android:gravity="center"
+            android:padding="@dimen/x10">
+
+            <ImageView
+                android:layout_width="@dimen/x15"
+                android:layout_height="@dimen/x15"
+                android:src="@drawable/manage" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:gravity="center"
+                android:text="  客户  入库"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_recycle_rfid"
+            android:layout_width="@dimen/x200"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_rfiduser_selector"
+            android:gravity="center"
+            android:padding="@dimen/x10">
+
+            <ImageView
+                android:layout_width="@dimen/x15"
+                android:layout_height="@dimen/x15"
+                android:src="@drawable/recycle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:gravity="center"
+                android:text=" 空 桶 回 收"
+                android:textColor="@color/colorWhite" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_setting_rfid"
+            android:layout_width="@dimen/x200"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_rfid_selector"
+            android:gravity="center"
+            android:padding="@dimen/x10">
+
+            <ImageView
+                android:layout_width="@dimen/x15"
+                android:layout_height="@dimen/x15"
+                android:src="@drawable/rfid" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:gravity="center"
+                android:text="  RFID  设置"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <!--<LinearLayout-->
+        <!--android:id="@+id/ll_user"-->
+        <!--android:layout_width="@dimen/x200"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="@dimen/x50"-->
+
+        <!--android:background="@drawable/btn_rfiduser_selector"-->
+        <!--android:gravity="center"-->
+        <!--android:padding="@dimen/x10">-->
+
+        <!--<ImageView-->
+        <!--android:layout_width="@dimen/x15"-->
+        <!--android:layout_height="@dimen/x15"-->
+        <!--android:src="@drawable/customer" />-->
+
+        <!--<TextView-->
+        <!--android:textColor="@color/colorWhite"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="@dimen/x10"-->
+        <!--android:gravity="center"-->
+        <!--android:text="客户及位置" />-->
+
+
+        <!--</LinearLayout>-->
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_store"
-        android:layout_width="@dimen/x200"
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/btn_stock_selector"
+        android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:padding="@dimen/x10">
+        android:text="V1.2.0" />
 
-        <ImageView
-            android:layout_width="@dimen/x15"
-            android:layout_height="@dimen/x15"
-            android:src="@drawable/manage" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x10"
-            android:gravity="center"
-            android:text="出入库作业"
-            android:textColor="@color/colorWhite" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_customer_rfid"
-        android:layout_width="@dimen/x200"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/btn_rfid_selector"
-        android:gravity="center"
-        android:padding="@dimen/x10">
-
-        <ImageView
-            android:layout_width="@dimen/x15"
-            android:layout_height="@dimen/x15"
-            android:src="@drawable/manage" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x10"
-            android:gravity="center"
-            android:text="  客户  入库"
-            android:textColor="@color/colorWhite" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_recycle_rfid"
-        android:layout_width="@dimen/x200"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/btn_rfiduser_selector"
-        android:gravity="center"
-        android:padding="@dimen/x10">
-
-        <ImageView
-            android:layout_width="@dimen/x15"
-            android:layout_height="@dimen/x15"
-            android:src="@drawable/recycle" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x10"
-            android:gravity="center"
-            android:text=" 空 桶 回 收"
-            android:textColor="@color/colorWhite" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_setting_rfid"
-        android:layout_width="@dimen/x200"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/btn_rfid_selector"
-        android:gravity="center"
-        android:padding="@dimen/x10">
-
-        <ImageView
-            android:layout_width="@dimen/x15"
-            android:layout_height="@dimen/x15"
-            android:src="@drawable/rfid" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x10"
-            android:gravity="center"
-            android:text="  RFID  设置"
-            android:textColor="@color/colorWhite" />
-
-    </LinearLayout>
-
-    <!--<LinearLayout-->
-    <!--android:id="@+id/ll_user"-->
-    <!--android:layout_width="@dimen/x200"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginTop="@dimen/x50"-->
-
-    <!--android:background="@drawable/btn_rfiduser_selector"-->
-    <!--android:gravity="center"-->
-    <!--android:padding="@dimen/x10">-->
-
-    <!--<ImageView-->
-    <!--android:layout_width="@dimen/x15"-->
-    <!--android:layout_height="@dimen/x15"-->
-    <!--android:src="@drawable/customer" />-->
-
-    <!--<TextView-->
-    <!--android:textColor="@color/colorWhite"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginLeft="@dimen/x10"-->
-    <!--android:gravity="center"-->
-    <!--android:text="客户及位置" />-->
-
-
-    <!--</LinearLayout>-->
-
-
-</LinearLayout>
+</RelativeLayout>

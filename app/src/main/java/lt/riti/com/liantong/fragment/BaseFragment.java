@@ -37,6 +37,7 @@ import java.util.concurrent.Executors;
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.entity.Bucket;
+import lt.riti.com.liantong.entity.PublicData;
 import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.util.ToastUtil;
 
@@ -230,6 +231,14 @@ public class BaseFragment extends Fragment {
         } else {
             Log.d("Debug", "查询标签上传时间失败...");
         }
+    }
+
+    public void stopRfid() {
+        Log.i(TAG, TAG + "onKeyUp: ");
+        CLReader.Stop();
+        keyDownCount = 0;
+        isKeyDown = false;
+        isLongKeyDown = false;
     }
 
     /**

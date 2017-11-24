@@ -3,15 +3,15 @@ package lt.riti.com.liantong.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import lt.riti.com.liantong.R;
+import lt.riti.com.liantong.util.VersionUtils;
 
 /**
  * Created by brander on 2017/9/21.
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout llStore;
     @BindView(R.id.ll_setting_rfid)
     LinearLayout llSettingRfid;
-//    @BindView(R.id.ll_user)
+    //    @BindView(R.id.ll_user)
 //    LinearLayout llUser;
     @BindView(R.id.ll_new_rfid)
     LinearLayout ll_new_rfid;
@@ -31,12 +31,20 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout ll_customer_rfid;
     @BindView(R.id.ll_recycle_rfid)
     LinearLayout ll_recycle_rfid;
+    @BindView(R.id.tv_version)
+    TextView tvVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initView();
+    }
+
+    private void initView() {
+        String versionName = VersionUtils.getLocalVersionName(this);
+        tvVersion.setText("V " + versionName);
     }
 
     /**
@@ -72,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
     /**
      * 新桶入库
      *
@@ -108,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        
+
     }
 
 
