@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginContract.V
                 .setNegativeButton("更新", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
                         //下载
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.VIEW");
