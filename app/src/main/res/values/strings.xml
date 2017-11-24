@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RFID</string>
+    <string name="app_name">长兴</string>
     <drawable name="btn_login_normal">#d900a6ff</drawable>
     <drawable name="btn_login_pressed">#d675cfff</drawable>
 

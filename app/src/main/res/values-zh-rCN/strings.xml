@@ -30,7 +30,7 @@
     <string name="btn_UHFMenu_Back">返回</string>
 
     <!-- UHF Read -->
-    <string name="app_name">RFID</string>
+    <string name="app_name">长兴</string>
     <string name="List_TagID">EPC</string>
     <string name="List_ReadCount">次数</string>
     <string name="Tag_Time">Time:0 S </string>
