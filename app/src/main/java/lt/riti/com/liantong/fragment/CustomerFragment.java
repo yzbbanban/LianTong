@@ -94,11 +94,21 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
     private String depot_code = "";//创建公司编号
     private String product_code = "";
     private int customer_id;
+    private int codeStatus;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate: ");
+    }
+
+    public void setCodeStatus(int codeStatus) {
+        this.codeStatus = codeStatus;
+        if (codeStatus == 1) {
+            btnOpen.setVisibility(View.GONE);
+        } else {
+            btnOpen.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

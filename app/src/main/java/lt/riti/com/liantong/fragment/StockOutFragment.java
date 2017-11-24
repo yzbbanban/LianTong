@@ -101,6 +101,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     private String depot_code = "";
     private List<Product> products;
     private String product_code = "";
+    private int codeStatus;
 
     @Nullable
     @Override
@@ -117,6 +118,15 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate: ");
+    }
+
+    public void setCodeStatus(int codeStatus) {
+        this.codeStatus = codeStatus;
+        if (codeStatus == 1) {
+            btnOpen.setVisibility(View.GONE);
+        } else {
+            btnOpen.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -609,4 +619,6 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         super.onDestroy();
         ScanDispose();
     }
+
+
 }

@@ -92,11 +92,21 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<Product> products;
     private String depot_code = "";
+    private int inputType;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate: ");
+    }
+
+    public void setCodeStatus(int inputType) {
+        this.inputType = inputType;
+        if (inputType == 1) {
+            btnOpen.setVisibility(View.GONE);
+        } else {
+            btnOpen.setVisibility(View.VISIBLE);
+        }
     }
 
     @Nullable

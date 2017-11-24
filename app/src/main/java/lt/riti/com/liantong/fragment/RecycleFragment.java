@@ -80,11 +80,21 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
     private String orderId;
     private int OrderIdType;//0仓库或1订单
     private List<RfidUser> pickView;
+    private int codeStatus;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate: ");
+    }
+
+    public void setCodeStatus(int codeStatus) {
+        this.codeStatus = codeStatus;
+        if (codeStatus == 1) {
+            btnOpen.setVisibility(View.GONE);
+        } else {
+            btnOpen.setVisibility(View.VISIBLE);
+        }
     }
 
     @Nullable
@@ -488,4 +498,6 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
         super.onDestroy();
         ScanDispose();
     }
+
+
 }

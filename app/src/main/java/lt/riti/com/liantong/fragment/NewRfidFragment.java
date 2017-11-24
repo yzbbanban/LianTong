@@ -88,6 +88,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     private String manufactor_id = "";//厂家id
     private String depot_code = "";//创建公司编号
     private int status;//0表示报废 1.表示正常
+    private int inputType;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,6 +119,15 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
         adapter = new StockIdAdapter(getContext());
         presenter.getRfidManufactorTask(StockApplication.USER_ID);
 
+    }
+
+    public void setCodeStatus(int inputType) {
+        this.inputType = inputType;
+        if (inputType == 1) {
+            btnStockInOpen.setVisibility(View.GONE);
+        } else {
+            btnStockInOpen.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -372,10 +382,10 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
         });
     }
 
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 0:
                     openRfid();
                     break;
@@ -544,7 +554,6 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
         super.onDestroy();
         ScanDispose();
     }
-
 
 
 }
