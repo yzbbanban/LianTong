@@ -1,7 +1,9 @@
 package lt.riti.com.liantong.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -61,7 +63,33 @@ public class LoginActivity extends AppCompatActivity implements ILoginContract.V
     }
 
     @OnClick(R.id.tv_set_url)
-    public void setUrl() {
+    public void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("选择:")
+                .setPositiveButton("路径", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        setUrl();
+                    }
+                })
+                .setNegativeButton("更新", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //下载
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.VIEW");
+                        Uri content_url = Uri.parse("http://119.23.228.4/rfid/CX.apk");
+                        intent.setData(content_url);
+                        intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void setUrl() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View v = getLayoutInflater().inflate(R.layout.user_dialog, null);
         builder.setView(v);
@@ -108,7 +136,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginContract.V
         SharedPreferences preferences = getSharedPreferences("user", this.MODE_PRIVATE);
         String n = preferences.getString("name", "");
         String pwd = preferences.getString("password", "");
-        Log.i(TAG, "initData: "+n+","+pwd);
+        Log.i(TAG, "initData: " + n + "," + pwd);
         if (!"".equals(n) && !"".equals(pwd)) {
             etLoginUsername.setText(n);
             etLoginPassword.setText(pwd);
@@ -138,7 +166,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginContract.V
         ToastUtil.showShortToast(description);
         if ("登录成功".equals(description)) {
             SharedPreferences.Editor editor = getSharedPreferences("user", this.MODE_PRIVATE).edit();
-            Log.i(TAG, "showDescription: "+name+","+password);
+            Log.i(TAG, "showDescription: " + name + "," + password);
             editor.putString("name", name);
             editor.putString("password", password);
             editor.commit();
