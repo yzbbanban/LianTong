@@ -62,8 +62,9 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
 
     @BindView(R.id.tv_stock_out_stock)
     TextView tvStockOutStock;
-    @BindView(R.id.tv_stock_out_product)
-    TextView tvStockOutProduct;
+    //delete by brander 2017-11-25 产品
+//    @BindView(R.id.tv_stock_out_product)
+//    TextView tvStockOutProduct;
     //    @BindView(R.id.et_stock_out_order)
 //    EditText etStockOutOrder;
 //    @BindView(R.id.cb_stock_out)
@@ -84,8 +85,9 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
 //    RadioButton rbStockInMass;
     @BindView(R.id.ll_stock_out_stock)
     LinearLayout llStockOutStock;
-    @BindView(R.id.ll_stock_out_product)
-    LinearLayout llStockOutProduct;
+    //delete by brander 2017-11-25 产品
+//    @BindView(R.id.ll_stock_out_product)
+//    LinearLayout llStockOutProduct;
     @BindView(R.id.ll_stock_out_good)
     LinearLayout llStockOutGood;
     Unbinder unbinder;
@@ -242,10 +244,10 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                     ToastUtil.showShortToast("请选择客户/仓库");
                     return;
                 }
-                if ("".equals(tvStockOutProduct.getText().toString().trim())) {
-                    ToastUtil.showShortToast("请选择产品");
-                    return;
-                }
+//                if ("".equals(tvStockOutProduct.getText().toString().trim())) {
+//                    ToastUtil.showShortToast("请选择产品");
+//                    return;
+//                }
                 Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
 //                String stockInOrder = etStockOutOrder.getText().toString().trim();
 //                if (!"".equals(stockInOrder) && cbStockOut.isChecked()) {//值不为空，且checkbox选中状态
@@ -301,12 +303,13 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         /**
          * 选择产品
          */
-        llStockOutProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setProductPickView();
-            }
-        });
+        //delete by brander 2017-11-25 产品
+//        llStockOutProduct.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                setProductPickView();
+//            }
+//        });
         llStockOutGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -589,9 +592,10 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                     @Override
                     public void onOptionsSelect(int options1, int options2, int options3, View v) {
                         //设置Text
-                        tvStockOutProduct.setText(products.get(options1).getProduct_name());
-                        product_code = products.get(options1).getProduct_code();
-                        depot_code = products.get(options1).getDepot_code();
+                        //delete by brander 2017-11-25 产品
+//                        tvStockOutProduct.setText(products.get(options1).getProduct_name());
+//                        product_code = products.get(options1).getProduct_code();
+//                        depot_code = products.get(options1).getDepot_code();
                     }
                 }).build();
         pvOptions.setPicker(productsName, null, null);
@@ -610,7 +614,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                 productsName.add(name);
             }
         } else {
-            ToastUtil.showShortToast("请绑定产品");
+//            ToastUtil.showShortToast("请绑定产品");
         }
     }
 
