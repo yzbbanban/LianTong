@@ -257,6 +257,7 @@ public class BaseFragment extends Fragment {
             isKeyDown = false;
             isLongKeyDown = false;
         }
+        buckets.clear();
         return true;
     }
 
@@ -290,8 +291,7 @@ public class BaseFragment extends Fragment {
                 try {
                     byte[] id = scanReader.decode();
                     if (id != null) {
-                        idString = new String(id, Charset.forName("gbk")) + "\n";
-//                        idString=new String(id);
+                        idString = new String(id, Charset.forName("Utf8")) + "\n";
                         idString = idString.trim();
                         toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP);
                         getActivity().runOnUiThread(new Runnable() {

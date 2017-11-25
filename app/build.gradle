@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        liantong {
+            keyAlias 'key0'
+            keyPassword 'riti1234'
+            storeFile file('/Users/YZBbanban/Desktop/riti/liantongkey/rfid.jks')
+            storePassword 'riti1234'
+        }
+    }
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
     defaultConfig {
@@ -15,6 +23,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.liantong
+        }
+        debug {
+            signingConfig signingConfigs.liantong
         }
     }
 }
@@ -41,5 +53,6 @@ dependencies {
     compile 'com.android.support:support-v4:26.+'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    compile 'com.contrarywind:Android-PickerView:3.2.6'//滚轮选择
+    compile 'com.contrarywind:Android-PickerView:3.2.6'
+    //滚轮选择
 }
