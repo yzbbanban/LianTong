@@ -257,7 +257,8 @@ public class BaseFragment extends Fragment {
             isKeyDown = false;
             isLongKeyDown = false;
         }
-        buckets.clear();
+//        buckets.clear();
+        i=0;
         return true;
     }
 
@@ -273,8 +274,14 @@ public class BaseFragment extends Fragment {
 
     String idString;
     HashMap<String, String> bs = new HashMap<>();
-
+    int i=0;
     protected void DeCode() {
+        if (i==0){
+            bs.clear();
+            i++;
+        }
+//        ToastUtil.showLongToast("i:"+(i++));
+//        bs.clear();
         scaninit();
         if (busy) {
 //            ToastUtil.showShortToast(getString(R.string.str_busy));
@@ -289,6 +296,7 @@ public class BaseFragment extends Fragment {
             @Override
             public void run() {
                 try {
+//
                     byte[] id = scanReader.decode();
                     if (id != null) {
                         idString = new String(id, Charset.forName("Utf8")) + "\n";
