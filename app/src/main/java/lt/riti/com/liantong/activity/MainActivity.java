@@ -1,9 +1,14 @@
 package lt.riti.com.liantong.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -11,14 +16,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import lt.riti.com.liantong.R;
+import lt.riti.com.liantong.contract.IUpdateContract;
+import lt.riti.com.liantong.presenter.IUpdatePresenter;
+import lt.riti.com.liantong.util.ToastUtil;
 import lt.riti.com.liantong.util.VersionUtils;
 
 /**
  * Created by brander on 2017/9/21.
  * 主界面
  */
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements IUpdateContract.View {
+    private static final String TAG = "MainActivity";
     @BindView(R.id.ll_store)
     LinearLayout llStore;
     @BindView(R.id.ll_setting_rfid)
@@ -33,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout ll_recycle_rfid;
     @BindView(R.id.tv_version)
     TextView tvVersion;
+    @BindView(R.id.iv_update_apk)
+    ImageView ivUpdateApk;//更新
+    private String versionName;
+    private IUpdateContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +52,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
+        initDate();
+    }
+
+    private void initDate() {
+        presenter = new IUpdatePresenter(this);
+        presenter.updateTask(versionName);
     }
 
     private void initView() {
-        String versionName = VersionUtils.getLocalVersionName(this);
+        versionName = VersionUtils.getLocalVersionName(this);
         tvVersion.setText("V " + versionName);
     }
 
@@ -103,6 +121,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * 更新
+     *
+     * @param view
+     */
+    @OnClick(R.id.iv_update_apk)
+    public void update(View view) {
+        updateApk();
+    }
+
 //    /**
 //     * 用户
 //     *
@@ -121,4 +149,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void updateApk() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("选择:")
+                .setMessage("有新版本是否更新")
+                .setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        //下载
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.VIEW");
+                        Uri content_url = Uri.parse("http://119.23.228.4/rfid/CX.apk");
+                        intent.setData(content_url);
+                        intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showDescription(String description) {
+        Log.i(TAG, "des: " + description);
+        Log.i(TAG, "tvVersion: " + versionName);
+
+
+        if (!versionName.equals(description)) {
+            Log.i(TAG, "showDescription: ");
+            ivUpdateApk.setVisibility(View.VISIBLE);
+        }
+    }
 }

@@ -1,9 +1,7 @@
 package lt.riti.com.liantong.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -64,30 +62,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginContract.V
 
     @OnClick(R.id.tv_set_url)
     public void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("选择:")
-                .setPositiveButton("路径", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        setUrl();
-                    }
-                })
-                .setNegativeButton("更新", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        //下载
-                        Intent intent = new Intent();
-                        intent.setAction("android.intent.action.VIEW");
-                        Uri content_url = Uri.parse("http://119.23.228.4/rfid/CX.apk");
-                        intent.setData(content_url);
-                        intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
-                        startActivity(intent);
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+       setUrl();
     }
 
     private void setUrl() {
