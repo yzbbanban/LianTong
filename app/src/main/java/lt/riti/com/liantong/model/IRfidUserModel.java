@@ -102,6 +102,7 @@ public class IRfidUserModel implements IRfidUserContract.Model {
         call.enqueue(new MyCallback<ResultCode<List<RfidUser>>>() {
             @Override
             public void onSuc(Response<ResultCode<List<RfidUser>>> response) {
+                Log.i(TAG, "user onSuc: "+response.body().getResult());
                 callBack.setSuccess(response.body().getResult());
             }
 

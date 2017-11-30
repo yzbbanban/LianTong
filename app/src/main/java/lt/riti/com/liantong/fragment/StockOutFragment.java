@@ -96,7 +96,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     Button btnOpen;
 
     private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);
-    private IRfidProductContract.Presenter productPresenter = new IRfidProductPresenter(this);
+//    private IRfidProductContract.Presenter productPresenter = new IRfidProductPresenter(this);
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<RfidUser> rfidUsers;
     private int customer_id;
@@ -142,7 +142,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     protected void initView() {
         adapter = new StockOutAdapter(getContext());
         presenter.getRfidUserTask(StockApplication.USER_ID);
-        productPresenter.getRfidProductTask(StockApplication.USER_ID);
+//        productPresenter.getRfidProductTask(StockApplication.USER_ID);
         Log.i(TAG, "initView: ");
         //初始化单号不可用
 //        if (!cbStockOut.isChecked()) {
