@@ -98,13 +98,14 @@ public class IRfidBucketModel implements IRfidBucketContract.Model {
      * @return
      */
     private List<Bucket> setBucket(UploadingBucket uploadingBucket, List<Bucket> buckets) {
-        Log.i(TAG, "setBucket: "+buckets);
+        Log.i(TAG, "setBucket: " + buckets);
         for (int i = 0; i < buckets.size(); i++) {
             if (buckets.get(i).getChecked()) {
                 Log.i(TAG, "isChecked: ");
                 Bucket bucket = buckets.get(i);
                 bucket.setAdmin_id(StockApplication.USER_ID);
                 bucket.setDepot_code(uploadingBucket.getDepot_code());
+                bucket.setProduct_code(uploadingBucket.getProduct_code());
                 bucket.setCustomer_id(uploadingBucket.getCustomer_id());
                 bucket.setManufactor_id(uploadingBucket.getManufactor_id());
                 bucket.setStatus(uploadingBucket.getStatus());

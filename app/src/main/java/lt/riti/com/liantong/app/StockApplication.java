@@ -22,6 +22,7 @@ import retrofit2.Retrofit;
 public class StockApplication extends Application
         implements Thread.UncaughtExceptionHandler {
     public static long USER_ID = 0L;
+    public static long DEPOT_ID= 0L;
     public static String USER_NAME = "";
     private static Context context;
     private static int isInStock = 0;

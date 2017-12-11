@@ -48,7 +48,7 @@ public class StockOutAdapter extends BaseRecyclerViewAdapter<Bucket> {
         super.onBindViewHolder(holder, position);
         StoreViewHolder storeViewHolder = (StoreViewHolder) holder;
         Bucket storeId = mList.get(position);
-        storeViewHolder.tv_item_stock_id.setText("" + (position + 1));
+        storeViewHolder.tv_item_stock_id.setText("" + (mList.size() - position));
         storeViewHolder.tv_item_stock_name.setText(storeId.getBucket_code());
         storeViewHolder.tv_item_stock_time.setText("" + storeId.getIdTime());
         //设置被点击事件

@@ -34,8 +34,10 @@ public class ILoginModel implements ILoginContract.Model {
                     LogUtil.info(TAG, response.body().getCode());
                     long userId = response.body().getResult().getId();
                     String userName = response.body().getResult().getUser_name();
+                    long depot = response.body().getResult().getDepots();
                     //登陆成功将userId保存到CoolApplication中，退出app自动消失；
                     StockApplication.USER_ID = userId;
+                    StockApplication.DEPOT_ID = depot;
                     StockApplication.USER_NAME = userName;
                     callback.setSuccess("登录成功");
                 } else {

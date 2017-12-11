@@ -141,7 +141,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     @Override
     protected void initView() {
         adapter = new StockOutAdapter(getContext());
-        presenter.getRfidUserTask(StockApplication.USER_ID);
+        presenter.getRfidUserTask(StockApplication.DEPOT_ID);
 //        productPresenter.getRfidProductTask(StockApplication.USER_ID);
         Log.i(TAG, "initView: ");
         //初始化单号不可用

@@ -117,7 +117,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     protected void initView() {
         adapter = new StockIdAdapter(getContext());
-        presenter.getRfidManufactorTask(StockApplication.USER_ID);
+        presenter.getRfidManufactorTask(StockApplication.DEPOT_ID);
 
     }
 

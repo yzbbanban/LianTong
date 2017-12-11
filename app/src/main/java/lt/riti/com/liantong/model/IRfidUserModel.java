@@ -95,7 +95,7 @@ public class IRfidUserModel implements IRfidUserContract.Model {
 
     @Override
     public void getRfidUser(long id, final ICallBack callBack) {
-        Log.i(TAG, "getRfidUser: " + id);
+        Log.i(TAG, "getRfidUser depot: " + id);
         Retrofit retrofit = RetrofitUtils.getRetrofit(Urls.COOL_RFID_USER_AL);
         RfidUserListService request = retrofit.create(RfidUserListService.class);
         Call<ResultCode<List<RfidUser>>> call = request.call(id);

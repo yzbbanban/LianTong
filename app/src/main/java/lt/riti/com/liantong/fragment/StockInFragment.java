@@ -130,7 +130,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     protected void initView() {
         adapter = new StockIdAdapter(getContext());
-        presenter.getRfidProductTask(StockApplication.USER_ID);
+        presenter.getRfidProductTask(StockApplication.DEPOT_ID);
         //初始化单号不可用
 //        if (!cbStockIn.isChecked()) {
 //            etStockInOrder.setEnabled(false);
