@@ -238,7 +238,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
             public void onClick(View view) {
                 Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
                 if ("".equals(tvStockInStock.getText().toString().trim())) {
-                    ToastUtil.showShortToast("请选择仓库");
+                    ToastUtil.showShortToast("请选择产品");
                     return;
                 }
 //                String stockInOrder = etStockInOrder.getText().toString().trim();
