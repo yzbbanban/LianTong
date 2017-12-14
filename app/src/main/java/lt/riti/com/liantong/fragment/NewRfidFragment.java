@@ -47,13 +47,14 @@ import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
 import lt.riti.com.liantong.presenter.IRfidManufactorPresenter;
 import lt.riti.com.liantong.util.LogUtil;
 import lt.riti.com.liantong.util.ToastUtil;
+import lt.riti.com.liantong.view.IShowList;
 
 /**
  * Created by brander on 2017/9/22.
  */
 
 public class NewRfidFragment extends BaseFragment implements IAsynchronousMessage,
-        IRfidManufactorContract.View, IRfidBucketContract.View {
+        IRfidManufactorContract.View, IRfidBucketContract.View ,IShowList{
     private static final String TAG = "NewRfidFragment";
     @BindView(R.id.tv_product_stock)
     TextView tvProductStock;
@@ -346,8 +347,11 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     public boolean onKeyDown(int keyCode, KeyEvent event, int inputType) {
 //        Log.d(TAG, "onKeyDown keyCode = " + keyCode);
         if (inputType == 1) {
-            DeCode();
-            showView(getRCodeData());
+            busy = false;
+            if (isRcodeSingle) {
+                DeCode(this);
+//                showView(getRCodeData());
+            }
         } else {
 //            Toast.makeText(getActivity(), "onKeyDown 33--->: ", Toast.LENGTH_SHORT).show();
             if (keyCode == 131 || keyCode == 135) { // 按下扳机
@@ -411,7 +415,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
 //                if (rbStockInMass.isChecked()) {
         isSingle = false;
 //                }
-        showList();
+        showView(getData());
         if (!isKeyDown) {
             isKeyDown = true; //
             StockApplication.setIsInStock(1);
@@ -433,23 +437,15 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     }
 
 
-    /**
-     * 显示列表
-     */
-    protected void showList() {
-        Log.i(TAG, "showList: " + getData());
-//        if (getData() !=null && getData().size() > 0){
-//            ToastUtil.showShortToast(getData().get(0).getBucket_code());
-//        }
-        showView(getData());
-    }
+
 
     /**
      * 展示界面
      *
      * @param buckets
      */
-    private void showView(List<Bucket> buckets) {
+    @Override
+    public void showView(List<Bucket> buckets) {
         adapter.setList(buckets);
         LinearLayoutManager lM = new LinearLayoutManager(getActivity());
 //        recycleViewStockNew.addItemDecoration(new RecyclerViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
@@ -468,7 +464,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
         readTime = 0;
         hmList.clear();
         //重新显示
-        showList();
+        showView(getData());
     }
 
     @Override

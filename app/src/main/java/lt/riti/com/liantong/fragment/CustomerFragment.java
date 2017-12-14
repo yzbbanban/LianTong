@@ -50,13 +50,14 @@ import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
 import lt.riti.com.liantong.presenter.IRfidUserPresenter;
 import lt.riti.com.liantong.util.LogUtil;
 import lt.riti.com.liantong.util.ToastUtil;
+import lt.riti.com.liantong.view.IShowList;
 
 /**
  * Created by brander on 2017/9/22.
  */
 
 public class CustomerFragment extends BaseFragment implements IAsynchronousMessage,
-        IRfidUserContract.View, IRfidProductContract.View, IRfidBucketContract.View {
+        IRfidUserContract.View, IRfidProductContract.View, IRfidBucketContract.View,IShowList {
     private static final String TAG = "StockInFragment";
     @BindView(R.id.ll_stock_customer_stock)
     LinearLayout llStockCustomerStock;//客户
@@ -359,8 +360,11 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
     public boolean onKeyDown(int keyCode, KeyEvent event, int inputType) {
 //        Log.d(TAG, "onKeyDown keyCode = " + keyCode);
         if (inputType == 1) {
-            DeCode();
-            showView(getRCodeData());
+            busy = false;
+            if (isRcodeSingle){
+                DeCode(this);
+                showView(getRCodeData());
+            }
         } else {
 //            Toast.makeText(getActivity(), "onKeyDown 33--->: ", Toast.LENGTH_SHORT).show();
             if (keyCode == 131 || keyCode == 135) { // 按下扳机
@@ -459,7 +463,8 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
      *
      * @param buckets
      */
-    private void showView(List<Bucket> buckets) {
+    @Override
+    public void showView(List<Bucket> buckets) {
         adapter.setList(buckets);
         LinearLayoutManager lM = new LinearLayoutManager(getActivity());
 //        recycleViewStockCustomer.addItemDecoration(new RecyclerViewDivider(getActivity(), LinearLayoutManager.VERTICAL));

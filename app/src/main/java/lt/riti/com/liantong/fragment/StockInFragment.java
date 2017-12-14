@@ -48,13 +48,14 @@ import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
 import lt.riti.com.liantong.presenter.IRfidProductPresenter;
 import lt.riti.com.liantong.util.LogUtil;
 import lt.riti.com.liantong.util.ToastUtil;
+import lt.riti.com.liantong.view.IShowList;
 
 /**
  * Created by brander on 2017/9/22.
  */
 
 public class StockInFragment extends BaseFragment implements IAsynchronousMessage,
-        IRfidProductContract.View, IRfidBucketContract.View {
+        IRfidProductContract.View, IRfidBucketContract.View ,IShowList{
     private static final String TAG = "StockInFragment";
     @BindView(R.id.tv_stock_in_stock)
     TextView tvStockInStock;
@@ -360,8 +361,11 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     public boolean onKeyDown(int keyCode, KeyEvent event, int inputType) {
 //        Log.d(TAG, "onKeyDown keyCode = " + keyCode);
         if (inputType == 1) {
-            DeCode();
-            showView(getRCodeData());
+            busy = false;
+            if (isRcodeSingle){
+                DeCode(this);
+                showView(getRCodeData());
+            }
         } else {
 //            Toast.makeText(getActivity(), "onKeyDown 33--->: ", Toast.LENGTH_SHORT).show();
             if (keyCode == 131 || keyCode == 135) { // 按下扳机
@@ -460,7 +464,8 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
      *
      * @param buckets
      */
-    private void showView(List<Bucket> buckets) {
+    @Override
+    public void showView(List<Bucket> buckets) {
         adapter.setList(buckets);
         LinearLayoutManager lM = new LinearLayoutManager(getActivity());
 //        recycleViewStockIn.addItemDecoration(new RecyclerViewDivider(getActivity(), LinearLayoutManager.VERTICAL));

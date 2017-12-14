@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -40,6 +42,7 @@ import lt.riti.com.liantong.entity.Bucket;
 import lt.riti.com.liantong.entity.PublicData;
 import lt.riti.com.liantong.entity.RfidOrder;
 import lt.riti.com.liantong.util.ToastUtil;
+import lt.riti.com.liantong.view.IShowList;
 
 /**
  * Created by brander on 2017/9/22.
@@ -105,7 +108,7 @@ public class BaseFragment extends Fragment {
     }
 
     protected void initData(IAsynchronousMessage am) {
-        Log.i(TAG, "initData: ");
+//        Log.i(TAG, "initData: ");
         usingBackBattery = canUsingBackBattery();
         if (!UHF_Init(usingBackBattery, am)) { // 打开模块电源失败
             try {
@@ -166,7 +169,7 @@ public class BaseFragment extends Fragment {
                 rt = true;
             }
         } catch (Exception ex) {
-            Log.d("debug", "UHF上电出现异常：" + ex.getMessage());
+//            Log.d("debug", "UHF上电出现异常：" + ex.getMessage());
         }
         return rt;
     }
@@ -188,7 +191,7 @@ public class BaseFragment extends Fragment {
     @SuppressWarnings("serial")
     protected void UHF_GetReaderProperty() {
         String propertyStr = CLReader.GetReaderProperty();
-        Log.d("Debug", "获得读写器能力：" + propertyStr);
+//        Log.d("Debug", "获得读写器能力：" + propertyStr);
         String[] propertyArr = propertyStr.split("\\|");
         HashMap<Integer, Integer> hm_Power = new HashMap<Integer, Integer>() {
             {
@@ -205,10 +208,10 @@ public class BaseFragment extends Fragment {
                 int powerIndex = Integer.parseInt(propertyArr[2]);
                 _NowAntennaNo = hm_Power.get(powerIndex);
             } catch (Exception ex) {
-                Log.d("Debug", "获得读写器能力失败,转换失败！");
+//                Log.d("Debug", "获得读写器能力失败,转换失败！");
             }
         } else {
-            Log.d("Debug", "获得读写器能力失败！");
+//            Log.d("Debug", "获得读写器能力失败！");
         }
     }
 
@@ -221,20 +224,20 @@ public class BaseFragment extends Fragment {
         String[] arrRT = searchRT.split("\\|");
         if (arrRT.length >= 2) {
             int nowUpDataTime = Integer.parseInt(arrRT[0]);
-            Log.d("Debug", "查标签上传时间：" + nowUpDataTime);
+//            Log.d("Debug", "查标签上传时间：" + nowUpDataTime);
             if (_UpDataTime != nowUpDataTime) {
                 CLReader.SetTagUpdateParam("1," + _UpDataTime); // 设置标签重复上传时间为20ms
-                Log.d("Debug", "设置标签上传时间...");
+//                Log.d("Debug", "设置标签上传时间...");
             } else {
 
             }
         } else {
-            Log.d("Debug", "查询标签上传时间失败...");
+//            Log.d("Debug", "查询标签上传时间失败...");
         }
     }
 
     public void stopRfid() {
-        Log.i(TAG, TAG + "onKeyUp: ");
+//        Log.i(TAG, TAG + "onKeyUp: ");
         CLReader.Stop();
         keyDownCount = 0;
         isKeyDown = false;
@@ -251,14 +254,18 @@ public class BaseFragment extends Fragment {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
 
         if (keyCode == 131 || keyCode == 135) { // 放开扳机
-            Log.i(TAG, TAG + "onKeyUp: ");
+//            Log.i(TAG, TAG + "onKeyUp: ");
             CLReader.Stop();
             keyDownCount = 0;
             isKeyDown = false;
             isLongKeyDown = false;
+            ScanDispose();
         }
+        isRcodeSingle = true;
+        busy = false;
+
 //        buckets.clear();
-        i=0;
+        i = 0;
         return true;
     }
 
@@ -269,18 +276,22 @@ public class BaseFragment extends Fragment {
     protected void ScanDispose() {
         if (scanReader != null) {
             scanReader.close();
+//            scanReader = null;
         }
     }
 
     String idString;
     HashMap<String, String> bs = new HashMap<>();
-    int i=0;
-    protected void DeCode() {
-        if (i==0){
+    int i = 0;
+    private IShowList showList;
+
+    protected void DeCode(final IShowList showList) {
+        this.showList = showList;
+        if (i == 0) {
             bs.clear();
             i++;
         }
-//        ToastUtil.showLongToast("i:"+(i++));
+//        ToastUtil.showLongToast("i:" + (i++));
 //        bs.clear();
         scaninit();
         if (busy) {
@@ -299,65 +310,90 @@ public class BaseFragment extends Fragment {
 //
                     byte[] id = scanReader.decode();
                     if (id != null) {
+                        busy = true;
                         idString = new String(id, Charset.forName("Utf8")) + "\n";
                         idString = idString.trim();
-                        toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP);
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-//                                Toast.makeText(getActivity(), "id: " + idString, Toast.LENGTH_SHORT).show();
+                        if (!"".equals(id)) {
+                            toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP);
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+//                                    Toast.makeText(getActivity(), "id+++: " + idString, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                            if (bs.containsKey(("Bucket_code" + idString))) {//有
+
+                            } else {
+                                bs.put("Bucket_code" + idString, idString);
+                                handler.sendEmptyMessage(0);
+
                             }
-                        });
+                            isRcodeSingle = false;
+                            ScanDispose();
 
-                        if (bs.containsKey(("Bucket_code" + idString))) {//有
-
-                        } else {
-                            bs.put("Bucket_code" + idString, idString);
                         }
 
                     } else {
-                        idString = null;
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
+//                        idString = null;
+//                        getActivity().runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
 //                                Toast.makeText(getActivity(), getString(R.string.str_faild), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+//                            }
+//                        });
+                        busy = false;
 
+                    }
+//                    Log.i(TAG, "run: _________________");
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    busy = false;
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
-//        new Thread() {
-//            @Override
-//            public void run() {
-//
-//            }
-//
-//        }.start();
+
 
     }
 
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    showList.showView(getRCodeData());
+                    break;
 
-    private boolean scaninit() {
-        if (null == scanReader) {
-            return false;
+            }
         }
-        boolean ret = scanReader.open(getActivity().getApplicationContext());
+    };
+
+
+    private void scaninit() {
+        if (null == scanReader) {
+//            return false;
+            scanReader = ScanReader.getScannerInstance();
+            scanReader.open(getActivity().getApplicationContext());
+//            return true;
+//            return true;
+        } else {
+            scanReader.open(getActivity().getApplicationContext());
+//            return true;
+        }
+//        boolean ret = scanReader.open(getActivity().getApplicationContext());
 //        Toast.makeText(getActivity(), "scaninit: " + ret, Toast.LENGTH_SHORT).show();
-        return ret;
+//        return ret;
     }
 
+    //读取一个
+    boolean isRcodeSingle = true;
 
     /**
      * 获取bucket
@@ -365,7 +401,7 @@ public class BaseFragment extends Fragment {
      * @return
      */
     protected List<Bucket> getRCodeData() {
-        buckets.clear();
+//        buckets.clear();
         Iterator iterator = bs.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry entry = (Map.Entry) iterator.next();
@@ -373,11 +409,25 @@ public class BaseFragment extends Fragment {
             String val = (String) entry.getValue();
             Bucket bucket = new Bucket();
             String idName = val;
-            bucket.setBucket_code(idName);
-            bucket.setIdTime(1);
-            bucket.setChecked(true);
-            buckets.add(bucket);
+            if (!"".equals(idName)) {
+                bucket.setBucket_code(idName);
+                bucket.setIdTime(1);
+                bucket.setChecked(true);
+                buckets.add(bucket);
+            }
+
         }
+        //去除重复值
+        if (buckets.size() > 0) {
+            for (int j = 0; j < buckets.size() - 1; j++) {
+                for (int k = buckets.size() - 1; k > j; k--) {
+                    if (buckets.get(k).getBucket_code().equals(buckets.get(j).getBucket_code())) {
+                        buckets.remove(k);
+                    }
+                }
+            }
+        }
+
         return buckets;
     }
 
@@ -388,7 +438,7 @@ public class BaseFragment extends Fragment {
         synchronized (hmList_Lock) {
             // if(hmList.size() > 0){ //
             Iterator iter = hmList.entrySet().iterator();
-            Log.i(TAG, "getData: size:+++++++++++++++++>> " + hmList.size());
+//            Log.i(TAG, "getData: size:+++++++++++++++++>> " + hmList.size());
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
                 String key = (String) entry.getKey();
@@ -404,7 +454,7 @@ public class BaseFragment extends Fragment {
             }
             // }
         }
-        Log.i(TAG, "getData: " + buckets);
+//        Log.i(TAG, "getData: " + buckets);
         return buckets;
     }
 
@@ -434,16 +484,16 @@ public class BaseFragment extends Fragment {
                 } else {//没有相同数据添加
                     //TODO 读取单个数据
                     if (isSingle) {
-                        Log.i(TAG, "OutPutEPC:--------------> ");
-                        Log.i(TAG, "OutPutEPC size: " + hmList.size());
+//                        Log.i(TAG, "OutPutEPC:--------------> ");
+//                        Log.i(TAG, "OutPutEPC size: " + hmList.size());
                         if (hmList.size() >= 0 && hmList.size() < 1) {//只允许插入一个数
-                            Log.i(TAG, "j size: " + hmList.size());
+//                            Log.i(TAG, "j size: " + hmList.size());
                             hmList.put(model._EPC + model._TID, model);
                         } else {
                             return;
                         }
                     } else {
-                        Log.i(TAG, TAG + " OutPutEPC: " + model._EPC + model._TID);
+//                        Log.i(TAG, TAG + " OutPutEPC: " + model._EPC + model._TID);
                         //TODO 批量读取
                         hmList.put(model._EPC + model._TID, model);
                     }
@@ -455,7 +505,7 @@ public class BaseFragment extends Fragment {
             }
             totalReadCount++;
         } catch (Exception ex) {
-            Log.d("Debug", "标签输出异常：" + ex.getMessage());
+//            Log.d("Debug", "标签输出异常：" + ex.getMessage());
         }
 
     }
