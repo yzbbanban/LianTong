@@ -112,6 +112,7 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
 
     @Override
     protected void initView() {
+        super.initView();
         adapter = new StockIdAdapter(getContext());
     }
 
@@ -203,7 +204,7 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
                 UploadingBucket uploadingBucket = new UploadingBucket();
                 uploadingBucket.setBucket_address(0);//表示在回收
                 uploadingBucket.setDepot_code("");//创建公司编号
-
+                showDialog();
                 orderPresent.addBucketTask(uploadingBucket, buckets);
 
             }
@@ -313,10 +314,10 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
 //        Log.d(TAG, "onKeyDown keyCode = " + keyCode);
         if (inputType == 1) {
             busy = false;
-            if (isRcodeSingle){
-                DeCode(this);
-                showView(getRCodeData());
-            }
+//            if (isRcodeSingle) {
+            DeCode(this);
+//                showView(getRCodeData());
+//            }
         } else {
 //            Toast.makeText(getActivity(), "onKeyDown 33--->: ", Toast.LENGTH_SHORT).show();
             if (keyCode == 131 || keyCode == 135) { // 按下扳机
@@ -474,6 +475,7 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
     //显示描述
     @Override
     public void showDescription(String description) {
+        hideDialog();
         ToastUtil.showShortToast(description);
         if ("提交成功".equals(description)) {
             Clear(null);
@@ -501,6 +503,7 @@ public class RecycleFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     public void onDestroy() {
         super.onDestroy();
+        hideDialog();
         ScanDispose();
     }
 

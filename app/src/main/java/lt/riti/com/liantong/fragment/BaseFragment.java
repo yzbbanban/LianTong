@@ -2,6 +2,7 @@ package lt.riti.com.liantong.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -37,6 +38,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import lt.riti.com.liantong.R;
+import lt.riti.com.liantong.activity.MainActivity;
 import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.entity.Bucket;
 import lt.riti.com.liantong.entity.PublicData;
@@ -100,12 +102,35 @@ public class BaseFragment extends Fragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    public ProgressDialog dialog;
+
+    protected void initView() {
+        dialog = new ProgressDialog(getActivity());
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//转盘
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setTitle("提示");
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+//                ToastUtil.showShortToast("消失");
+            }
+        });
+        dialog.setMessage("请稍后……");
+
+    }
+
+    protected void showDialog() {
+        dialog.show();
+    }
+
+    protected void hideDialog() {
+        dialog.dismiss();
+    }
+
     protected void initListener() {
     }
 
-    protected void initView() {
-
-    }
 
     protected void initData(IAsynchronousMessage am) {
 //        Log.i(TAG, "initData: ");
@@ -310,7 +335,6 @@ public class BaseFragment extends Fragment {
 //
                     byte[] id = scanReader.decode();
                     if (id != null) {
-                        busy = true;
                         idString = new String(id, Charset.forName("Utf8")) + "\n";
                         idString = idString.trim();
                         if (!"".equals(id)) {
@@ -342,17 +366,15 @@ public class BaseFragment extends Fragment {
 //                                Toast.makeText(getActivity(), getString(R.string.str_faild), Toast.LENGTH_SHORT).show();
 //                            }
 //                        });
-                        busy = false;
 
                     }
-//                    Log.i(TAG, "run: _________________");
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-
+                    busy = false;
+//                    Log.i(TAG, "run: _________________");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -378,19 +400,13 @@ public class BaseFragment extends Fragment {
 
     private void scaninit() {
         if (null == scanReader) {
-//            return false;
             scanReader = ScanReader.getScannerInstance();
             scanReader.open(getActivity().getApplicationContext());
-//            return true;
-//            return true;
         } else {
             scanReader.open(getActivity().getApplicationContext());
-//            return true;
         }
-//        boolean ret = scanReader.open(getActivity().getApplicationContext());
-//        Toast.makeText(getActivity(), "scaninit: " + ret, Toast.LENGTH_SHORT).show();
-//        return ret;
     }
+
 
     //读取一个
     boolean isRcodeSingle = true;
@@ -428,6 +444,7 @@ public class BaseFragment extends Fragment {
             }
         }
 
+
         return buckets;
     }
 
@@ -454,6 +471,14 @@ public class BaseFragment extends Fragment {
             }
             // }
         }
+//        List<Bucket> bs=new ArrayList<>();
+//        for (int i = 0; i < 1000; i++) {
+//            Bucket b=new Bucket();
+//            b.setBucket_code(i+"cccccc");
+//            b.setIdTime(1);
+//            b.setChecked(true);
+//            buckets.add(b);
+//        }
 //        Log.i(TAG, "getData: " + buckets);
         return buckets;
     }

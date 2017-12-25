@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +38,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     public TextView tv_right;
 
     protected void initView() {
+
     }
+
 
     protected void initData() {
     }

@@ -29,6 +29,7 @@
             android:paddingEnd="20dp"
             android:textColor="@android:color/white"
             android:text=""
+            android:textSize="@dimen/x16"
             android:layout_gravity="center_vertical|end"/>
     </android.support.v7.widget.Toolbar>
 </FrameLayout>

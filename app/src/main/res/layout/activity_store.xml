@@ -25,7 +25,7 @@
                 android:gravity="center"
                 android:text="入库作业"
                 android:textColor="@color/colorBlack"
-                android:textSize="14sp" />
+                android:textSize="@dimen/x16" />
 
             <View
                 android:layout_width="@dimen/x1"
@@ -42,7 +42,7 @@
                 android:gravity="center"
                 android:text="出库作业"
                 android:textColor="@color/colorBlack"
-                android:textSize="14sp" />
+                android:textSize="@dimen/x16" />
 
         </LinearLayout>
 

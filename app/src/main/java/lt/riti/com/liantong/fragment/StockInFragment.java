@@ -130,6 +130,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 
     @Override
     protected void initView() {
+        super.initView();
         adapter = new StockIdAdapter(getContext());
         presenter.getRfidProductTask(StockApplication.DEPOT_ID);
         //初始化单号不可用
@@ -243,6 +244,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                 }
 //                String stockInOrder = etStockInOrder.getText().toString().trim();
 
+                showDialog();
                 UploadingBucket uploadingBucket = new UploadingBucket();
                 uploadingBucket.setBucket_address(1);//表示在产品区
                 uploadingBucket.setProduct_code(product_code);//产品
@@ -362,10 +364,10 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 //        Log.d(TAG, "onKeyDown keyCode = " + keyCode);
         if (inputType == 1) {
             busy = false;
-            if (isRcodeSingle){
-                DeCode(this);
-                showView(getRCodeData());
-            }
+//            if (isRcodeSingle) {
+            DeCode(this);
+//                showView(getRCodeData());
+//            }
         } else {
 //            Toast.makeText(getActivity(), "onKeyDown 33--->: ", Toast.LENGTH_SHORT).show();
             if (keyCode == 131 || keyCode == 135) { // 按下扳机
@@ -524,6 +526,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     //显示描述
     @Override
     public void showDescription(String description) {
+        hideDialog();
         ToastUtil.showShortToast(description);
         if ("提交成功".equals(description)) {
             Clear(null);
@@ -569,6 +572,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     public void onDestroy() {
         super.onDestroy();
+        hideDialog();
         ScanDispose();
     }
 }

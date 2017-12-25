@@ -21,7 +21,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:text="客户/仓库"
-                android:textColor="@color/colorBlack" />
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/x18" />
 
             <TextView
                 android:id="@+id/tv_stock_out_stock"
@@ -42,29 +43,29 @@
             android:background="@color/colorBacGrey"></View>
 
         <!--<LinearLayout-->
-            <!--android:id="@+id/ll_stock_out_product"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="@dimen/x45"-->
-            <!--android:gravity="center"-->
-            <!--android:padding="@dimen/x10">-->
+        <!--android:id="@+id/ll_stock_out_product"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/x45"-->
+        <!--android:gravity="center"-->
+        <!--android:padding="@dimen/x10">-->
 
-            <!--<TextView-->
-                <!--android:layout_width="80dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginRight="5dp"-->
-                <!--android:text="产品名称"-->
-                <!--android:textColor="@color/colorBlack" />-->
+        <!--<TextView-->
+        <!--android:layout_width="80dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:text="产品名称"-->
+        <!--android:textColor="@color/colorBlack" />-->
 
-            <!--<TextView-->
-                <!--android:id="@+id/tv_stock_out_product"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"></TextView>-->
+        <!--<TextView-->
+        <!--android:id="@+id/tv_stock_out_product"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"></TextView>-->
 
-            <!--<ImageView-->
-                <!--android:layout_width="@dimen/x20"-->
-                <!--android:layout_height="@dimen/x20"-->
-                <!--android:src="@drawable/rightsarr" />-->
+        <!--<ImageView-->
+        <!--android:layout_width="@dimen/x20"-->
+        <!--android:layout_height="@dimen/x20"-->
+        <!--android:src="@drawable/rightsarr" />-->
         <!--</LinearLayout>-->
 
 
@@ -126,14 +127,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:text="吨桶编号"
-                android:textColor="@color/colorBlack" />
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/x18" />
 
             <TextView
                 android:id="@+id/tv_stock_out_good"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingLeft="2dp"></TextView>
+                android:paddingLeft="2dp"
+                android:textSize="@dimen/x18"></TextView>
 
             <ImageView
                 android:layout_width="@dimen/x20"
@@ -224,38 +227,42 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x50"
+        android:layout_height="@dimen/x60"
         android:layout_gravity="bottom"
-        android:padding="@dimen/x10">
+        android:gravity="center">
 
 
         <Button
             android:id="@+id/btn_stock_out_clear"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/x50"
             android:layout_weight="1"
             android:background="@drawable/btn_rfiduser_selector"
             android:text="清除"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/x18" />
 
         <Button
             android:id="@+id/btn_open"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x30"
+            android:layout_height="@dimen/x50"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_weight="1"
             android:background="@drawable/btn_rfiduser_selector"
             android:text="@string/btn_read"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/x18" />
 
         <Button
             android:id="@+id/btn_stock_out_submit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x30"
+            android:layout_height="@dimen/x50"
+            android:layout_marginLeft="@dimen/x10"
             android:layout_weight="1"
             android:background="@drawable/btn_rfiduser_selector"
             android:text="提交"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/x18" />
 
     </LinearLayout>
 

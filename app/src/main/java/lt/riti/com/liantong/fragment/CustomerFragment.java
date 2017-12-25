@@ -132,6 +132,7 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
 
     @Override
     protected void initView() {
+        super.initView();
         adapter = new StockIdAdapter(getContext());
         presenter.getRfidUserTask(StockApplication.USER_ID);
 //        productPresenter.getRfidProductTask(StockApplication.USER_ID);
@@ -238,6 +239,7 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
                     ToastUtil.showShortToast("请选择客户/仓库");
                     return;
                 }
+                showDialog();
                 UploadingBucket uploadingBucket = new UploadingBucket();
 
                 uploadingBucket.setBucket_address(2);//表示客户入库
@@ -361,10 +363,10 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
 //        Log.d(TAG, "onKeyDown keyCode = " + keyCode);
         if (inputType == 1) {
             busy = false;
-            if (isRcodeSingle){
-                DeCode(this);
-                showView(getRCodeData());
-            }
+//            if (isRcodeSingle) {
+            DeCode(this);
+//                showView(getRCodeData());
+//            }
         } else {
 //            Toast.makeText(getActivity(), "onKeyDown 33--->: ", Toast.LENGTH_SHORT).show();
             if (keyCode == 131 || keyCode == 135) { // 按下扳机
@@ -523,6 +525,7 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
     //显示描述
     @Override
     public void showDescription(String description) {
+        hideDialog();
         ToastUtil.showShortToast(description);
         if ("提交成功".equals(description)) {
             Clear(null);
@@ -607,6 +610,7 @@ public class CustomerFragment extends BaseFragment implements IAsynchronousMessa
     @Override
     public void onDestroy() {
         super.onDestroy();
+        hideDialog();
         ScanDispose();
     }
 }

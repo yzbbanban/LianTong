@@ -58,7 +58,7 @@ import lt.riti.com.liantong.view.IShowList;
  */
 
 public class StockOutFragment extends BaseFragment implements IAsynchronousMessage,
-        IRfidUserContract.View, IRfidProductContract.View, IRfidBucketContract.View ,IShowList{
+        IRfidUserContract.View, IRfidProductContract.View, IRfidBucketContract.View, IShowList {
     private static final String TAG = "StockOutFragment";
 
     @BindView(R.id.tv_stock_out_stock)
@@ -80,7 +80,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     Button btnStockOutSubmit;
     @BindView(R.id.btn_stock_out_clear)
     Button btnStockOutClear;
-//    @BindView(R.id.rb_stock_in_single)
+    //    @BindView(R.id.rb_stock_in_single)
 //    RadioButton rbStockInSingle;
 //    @BindView(R.id.rb_stock_in_mass)
 //    RadioButton rbStockInMass;
@@ -97,7 +97,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     Button btnOpen;
 
     private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);
-//    private IRfidProductContract.Presenter productPresenter = new IRfidProductPresenter(this);
+    //    private IRfidProductContract.Presenter productPresenter = new IRfidProductPresenter(this);
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
     private List<RfidUser> rfidUsers;
     private int customer_id;
@@ -141,6 +141,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
 
     @Override
     protected void initView() {
+        super.initView();
         adapter = new StockOutAdapter(getContext());
         presenter.getRfidUserTask(StockApplication.DEPOT_ID);
 //        productPresenter.getRfidProductTask(StockApplication.USER_ID);
@@ -257,7 +258,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
 //                }else{
 //                    stockInOrder="";
 //                }
-
+                showDialog();
                 UploadingBucket uploadingBucket = new UploadingBucket();
                 uploadingBucket.setBucket_address(3);//表示在途
                 uploadingBucket.setCustomer_id(customer_id);//客户
@@ -424,10 +425,10 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
 //        Log.d(TAG, "onKeyDown keyCode = " + keyCode);
         if (inputType == 1) {
             busy = false;
-            if (isRcodeSingle){
-                DeCode(this);
-                showView(getRCodeData());
-            }
+//            if (isRcodeSingle) {
+            DeCode(this);
+//                showView(getRCodeData());
+//            }
         } else {
 //            Toast.makeText(getActivity(), "onKeyDown 33--->: ", Toast.LENGTH_SHORT).show();
             if (keyCode == 131 || keyCode == 135) { // 按下扳机
@@ -541,6 +542,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
 
     @Override
     public void showDescription(String description) {
+        hideDialog();
         ToastUtil.showShortToast(description);
         if ("提交成功".equals(description)) {
             Clear(null);
@@ -626,6 +628,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     @Override
     public void onDestroy() {
         super.onDestroy();
+        hideDialog();
         ScanDispose();
     }
 

@@ -117,6 +117,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
 
     @Override
     protected void initView() {
+        super.initView();
         adapter = new StockIdAdapter(getContext());
         presenter.getRfidManufactorTask(StockApplication.DEPOT_ID);
 
@@ -220,9 +221,10 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
             public void onClick(View view) {
                 Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
                 if ("".equals(tvProductStock.getText().toString().trim())) {
-                    ToastUtil.showShortToast("请选择仓库");
+                    ToastUtil.showShortToast("请选择客户");
                     return;
                 }
+                showDialog();
                 UploadingBucket uploadingBucket = new UploadingBucket();
                 uploadingBucket.setDepot_code(depot_code);//创建公司编号
                 uploadingBucket.setManufactor_id(Long.valueOf(manufactor_id));//厂商
@@ -348,10 +350,10 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
 //        Log.d(TAG, "onKeyDown keyCode = " + keyCode);
         if (inputType == 1) {
             busy = false;
-            if (isRcodeSingle) {
+//            if (isRcodeSingle) {
                 DeCode(this);
 //                showView(getRCodeData());
-            }
+//            }
         } else {
 //            Toast.makeText(getActivity(), "onKeyDown 33--->: ", Toast.LENGTH_SHORT).show();
             if (keyCode == 131 || keyCode == 135) { // 按下扳机
@@ -504,6 +506,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     //显示描述
     @Override
     public void showDescription(String description) {
+        hideDialog();
         ToastUtil.showShortToast(description);
         if ("提交成功".equals(description)) {
             Clear(null);
@@ -548,6 +551,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     public void onDestroy() {
         super.onDestroy();
+        hideDialog();
         ScanDispose();
     }
 
