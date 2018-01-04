@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements IUpdateContract.V
                         //下载
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.VIEW");
-                        Uri content_url = Uri.parse("http://119.23.228.4/rfid/CX.apk");
+                        Uri content_url = Uri.parse("http://116.62.19.124:8080/rfid/CX.apk");
                         intent.setData(content_url);
                         intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
                         startActivity(intent);
