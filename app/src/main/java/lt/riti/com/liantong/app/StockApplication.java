@@ -22,16 +22,19 @@ import retrofit2.Retrofit;
 public class StockApplication extends Application
         implements Thread.UncaughtExceptionHandler {
     public static long USER_ID = 0L;
-    public static long DEPOT_ID= 0L;
+    public static long DEPOT_ID = 0L;
     public static String USER_NAME = "";
+    public static int userType = 0;//0：全部，1：代表新桶入库，2：出入库，3：空桶回收
     private static Context context;
     private static int isInStock = 0;
     public static boolean isOnAppStore = false;
     public static int stockType = 0;//0入库或1出库
-//    public static String url = "http://119.23.228.4/rfid/";
+//        public static String url = "http://119.23.228.4/rfid/";
     public static String url = "http://116.62.19.124:8080/rfid/";
+//    public static String url = "http://172.20.10.3:9999/rfid/";
+
+    //    public static String url = "http://192.168.0.117:8080/";
 //
-//        public static String url="http://192.168.0.115:8080/rfid/";
     @Override
     public void onCreate() {
         super.onCreate();

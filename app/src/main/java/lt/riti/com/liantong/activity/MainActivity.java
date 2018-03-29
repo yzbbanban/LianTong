@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import lt.riti.com.liantong.R;
+import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.contract.IUpdateContract;
 import lt.riti.com.liantong.presenter.IUpdatePresenter;
 import lt.riti.com.liantong.util.ToastUtil;
@@ -63,6 +64,26 @@ public class MainActivity extends AppCompatActivity implements IUpdateContract.V
     private void initView() {
         versionName = VersionUtils.getLocalVersionName(this);
         tvVersion.setText("V " + versionName);
+        switch (StockApplication.userType){
+            case 0:
+                break;
+            case 1:
+                ll_new_rfid.setVisibility(View.VISIBLE);
+                llStore.setVisibility(View.GONE);
+                ll_recycle_rfid.setVisibility(View.GONE);
+                break;
+            case 2:
+                ll_new_rfid.setVisibility(View.GONE);
+                llStore.setVisibility(View.VISIBLE);
+                ll_recycle_rfid.setVisibility(View.GONE);
+                break;
+            case 3:
+                ll_new_rfid.setVisibility(View.GONE);
+                llStore.setVisibility(View.GONE);
+                ll_recycle_rfid.setVisibility(View.VISIBLE);
+                break;
+
+        }
     }
 
     /**

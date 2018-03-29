@@ -1,5 +1,7 @@
 package lt.riti.com.liantong.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,6 +17,7 @@ public class User implements Serializable {
 	private String remark;
 	private int is_jb;
 	private String pid;
+	private int user_type;
 
 	public long getId() {
 		return id;
@@ -104,6 +107,14 @@ public class User implements Serializable {
 		this.pid = pid;
 	}
 
+	public int getUser_type() {
+		return user_type;
+	}
+
+	public void setUser_type(int userType) {
+		this.user_type = user_type;
+	}
+
 	@Override
 	public String toString() {
 		return "User{" +
@@ -118,6 +129,7 @@ public class User implements Serializable {
 				", remark='" + remark + '\'' +
 				", is_jb=" + is_jb +
 				", pid='" + pid + '\'' +
+				", user_type=" + user_type +
 				'}';
 	}
 }
