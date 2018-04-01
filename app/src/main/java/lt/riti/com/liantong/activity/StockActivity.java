@@ -35,7 +35,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.app.StockApplication;
-import lt.riti.com.liantong.fragment.CustomerFragment;
 import lt.riti.com.liantong.fragment.StockInFragment;
 import lt.riti.com.liantong.fragment.StockOutFragment;
 

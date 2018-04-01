@@ -27,6 +27,8 @@ import com.bigkoo.pickerview.OptionsPickerView;
 import com.clouiotech.pda.rfid.EPCModel;
 import com.clouiotech.pda.rfid.IAsynchronousMessage;
 import com.clouiotech.util.Helper.Helper_ThreadPool;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -527,10 +529,29 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
     @Override
     public void showDescription(String description) {
         hideDialog();
-        ToastUtil.showShortToast(description);
-        if ("提交成功".equals(description)) {
-            Clear(null);
+
+        Gson gson=new Gson();
+        try {
+
+            List<Bucket> bucketList=gson.fromJson(description,new TypeToken<List<Bucket>>() {
+            }.getType());
+            for (Bucket bucket:buckets) {
+                for (Bucket b:bucketList){
+                    if (bucket.getBucket_code().equals(b.getBucket_code())){
+                        bucket.setDataIsRight(1);
+                    }
+                }
+            }
+            showView(buckets);
+            ToastUtil.showLongToast("标红产品不对应，请重新勾选");
+        }catch (Exception e){
+            ToastUtil.showShortToast(description);
+            if ("提交成功".equals(description)) {
+                Clear(null);
+            }
         }
+
+
     }
 
     //显示数据（产品）

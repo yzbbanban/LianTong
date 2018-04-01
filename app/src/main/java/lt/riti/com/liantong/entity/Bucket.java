@@ -19,6 +19,7 @@ public class Bucket implements Serializable {
     private long admin_id;// 创建人
     private long idTime;// 读取次数
     private int outInStatus;//1入库、0出库
+    private int dataIsRight;//0：桶的绑定产品、客户正常 1：异常
 
     public int getOutInStatus() {
         return outInStatus;
@@ -126,6 +127,14 @@ public class Bucket implements Serializable {
 
     public void setAdmin_id(long admin_id) {
         this.admin_id = admin_id;
+    }
+
+    public int getDataIsRight() {
+        return dataIsRight;
+    }
+
+    public void setDataIsRight(int dataIsRight) {
+        this.dataIsRight = dataIsRight;
     }
 
     @Override

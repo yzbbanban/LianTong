@@ -67,6 +67,11 @@ public class StockOutAdapter extends BaseRecyclerViewAdapter<Bucket> {
                 }
             }
         });
+        if (storeId.getDataIsRight()==1){
+            storeViewHolder.tv_item_stock_name.setTextColor(Color.RED);
+        }else {
+            storeViewHolder.tv_item_stock_name.setTextColor(Color.BLACK);
+        }
     }
 
 
