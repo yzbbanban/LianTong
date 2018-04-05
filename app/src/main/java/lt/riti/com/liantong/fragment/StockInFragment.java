@@ -31,6 +31,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -533,10 +534,10 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
         Gson gson=new Gson();
         try {
 
-            List<Bucket> bucketList=gson.fromJson(description,new TypeToken<List<Bucket>>() {
+            List<Bucket> rowBucketList=gson.fromJson(description,new TypeToken<List<Bucket>>() {
             }.getType());
             for (Bucket bucket:buckets) {
-                for (Bucket b:bucketList){
+                for (Bucket b:rowBucketList){
                     if (bucket.getBucket_code().equals(b.getBucket_code())){
                         bucket.setDataIsRight(1);
                     }
@@ -545,9 +546,22 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
             showView(buckets);
             ToastUtil.showLongToast("标红产品不对应，请重新勾选");
         }catch (Exception e){
+//            Log.i(TAG, "showDescription: "+buckets);
             ToastUtil.showShortToast(description);
             if ("提交成功".equals(description)) {
-                Clear(null);
+                if (buckets!=null&&buckets.size()>0){
+                    Iterator<Bucket> it = buckets.iterator();
+                    while(it.hasNext()){
+                        Bucket b = it.next();
+                        if (b.getChecked()==true){
+                            it.remove();
+                        }
+                    }
+//                    Log.i(TAG, "showDescription: "+buckets);
+                    showView(buckets);
+                }else {
+                    Clear(null);
+                }
             }
         }
 

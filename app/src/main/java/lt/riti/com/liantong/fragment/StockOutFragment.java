@@ -30,8 +30,7 @@ import com.clouiotech.util.Helper.Helper_ThreadPool;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -560,9 +559,22 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
             showView(buckets);
             ToastUtil.showLongToast("标红客户不对应，请重新勾选");
         }catch (Exception e){
+//            Log.i(TAG, "showDescription: "+buckets);
             ToastUtil.showShortToast(description);
             if ("提交成功".equals(description)) {
-                Clear(null);
+                if (buckets!=null&&buckets.size()>0){
+                    Iterator<Bucket> it = buckets.iterator();
+                    while(it.hasNext()){
+                        Bucket b = it.next();
+                        if (b.getChecked()==true){
+                            it.remove();
+                        }
+                    }
+//                    Log.i(TAG, "showDescription: "+buckets);
+                    showView(buckets);
+                }else {
+                    Clear(null);
+                }
             }
         }
 
