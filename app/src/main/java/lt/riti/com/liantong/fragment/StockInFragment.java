@@ -274,7 +274,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        Clear(view);
+                        clearChecked();
                     }
                 });
                 AlertDialog dialog = builder.create();
@@ -526,6 +526,22 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 
     }
 
+    private void clearChecked(){
+        if (buckets!=null&&buckets.size()>0){
+            Iterator<Bucket> it = buckets.iterator();
+            while(it.hasNext()){
+                Bucket b = it.next();
+                if (b.getChecked()==true){
+                    it.remove();
+                }
+            }
+//                    Log.i(TAG, "showDescription: "+buckets);
+            showView(buckets);
+        }else {
+            Clear(null);
+        }
+    }
+
     //显示描述
     @Override
     public void showDescription(String description) {
@@ -549,19 +565,7 @@ public class StockInFragment extends BaseFragment implements IAsynchronousMessag
 //            Log.i(TAG, "showDescription: "+buckets);
             ToastUtil.showShortToast(description);
             if ("提交成功".equals(description)) {
-                if (buckets!=null&&buckets.size()>0){
-                    Iterator<Bucket> it = buckets.iterator();
-                    while(it.hasNext()){
-                        Bucket b = it.next();
-                        if (b.getChecked()==true){
-                            it.remove();
-                        }
-                    }
-//                    Log.i(TAG, "showDescription: "+buckets);
-                    showView(buckets);
-                }else {
-                    Clear(null);
-                }
+                clearChecked();
             }
         }
 

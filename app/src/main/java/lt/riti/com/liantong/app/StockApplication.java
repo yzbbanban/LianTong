@@ -32,6 +32,7 @@ public class StockApplication extends Application
 //        public static String url = "http://119.23.228.4/rfid/";
     public static String url = "http://116.62.19.124:8080/rfid/";
 //    public static String url = "http://172.20.10.3:9999/rfid/";
+//    public static String url = "http://192.168.0.102:9999/rfid/";
 
     //    public static String url = "http://192.168.0.117:8080/";
 //

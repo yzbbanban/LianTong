@@ -28,6 +28,7 @@ import com.clouiotech.pda.rfid.IAsynchronousMessage;
 import com.clouiotech.util.Helper.Helper_ThreadPool;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -252,7 +253,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        Clear(view);
+                        clearChecked();
                     }
                 });
                 AlertDialog dialog = builder.create();
@@ -338,6 +339,22 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
         unbinder.unbind();
     }
 
+
+    private void clearChecked(){
+        if (buckets!=null&&buckets.size()>0){
+            Iterator<Bucket> it = buckets.iterator();
+            while(it.hasNext()){
+                Bucket b = it.next();
+                if (b.getChecked()==true){
+                    it.remove();
+                }
+            }
+//                    Log.i(TAG, "showDescription: "+buckets);
+            showView(buckets);
+        }else {
+            Clear(null);
+        }
+    }
 
     /**
      * 按钮按下
