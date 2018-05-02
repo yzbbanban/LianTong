@@ -115,8 +115,23 @@ public class StockActivity extends BaseActivity {
     protected void initData() {
         //界面数据
         fragments = new ArrayList<>();
-        fragments.add(new StockInFragment());
-        fragments.add(new StockOutFragment());
+        //处理用户类型数据
+        String type = StockApplication.userType;
+        scrollbar.setVisibility(View.GONE);
+        stockInLayout.setVisibility(View.GONE);
+        stockOutLayout.setVisibility(View.GONE);
+        int count = 0;
+        if (type.contains("1")) {//入库
+            fragments.add(new StockInFragment());
+            stockInLayout.setVisibility(View.VISIBLE);
+            count++;
+        }
+        if (type.contains("2")) {//出库
+            fragments.add(new StockOutFragment());
+            stockOutLayout.setVisibility(View.VISIBLE);
+            count++;
+        }
+
         adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -137,23 +152,27 @@ public class StockActivity extends BaseActivity {
         stockInLayout.setTextColor(Color.parseColor("#0ebbfa"));
         viewPager.addOnPageChangeListener(new MyOnPageChangeListener());
 
-        //滚动条宽度
-        bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.scrollbar).getWidth();
-        //获取屏幕宽度
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        //当前窗口信息放入容器
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        //屏幕宽度
-        int screenW = displayMetrics.widthPixels;
-        //计算滚动条初始偏移量
-        offset = (screenW / 2 - bmpW) / 2;
-        one = offset * 2 + bmpW;
-        Matrix matrix = new Matrix();
-        matrix.postTranslate(offset, 0);
-        //将滚动条的初始位置设置成与左边界间隔一个offset
-        scrollbar.setImageMatrix(matrix);
+        if (count >= 2) {
+            scrollbar.setVisibility(View.VISIBLE);
+            //滚动条宽度
+            bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.scrollbar).getWidth();
+            //获取屏幕宽度
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            //当前窗口信息放入容器
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            //屏幕宽度
+            int screenW = displayMetrics.widthPixels;
+            //计算滚动条初始偏移量
+            offset = (screenW / 2 - bmpW) / 2;
+            one = offset * 2 + bmpW;
+            Matrix matrix = new Matrix();
+            matrix.postTranslate(offset, 0);
+            //将滚动条的初始位置设置成与左边界间隔一个offset
+            scrollbar.setImageMatrix(matrix);
 
+        }
     }
+
 
     /**
      * 设置监听器

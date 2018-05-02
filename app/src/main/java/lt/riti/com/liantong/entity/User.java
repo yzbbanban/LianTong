@@ -17,7 +17,7 @@ public class User implements Serializable {
 	private String remark;
 	private int is_jb;
 	private String pid;
-	private int user_type;
+	private String user_type;
 
 	public long getId() {
 		return id;
@@ -107,11 +107,11 @@ public class User implements Serializable {
 		this.pid = pid;
 	}
 
-	public int getUser_type() {
+	public String getUser_type() {
 		return user_type;
 	}
 
-	public void setUser_type(int userType) {
+	public void setUser_type(String userType) {
 		this.user_type = user_type;
 	}
 

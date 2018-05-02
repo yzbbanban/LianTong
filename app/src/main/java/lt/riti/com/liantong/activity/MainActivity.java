@@ -64,25 +64,18 @@ public class MainActivity extends AppCompatActivity implements IUpdateContract.V
     private void initView() {
         versionName = VersionUtils.getLocalVersionName(this);
         tvVersion.setText("V " + versionName);
-        switch (StockApplication.userType){
-            case 0:
-                break;
-            case 1:
-                ll_new_rfid.setVisibility(View.VISIBLE);
-                llStore.setVisibility(View.GONE);
-                ll_recycle_rfid.setVisibility(View.GONE);
-                break;
-            case 2:
-                ll_new_rfid.setVisibility(View.GONE);
-                llStore.setVisibility(View.VISIBLE);
-                ll_recycle_rfid.setVisibility(View.GONE);
-                break;
-            case 3:
-                ll_new_rfid.setVisibility(View.GONE);
-                llStore.setVisibility(View.GONE);
-                ll_recycle_rfid.setVisibility(View.VISIBLE);
-                break;
-
+        String type=StockApplication.userType;
+        ll_new_rfid.setVisibility(View.GONE);
+        llStore.setVisibility(View.GONE);
+        ll_recycle_rfid.setVisibility(View.GONE);
+        if (type.contains("0")){//新桶
+            ll_new_rfid.setVisibility(View.VISIBLE);
+        }
+        if (type.contains("1")||type.contains("2")){//入出库
+            llStore.setVisibility(View.VISIBLE);
+        }
+        if (type.contains("3")){//回收
+            ll_recycle_rfid.setVisibility(View.VISIBLE);
         }
     }
 
