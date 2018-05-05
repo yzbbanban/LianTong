@@ -53,6 +53,9 @@ public class StockActivity extends BaseActivity {
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
+    private boolean isIn = false;
+    private boolean isOut = false;
+
     private FragmentPagerAdapter adapter;
     private List<Fragment> fragments;
     // 滚动条初始偏移量
@@ -103,8 +106,15 @@ public class StockActivity extends BaseActivity {
                     inputType = 0;
                     isRCode = true;
                 }
-                ((StockInFragment) fragments.get(0)).setCodeStatus(inputType);
-                ((StockOutFragment) fragments.get(1)).setCodeStatus(inputType);
+
+                if (isIn && isOut) {
+                    ((StockInFragment) fragments.get(0)).setCodeStatus(inputType);
+                    ((StockOutFragment) fragments.get(1)).setCodeStatus(inputType);
+                } else if (isIn) {
+                    ((StockInFragment) fragments.get(0)).setCodeStatus(inputType);
+                } else if (isOut) {
+                    ((StockOutFragment) fragments.get(0)).setCodeStatus(inputType);
+                }
             }
         });
     }
@@ -125,11 +135,14 @@ public class StockActivity extends BaseActivity {
             fragments.add(new StockInFragment());
             stockInLayout.setVisibility(View.VISIBLE);
             count++;
+            isIn = true;
+
         }
         if (type.contains("2")) {//出库
             fragments.add(new StockOutFragment());
             stockOutLayout.setVisibility(View.VISIBLE);
             count++;
+            isOut = true;
         }
 
         adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -273,12 +286,20 @@ public class StockActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.i(TAG, "onKeyDown: " + keyCode);
-        if (fg instanceof StockInFragment) {
+        if (isIn && isOut) {
+            if (fg instanceof StockInFragment) {
+                Log.i(TAG, "instanceof: " + keyCode);
+                ((StockInFragment) fragments.get(0)).onKeyDown(keyCode, event, inputType);
+            } else if (fg instanceof StockOutFragment) {
+                ((StockOutFragment) fragments.get(1)).onKeyDown(keyCode, event, inputType);
+            }
+        } else if (isIn) {
             Log.i(TAG, "instanceof: " + keyCode);
             ((StockInFragment) fragments.get(0)).onKeyDown(keyCode, event, inputType);
-        } else if (fg instanceof StockOutFragment) {
-            ((StockOutFragment) fragments.get(1)).onKeyDown(keyCode, event, inputType);
+        } else if (isOut) {
+            ((StockOutFragment) fragments.get(0)).onKeyDown(keyCode, event, inputType);
         }
+
         return super.onKeyDown(keyCode, event);
     }
 
@@ -291,11 +312,18 @@ public class StockActivity extends BaseActivity {
      */
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (fg instanceof StockInFragment) {
+        if (isIn && isOut) {
+            if (fg instanceof StockInFragment) {
+                Log.i(TAG, "instanceof: " + keyCode);
+                ((StockInFragment) fragments.get(0)).onKeyUp(keyCode, event);
+            } else if (fg instanceof StockOutFragment) {
+                ((StockOutFragment) fragments.get(1)).onKeyUp(keyCode, event);
+            }
+        } else if (isIn) {
             Log.i(TAG, "instanceof: " + keyCode);
             ((StockInFragment) fragments.get(0)).onKeyUp(keyCode, event);
-        } else {
-            ((StockOutFragment) fragments.get(1)).onKeyUp(keyCode, event);
+        } else if (isOut) {
+            ((StockOutFragment) fragments.get(0)).onKeyUp(keyCode, event);
         }
         return super.onKeyUp(keyCode, event);
     }
