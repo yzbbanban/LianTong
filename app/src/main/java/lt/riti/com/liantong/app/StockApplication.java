@@ -20,7 +20,8 @@ import retrofit2.Retrofit;
  * Created by brander on 2017/9/21.
  */
 public class StockApplication extends Application
-        implements Thread.UncaughtExceptionHandler {
+        implements Thread.UncaughtExceptionHandler
+{
     public static long USER_ID = 0L;
     public static long DEPOT_ID = 0L;
     public static String USER_NAME = "";
@@ -30,9 +31,10 @@ public class StockApplication extends Application
     public static boolean isOnAppStore = false;
     public static int stockType = 0;//0入库或1出库
 //        public static String url = "http://119.23.228.4/rfid/";
-    public static String url = "http://116.62.19.124:8080/rfid/";
+//    public static String url = "http://116.62.19.124:8080/rfid/";
+    public static String url = "http://106.15.188.62:9999/rfid/";
 //    public static String url = "http://192.168.0.101:9999/rfid/";
-//    public static String url = "http://192.168.0.102:9999/rfid/";
+//    public static String url = "http://192.168.0.103:9999/rfid/";
 
     //    public static String url = "http://192.168.0.117:8080/";
 //
