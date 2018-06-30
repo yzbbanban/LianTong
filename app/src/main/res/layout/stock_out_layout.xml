@@ -22,7 +22,7 @@
                 android:layout_marginRight="5dp"
                 android:text="客户/仓库"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/x18" />
+                android:textSize="@dimen/x16" />
 
             <TextView
                 android:id="@+id/tv_stock_out_stock"
@@ -128,7 +128,7 @@
                 android:layout_marginRight="5dp"
                 android:text="吨桶编号"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/x18" />
+                android:textSize="@dimen/x16" />
 
             <TextView
                 android:id="@+id/tv_stock_out_good"
@@ -136,7 +136,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:paddingLeft="2dp"
-                android:textSize="@dimen/x18"></TextView>
+                android:textSize="@dimen/x16"></TextView>
 
             <ImageView
                 android:layout_width="@dimen/x20"

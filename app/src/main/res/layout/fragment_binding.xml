@@ -10,7 +10,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/ll_stock_in_stock"
+            android:id="@+id/ll_binding_product"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x45"
             android:gravity="center"
@@ -25,7 +25,7 @@
                 android:textSize="@dimen/x16" />
 
             <TextView
-                android:id="@+id/tv_stock_in_stock"
+                android:id="@+id/tv_binding_product"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -42,48 +42,47 @@
             android:layout_height="@dimen/x1"
             android:background="@color/colorBacGrey"></View>
 
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/x45"-->
-        <!--android:gravity="center"-->
-        <!--android:padding="@dimen/x10">-->
+        <LinearLayout
+            android:id="@+id/ll_binding_stock"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x45"
+            android:gravity="center"
+            android:padding="@dimen/x10">
 
-        <!--<CheckBox-->
-        <!--android:id="@+id/cb_stock_in"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="" />-->
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="客户/仓库"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/x16" />
 
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginRight="5dp"-->
-        <!--android:gravity="right"-->
-        <!--android:text="单号"-->
-        <!--android:textColor="@color/colorBlack" />-->
+            <TextView
+                android:id="@+id/tv_binding_stock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"></TextView>
 
-        <!--<EditText-->
-        <!--android:id="@+id/et_stock_in_order"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_weight="1"-->
-        <!--android:background="@drawable/edit_stock_shape"-->
-        <!--android:hint="单号"-->
-        <!--android:paddingLeft="2dp"></EditText>-->
+            <ImageView
+                android:layout_width="@dimen/x20"
+                android:layout_height="@dimen/x20"
+                android:src="@drawable/rightsarr" />
+        </LinearLayout>
 
-        <!--<ImageView-->
-        <!--android:layout_width="@dimen/x20"-->
-        <!--android:layout_height="@dimen/x20"-->
-        <!--android:src="@drawable/rightsarr" />-->
-        <!--</LinearLayout>-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/colorBacGrey"></View>
 
-        <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/x1"-->
-        <!--android:background="@color/colorBacGrey"></View>-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/colorBacGrey"></View>
 
         <LinearLayout
-            android:id="@+id/ll_stock_in_good"
+            android:id="@+id/ll_binding_good"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x45"
             android:gravity="center"
@@ -98,7 +97,7 @@
                 android:textSize="@dimen/x16" />
 
             <TextView
-                android:id="@+id/tv_stock_in_good"
+                android:id="@+id/tv_binding_good"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -124,7 +123,7 @@
 
         <CheckBox
 
-            android:id="@+id/cb_stock_in_all"
+            android:id="@+id/cb_binding_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -159,35 +158,37 @@
         android:layout_weight="1">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleView_stock_in"
+            android:id="@+id/recycleView_binding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center">
 
-        <!--<RadioGroup-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal">-->
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <!--<RadioButton-->
-        <!--android:id="@+id/rb_stock_in_mass"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:checked="true"-->
-        <!--android:text="批量作业" />-->
+            <RadioButton
+                android:id="@+id/rb_binding_mass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="批量作业" />
 
-        <!--<RadioButton-->
-        <!--android:id="@+id/rb_stock_in_single"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:text="单次作业" />-->
-        <!--</RadioGroup>-->
+            <RadioButton
+                android:id="@+id/rb_binding_single"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="单次作业" />
+        </RadioGroup>
 
 
     </LinearLayout>
@@ -195,12 +196,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/x60"
-        android:gravity="center"
-        android:layout_gravity="bottom">
-
+        android:layout_gravity="bottom"
+        android:gravity="center">
 
         <Button
-            android:id="@+id/btn_stock_in_clear"
+            android:id="@+id/btn_binding_clear"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/x50"
             android:layout_weight="1"
@@ -210,18 +210,18 @@
             android:textSize="@dimen/x18" />
 
         <Button
-            android:id="@+id/btn_open"
+            android:id="@+id/btn_binding_open"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/x50"
             android:layout_marginLeft="@dimen/x10"
+            android:layout_weight="1"
             android:background="@drawable/btn_rfiduser_selector"
             android:text="@string/btn_read"
-            android:layout_weight="1"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/x18" />
 
         <Button
-            android:id="@+id/btn_stock_in_submit"
+            android:id="@+id/btn_binding_submit"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/x50"
             android:layout_marginLeft="@dimen/x10"

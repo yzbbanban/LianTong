@@ -25,19 +25,20 @@ public class StockApplication extends Application
     public static long USER_ID = 0L;
     public static long DEPOT_ID = 0L;
     public static String USER_NAME = "";
-    public static String userType = "0,1,2,3";//0：新桶，1：入库，2：出库，3：空桶回收
+    public static String userType = "-8,0,1,2,3";//-8：新桶,0:空桶，1：入库，2：出库，3：空桶回收
     private static Context context;
     private static int isInStock = 0;
     public static boolean isOnAppStore = false;
     public static int stockType = 0;//0入库或1出库
-//        public static String url = "http://119.23.228.4/rfid/";
+    //原服务器
 //    public static String url = "http://116.62.19.124:8080/rfid/";
-    public static String url = "http://106.15.188.62:9999/rfid/";
-//    public static String url = "http://192.168.0.101:9999/rfid/";
-//    public static String url = "http://192.168.0.103:9999/rfid/";
+    //新服务器
+//    public static String url = "http://106.15.188.62:9999/rfid/";
+    //本地
+//    public static String url = "http://192.168.0.151:19999/rfid/";
+    //自己的
+    public static String url = "http://120.78.201.125:80/rfid/";
 
-    //    public static String url = "http://192.168.0.117:8080/";
-//
     @Override
     public void onCreate() {
         super.onCreate();

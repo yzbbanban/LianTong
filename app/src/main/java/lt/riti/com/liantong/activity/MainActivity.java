@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements IUpdateContract.V
     LinearLayout llStore;
     @BindView(R.id.ll_setting_rfid)
     LinearLayout llSettingRfid;
+    @BindView(R.id.ll_binding_all)
+    LinearLayout llBindingAll;
     //    @BindView(R.id.ll_user)
 //    LinearLayout llUser;
     @BindView(R.id.ll_new_rfid)
@@ -67,9 +69,13 @@ public class MainActivity extends AppCompatActivity implements IUpdateContract.V
         String type=StockApplication.userType;
         ll_new_rfid.setVisibility(View.GONE);
         llStore.setVisibility(View.GONE);
+        llBindingAll.setVisibility(View.GONE);
         ll_recycle_rfid.setVisibility(View.GONE);
-        if (type.contains("0")){//新桶
+        if (type.contains("-8")){//新桶
             ll_new_rfid.setVisibility(View.VISIBLE);
+        }
+        if (type.contains("0")){//包装桶
+            llBindingAll.setVisibility(View.VISIBLE);
         }
         if (type.contains("1")||type.contains("2")){//入出库
             llStore.setVisibility(View.VISIBLE);
@@ -98,6 +104,15 @@ public class MainActivity extends AppCompatActivity implements IUpdateContract.V
     @OnClick(R.id.ll_setting_rfid)
     public void startSettingRFID(View view) {
         Intent intent = new Intent(this, SettingRFIDActivity.class);
+        startActivity(intent);
+    }/**
+     * 设置rfid
+     *
+     * @param view
+     */
+    @OnClick(R.id.ll_binding_all)
+    public void startBingAll(View view) {
+        Intent intent = new Intent(this, BindingActivity.class);
         startActivity(intent);
     }
 

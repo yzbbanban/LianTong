@@ -54,6 +54,32 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_binding_all"
+            android:layout_marginTop="10dp"
+            android:layout_width="@dimen/x200"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_rfid_selector"
+            android:gravity="center"
+            android:padding="@dimen/x10">
+
+            <ImageView
+                android:layout_width="@dimen/x15"
+                android:layout_height="@dimen/x15"
+                android:src="@drawable/binding" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:gravity="center"
+                android:text=" 包装桶入库"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/x18" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/ll_store"
             android:layout_width="@dimen/x200"
             android:layout_height="wrap_content"

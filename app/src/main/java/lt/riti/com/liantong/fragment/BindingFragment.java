@@ -27,27 +27,30 @@ import com.bigkoo.pickerview.OptionsPickerView;
 import com.clouiotech.pda.rfid.EPCModel;
 import com.clouiotech.pda.rfid.IAsynchronousMessage;
 import com.clouiotech.util.Helper.Helper_ThreadPool;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import lt.riti.com.liantong.R;
 import lt.riti.com.liantong.adapter.BaseRecyclerViewAdapter;
-import lt.riti.com.liantong.adapter.StockOutAdapter;
+import lt.riti.com.liantong.adapter.StockIdAdapter;
 import lt.riti.com.liantong.app.StockApplication;
 import lt.riti.com.liantong.contract.IRfidBucketContract;
+import lt.riti.com.liantong.contract.IRfidManufactorContract;
 import lt.riti.com.liantong.contract.IRfidProductContract;
 import lt.riti.com.liantong.contract.IRfidUserContract;
 import lt.riti.com.liantong.entity.Bucket;
+import lt.riti.com.liantong.entity.Manufacture;
 import lt.riti.com.liantong.entity.Product;
 import lt.riti.com.liantong.entity.PublicData;
 import lt.riti.com.liantong.entity.RfidUser;
 import lt.riti.com.liantong.entity.UploadingBucket;
 import lt.riti.com.liantong.presenter.IRfidBucketPresenter;
+import lt.riti.com.liantong.presenter.IRfidManufactorPresenter;
 import lt.riti.com.liantong.presenter.IRfidProductPresenter;
 import lt.riti.com.liantong.presenter.IRfidUserPresenter;
 import lt.riti.com.liantong.util.LogUtil;
@@ -58,65 +61,62 @@ import lt.riti.com.liantong.view.IShowList;
  * Created by brander on 2017/9/22.
  */
 
-public class StockOutFragment extends BaseFragment implements IAsynchronousMessage,
-        IRfidUserContract.View, IRfidProductContract.View, IRfidBucketContract.View, IShowList {
-    private static final String TAG = "StockOutFragment";
+public class BindingFragment extends BaseFragment implements IAsynchronousMessage, IRfidProductContract.View,
+        IRfidUserContract.View, IRfidBucketContract.View, IShowList {
+    private static final String TAG = "BindingFragment";
 
-    @BindView(R.id.tv_stock_out_stock)
-    TextView tvStockOutStock;
-    //delete by brander 2017-11-25 产品
-//    @BindView(R.id.tv_stock_out_product)
-//    TextView tvStockOutProduct;
-    //    @BindView(R.id.et_stock_out_order)
-//    EditText etStockOutOrder;
-//    @BindView(R.id.cb_stock_out)
-//    CheckBox cbStockOut;
-    @BindView(R.id.tv_stock_out_good)
-    TextView tvStockOutGood;
-    @BindView(R.id.cb_stock_out_all)
-    CheckBox cbStockOutAll;
-    @BindView(R.id.recycleView_stock_out)
-    RecyclerView recycleViewStockOut;
-    @BindView(R.id.btn_stock_out_submit)
-    Button btnStockOutSubmit;
-    @BindView(R.id.btn_stock_out_clear)
-    Button btnStockOutClear;
-    //    @BindView(R.id.rb_stock_in_single)
-//    RadioButton rbStockInSingle;
-//    @BindView(R.id.rb_stock_in_mass)
-//    RadioButton rbStockInMass;
-    @BindView(R.id.ll_stock_out_stock)
-    LinearLayout llStockOutStock;
-    //delete by brander 2017-11-25 产品
-//    @BindView(R.id.ll_stock_out_product)
-//    LinearLayout llStockOutProduct;
-    @BindView(R.id.ll_stock_out_good)
-    LinearLayout llStockOutGood;
+    @BindView(R.id.tv_binding_product)//产品
+            TextView tvBindingProduct;
+
+    @BindView(R.id.tv_binding_good)//吨桶
+            TextView tvBindingGood;
+    @BindView(R.id.cb_binding_all)
+    CheckBox cbBindingAll;
+    @BindView(R.id.tv_binding_stock)//客户
+            TextView tvBindingStock;
+    @BindView(R.id.recycleView_binding)
+    RecyclerView recycleViewBinding;
+    @BindView(R.id.btn_binding_submit)
+    Button btnStockInSubmit;//提交
+    @BindView(R.id.btn_binding_clear)
+    Button btnStockInClear;//清除
+    @BindView(R.id.rb_binding_single)
+    RadioButton rbStockInSingle;
+    @BindView(R.id.rb_binding_mass)
+    RadioButton rbStockInMass;
+
+    @BindView(R.id.ll_binding_stock)
+    LinearLayout llBindingStock;
+
+    @BindView(R.id.ll_binding_product)
+    LinearLayout llBindingProduct;
+
+    @BindView(R.id.ll_binding_good)
+    LinearLayout llBindingGood;
     Unbinder unbinder;
-    protected StockOutAdapter adapter;
-    @BindView(R.id.btn_open)
-    Button btnOpen;
 
+    protected StockIdAdapter adapter;
+    @BindView(R.id.btn_binding_open)
+    Button btnStockInOpen;
+
+    private IRfidProductContract.Presenter productPresenter = new IRfidProductPresenter(this);
     private IRfidUserContract.Presenter presenter = new IRfidUserPresenter(this);
-    //    private IRfidProductContract.Presenter productPresenter = new IRfidProductPresenter(this);
     private IRfidBucketContract.Presenter orderPresent = new IRfidBucketPresenter(this);
-    private List<RfidUser> rfidUsers;
-    private int customer_id;
-    private String depot_code = "";
-    private List<Product> products;
-    private String product_code = "";
-    private int codeStatus;
+    private List<Manufacture> manufactures;
+    private String depot_code = "";//创建公司编号
+    private int status;//0表示报废 1.表示正常
+    private int inputType;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = View.inflate(getActivity(), R.layout.stock_out_layout, null);
-        unbinder = ButterKnife.bind(this, view);
-        initData(this);
-        initView();
-        initListener();
-        return view;
-    }
+
+    List<String> productsName = new ArrayList<>();
+    List<String> rfidName = new ArrayList<>();
+
+    private String product_code = "";
+    private int customer_id;
+
+    private List<Product> products;
+    private List<RfidUser> rfidUsers;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -124,13 +124,16 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         Log.i(TAG, "onCreate: ");
     }
 
-    public void setCodeStatus(int codeStatus) {
-        this.codeStatus = codeStatus;
-        if (codeStatus == 1) {
-            btnOpen.setVisibility(View.GONE);
-        } else {
-            btnOpen.setVisibility(View.VISIBLE);
-        }
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        View view = View.inflate(getActivity(), R.layout.fragment_binding, null);
+        unbinder = ButterKnife.bind(this, view);
+        initData(this);
+        initView();
+        initListener();
+        Log.i(TAG, "onCreateView: ");
+        return view;
     }
 
     @Override
@@ -139,20 +142,23 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         initData(this);
     }
 
-
     @Override
     protected void initView() {
         super.initView();
-        adapter = new StockOutAdapter(getContext());
+        adapter = new StockIdAdapter(getContext());
+        productPresenter.getRfidProductTask(StockApplication.DEPOT_ID);
         presenter.getRfidUserTask(StockApplication.DEPOT_ID);
-//        productPresenter.getRfidProductTask(StockApplication.USER_ID);
-        Log.i(TAG, "initView: ");
-        //初始化单号不可用
-//        if (!cbStockOut.isChecked()) {
-//            etStockOutOrder.setEnabled(false);
-//        }
+
     }
 
+    public void setCodeStatus(int inputType) {
+        this.inputType = inputType;
+        if (inputType == 1) {
+            btnStockInOpen.setVisibility(View.GONE);
+        } else {
+            btnStockInOpen.setVisibility(View.VISIBLE);
+        }
+    }
 
     /**
      * 翻页调用
@@ -161,45 +167,34 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
      */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
+        Log.i(TAG, "Visible StockInFragment: " + isVisibleToUser);
         if (isVisibleToUser) {
 //            initView();
-//            rfidName.clear();
         }
     }
 
 
     @Override
     protected void initListener() {
-        btnOpen.setOnClickListener(new View.OnClickListener() {
+        btnStockInOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String controlText = btnOpen.getText().toString();
+                String controlText = btnStockInOpen.getText().toString();
                 if (controlText.equals(getString(R.string.btn_read))) {
                     PingPong_Read();
-                    btnOpen.setText(getString(R.string.btn_read_stop));
+                    btnStockInOpen.setText(getString(R.string.btn_read_stop));
                 } else {
                     Pingpong_Stop();
-                    btnOpen.setText(getString(R.string.btn_read));
+                    btnStockInOpen.setText(getString(R.string.btn_read));
                 }
             }
         });
-        //点击使用单号
-//        cbStockOut.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (!cbStockOut.isChecked()) {
-//                    etStockOutOrder.setEnabled(false);
-//                } else {
-//                    etStockOutOrder.setEnabled(true);
-//                }
-//
-//            }
-//        });
+
         //全选/全不选
-        cbStockOutAll.setOnClickListener(new View.OnClickListener() {
+        cbBindingAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!cbStockOutAll.isChecked()) {//不选
+                if (!cbBindingAll.isChecked()) {//不选
                     Log.i(TAG, "onClick: 1");
                     for (int i = 0; i < buckets.size(); i++) {
                         buckets.get(i).setChecked(false);
@@ -215,20 +210,39 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
             }
         });
         /**
+         * 选择客户或仓库
+         */
+        llBindingStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setPickView();
+            }
+        });
+
+        /**
+         * 选择产品
+         */
+        llBindingProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setProductPickView();
+            }
+        });
+
+        /**
          * 选择列表(暂无功能)
          */
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ToastUtil.showShortToast("item: " + position);
+//                ToastUtil.showShortToast("item: " + position);
             }
         });
-
 
         /**
          * 选择checkbox
          */
-        adapter.checkboxSetOnclick(new StockOutAdapter.CheckItemInterface() {
+        adapter.checkboxSetOnclick(new StockIdAdapter.CheckItemInterface() {
 
             @Override
             public void onclick(CompoundButton compoundButton, boolean b, int position) {
@@ -240,33 +254,24 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         /**
          * 提交数据
          */
-        btnStockOutSubmit.setOnClickListener(new View.OnClickListener() {
+        btnStockInSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("".equals(tvStockOutStock.getText().toString().trim())) {
-                    ToastUtil.showShortToast("请选择客户/仓库");
+                Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
+                if ("".equals(tvBindingStock.getText().toString().trim())||"".equals(tvBindingProduct.getText().toString())) {
+                    ToastUtil.showShortToast("请选择客户或产品");
                     return;
                 }
-//                if ("".equals(tvStockOutProduct.getText().toString().trim())) {
-//                    ToastUtil.showShortToast("请选择产品");
-//                    return;
-//                }
-                Log.i(TAG, "btnStockInSubmit onClick: " + buckets);
-//                String stockInOrder = etStockOutOrder.getText().toString().trim();
-//                if (!"".equals(stockInOrder) && cbStockOut.isChecked()) {//值不为空，且checkbox选中状态
-//                    orderId = stockInOrder;
-//                    OrderIdType = 1;
-//                }else{
-//                    stockInOrder="";
-//                }
                 showDialog();
                 UploadingBucket uploadingBucket = new UploadingBucket();
-                uploadingBucket.setBucket_address(3);//表示在途
+                uploadingBucket.setDepot_code(depot_code);//创建公司编号
+//                uploadingBucket.setManufactor_id(Long.valueOf(manufactor_id));//厂商
+                uploadingBucket.setStatus(1);//正常桶
                 uploadingBucket.setCustomer_id(customer_id);//客户
                 uploadingBucket.setProduct_code(product_code);//产品
-                uploadingBucket.setDepot_code(depot_code);//创建公司编号
-                uploadingBucket.setStatus(1);//正常桶
-                uploadingBucket.setOutInStatus(0);//出库
+                uploadingBucket.setBucket_address(0);//表示在空桶区
+//                uploadingBucket.setProduct_code("");//产品空
+//                uploadingBucket.setCustomer_id(0);//客户空
                 orderPresent.addBucketTask(uploadingBucket, buckets);
 
             }
@@ -274,7 +279,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         /**
          * 清除数据
          */
-        btnStockOutClear.setOnClickListener(new View.OnClickListener() {
+        btnStockInClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -292,28 +297,14 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
+
             }
         });
-        /**
-         * 选择客户或仓库
-         */
-        llStockOutStock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setPickView();
-            }
-        });
-        /**
-         * 选择产品
-         */
-        //delete by brander 2017-11-25 产品
-//        llStockOutProduct.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                setProductPickView();
-//            }
-//        });
-        llStockOutGood.setOnClickListener(new View.OnClickListener() {
+        //选择客户/仓库
+
+
+        //输入托盘号
+        llBindingGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -336,12 +327,17 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                         } else {
                             //向列表添加数据
                             Bucket bu = new Bucket();
-                            bu.setChecked(true);
+
                             bu.setBucket_code(name);//吨桶编号
-                            bu.setBucket_address(3);//表示客户在途
+//                            if (!"".equals(manufactor_id)) {
+//                                bu.setManufactor_id(Long.parseLong(manufactor_id));
+//                            }
+                            bu.setChecked(true);
+                            bu.setBucket_address(0);
+                            bu.setDepot_code(depot_code);//创建公司编号
                             bu.setCustomer_id(customer_id);//客户
                             bu.setProduct_code(product_code);//产品
-                            bu.setOutInStatus(0);//出库
+                            bu.setStatus(1);//正常
                             bu.setAdmin_id(StockApplication.USER_ID);
                             bu.setIdTime(1L);//读取次数
                             //没有数据则直接显示
@@ -377,6 +373,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
 
     }
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -384,35 +381,20 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
     }
 
 
-    /**
-     * 显示列表
-     */
-    protected void showList() {
-        Log.i(TAG, "showList: " + getData());
-        showView(getData());
-    }
-
-    /**
-     * 展示界面
-     *
-     * @param buckets
-     */
-    @Override
-    public void showView(List<Bucket> buckets) {
-        adapter.setList(buckets);
-        LinearLayoutManager lM = new LinearLayoutManager(getActivity());
-//        recycleViewStockOut.addItemDecoration(new RecyclerViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
-        recycleViewStockOut.setLayoutManager(lM);
-        recycleViewStockOut.setAdapter(adapter);
-    }
-
-
-    protected void Clear(View v) {
-        Log.i(TAG, "Clear: ");
-        totalReadCount = 0;
-        readTime = 0;
-        hmList.clear();
-        showList();
+    private void clearChecked() {
+        if (buckets != null && buckets.size() > 0) {
+            Iterator<Bucket> it = buckets.iterator();
+            while (it.hasNext()) {
+                Bucket b = it.next();
+                if (b.getChecked() == true) {
+                    it.remove();
+                }
+            }
+//                    Log.i(TAG, "showDescription: "+buckets);
+            showView(buckets);
+        } else {
+            Clear(null);
+        }
     }
 
     /**
@@ -487,13 +469,13 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
 
     private void openRfid() {
         LogUtil.info(TAG, "openRfid");
-//        if (rbStockInSingle.isChecked()) {
-//                    isSingle = true;
-//                }
-//                if (rbStockInMass.isChecked()) {
-        isSingle = false;
-//                }
-        showList();
+        if (rbStockInSingle.isChecked()) {//单次
+            isSingle = true;
+        }
+        if (rbStockInMass.isChecked()) {//批量
+            isSingle = false;
+        }
+        showView(getData());
         if (!isKeyDown) {
             isKeyDown = true; //
             StockApplication.setIsInStock(1);
@@ -514,11 +496,45 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         }
     }
 
+
+    /**
+     * 展示界面
+     *
+     * @param buckets
+     */
+    @Override
+    public void showView(List<Bucket> buckets) {
+        adapter.setList(buckets);
+        LinearLayoutManager lM = new LinearLayoutManager(getActivity());
+//        recycleViewStockNew.addItemDecoration(new RecyclerViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
+        recycleViewBinding.setLayoutManager(lM);
+        recycleViewBinding.setAdapter(adapter);
+    }
+
+    /**
+     * 清除数据
+     *
+     * @param v
+     */
+    protected void Clear(View v) {
+        Log.i(TAG, "Clear: ");
+        totalReadCount = 0;
+        readTime = 0;
+        hmList.clear();
+        //重新显示
+        showView(getData());
+    }
+
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         return super.onKeyUp(keyCode, event);
     }
 
+    /**
+     * 接收rfid信号
+     *
+     * @param model
+     */
     @Override
     public void OutPutEPC(EPCModel model) {
         super.OutPutEPC(model);
@@ -531,56 +547,75 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         Dispose();
     }
 
+    //显示进度条
     @Override
     public void showLoading() {
 
     }
 
+    //隐藏进度条
     @Override
     public void hideLoading() {
 
     }
-    private void clearChecked(){
-        if (buckets!=null&&buckets.size()>0){
-            Iterator<Bucket> it = buckets.iterator();
-            while(it.hasNext()){
-                Bucket b = it.next();
-                if (b.getChecked()==true){
-                    it.remove();
-                }
-            }
-//                    Log.i(TAG, "showDescription: "+buckets);
-            showView(buckets);
-        }else {
-            Clear(null);
-        }
-    }
+
+    //显示描述
     @Override
     public void showDescription(String description) {
         hideDialog();
-        Gson gson=new Gson();
-        try {
-
-            List<Bucket> bucketList=gson.fromJson(description,new TypeToken<List<Bucket>>() {
-            }.getType());
-            for (Bucket bucket:buckets) {
-                for (Bucket b:bucketList){
-                    if (bucket.getBucket_code().equals(b.getBucket_code())){
-                        bucket.setDataIsRight(1);
-                    }
-                }
-            }
-            showView(buckets);
-            ToastUtil.showLongToast("标红客户不对应，请重新勾选");
-        }catch (Exception e){
-//            Log.i(TAG, "showDescription: "+buckets);
-            ToastUtil.showShortToast(description);
-            if ("提交成功".equals(description)) {
-                clearChecked();
-            }
+        ToastUtil.showLongToast(description);
+        if ("提交成功".equals(description)) {
+            Clear(null);
         }
-
     }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        hideDialog();
+        ScanDispose();
+    }
+
+
+    //显示数据（产品）
+    @Override
+    public void showProductData(List<Product> products) {
+        //Log.i(TAG, "showProductData: "+user);
+        productsName.clear();
+        if (products != null && products.size() > 0) {
+            //设置界面
+            this.products = products;
+            for (int i = 0; i < products.size(); i++) {
+                String name = products.get(i).getProduct_name();
+                productsName.add(name);
+            }
+        } else {
+            ToastUtil.showShortToast("请绑定产品");
+        }
+    }
+
+
+    /**
+     * 产品选择器
+     */
+    public void setProductPickView() {
+        //条件选择器
+
+        OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(),
+                new OptionsPickerView.OnOptionsSelectListener() {
+                    @Override
+                    public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                        //设置Text
+                        tvBindingProduct.setText(products.get(options1).getProduct_name());
+                        product_code = products.get(options1).getProduct_code();
+                        depot_code = products.get(options1).getDepot_code();
+                    }
+                }).build();
+        pvOptions.setPicker(productsName, null, null);
+        pvOptions.show();
+    }
+
 
     //显示数据（客户/仓库）
     @Override
@@ -599,9 +634,6 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         }
     }
 
-    List<String> rfidName = new ArrayList<>();
-    List<String> productsName = new ArrayList<>();
-
     /**
      * 客户选择器
      */
@@ -613,7 +645,7 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
                     @Override
                     public void onOptionsSelect(int options1, int options2, int options3, View v) {
                         //设置Text
-                        tvStockOutStock.setText(rfidUsers.get(options1).getCustomer_name());
+                        tvBindingStock.setText(rfidUsers.get(options1).getCustomer_name());
                         customer_id = rfidUsers.get(options1).getId();
                         depot_code = rfidUsers.get(options1).getDepot_code();
                     }
@@ -621,49 +653,4 @@ public class StockOutFragment extends BaseFragment implements IAsynchronousMessa
         pvOptions.setPicker(rfidName, null, null);
         pvOptions.show();
     }
-
-    /**
-     * 产品选择器
-     */
-    public void setProductPickView() {
-        //条件选择器
-        OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(),
-                new OptionsPickerView.OnOptionsSelectListener() {
-                    @Override
-                    public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                        //设置Text
-                        //delete by brander 2017-11-25 产品
-//                        tvStockOutProduct.setText(products.get(options1).getProduct_name());
-//                        product_code = products.get(options1).getProduct_code();
-//                        depot_code = products.get(options1).getDepot_code();
-                    }
-                }).build();
-        pvOptions.setPicker(productsName, null, null);
-        pvOptions.show();
-    }
-
-    @Override
-    public void showProductData(List<Product> products) {
-        //Log.i(TAG, "showProductData: "+user);
-        productsName.clear();
-        if (products != null && products.size() > 0) {
-            //设置界面
-            this.products = products;
-            for (int i = 0; i < products.size(); i++) {
-                String name = products.get(i).getProduct_name();
-                productsName.add(name);
-            }
-        } else {
-//            ToastUtil.showShortToast("请绑定产品");
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        hideDialog();
-        ScanDispose();
-    }
-
-
 }

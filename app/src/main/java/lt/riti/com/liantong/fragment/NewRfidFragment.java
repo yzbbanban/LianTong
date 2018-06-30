@@ -230,7 +230,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
                 uploadingBucket.setDepot_code(depot_code);//创建公司编号
                 uploadingBucket.setManufactor_id(Long.valueOf(manufactor_id));//厂商
                 uploadingBucket.setStatus(1);//正常桶
-                uploadingBucket.setBucket_address(0);//表示在空桶区
+                uploadingBucket.setBucket_address(-8);//表示在新桶区
                 uploadingBucket.setProduct_code("");//产品空
                 uploadingBucket.setCustomer_id(0);//客户空
                 orderPresent.addBucketTask(uploadingBucket, buckets);
@@ -294,7 +294,7 @@ public class NewRfidFragment extends BaseFragment implements IAsynchronousMessag
                                 bu.setManufactor_id(Long.parseLong(manufactor_id));
                             }
                             bu.setChecked(true);
-                            bu.setBucket_address(0);
+                            bu.setBucket_address(-8);//表示新桶区
                             bu.setDepot_code(depot_code);//创建公司编号
                             bu.setStatus(1);//正常
                             bu.setAdmin_id(StockApplication.USER_ID);
