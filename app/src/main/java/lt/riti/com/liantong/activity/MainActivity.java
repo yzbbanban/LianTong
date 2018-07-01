@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements IUpdateContract.V
     TextView tvVersion;
     @BindView(R.id.iv_update_apk)
     ImageView ivUpdateApk;//更新
+
+    @BindView(R.id.tv_stock_in_out)
+    TextView tvStockINOut;
     private String versionName;
     private IUpdateContract.Presenter presenter;
 
@@ -66,21 +69,28 @@ public class MainActivity extends AppCompatActivity implements IUpdateContract.V
     private void initView() {
         versionName = VersionUtils.getLocalVersionName(this);
         tvVersion.setText("V " + versionName);
-        String type=StockApplication.userType;
+        String type = StockApplication.userType;
         ll_new_rfid.setVisibility(View.GONE);
         llStore.setVisibility(View.GONE);
         llBindingAll.setVisibility(View.GONE);
         ll_recycle_rfid.setVisibility(View.GONE);
-        if (type.contains("-8")){//新桶
+        if (type.contains("-8")) {//新桶
             ll_new_rfid.setVisibility(View.VISIBLE);
         }
-        if (type.contains("0")){//包装桶
+        if (type.contains("0")) {//包装桶
             llBindingAll.setVisibility(View.VISIBLE);
         }
-        if (type.contains("1")||type.contains("2")){//入出库
+        if (type.contains("1") || type.contains("2")) {//入出库
             llStore.setVisibility(View.VISIBLE);
+            if (type.contains("1") && type.contains("2")) {
+                tvStockINOut.setText("出入库作业");
+            } else if (type.contains("1")) {
+                tvStockINOut.setText("入库作业");
+            } else if ((type.contains("2"))) {
+                tvStockINOut.setText("出库作业");
+            }
         }
-        if (type.contains("3")){//回收
+        if (type.contains("3")) {//回收
             ll_recycle_rfid.setVisibility(View.VISIBLE);
         }
     }
@@ -105,7 +115,9 @@ public class MainActivity extends AppCompatActivity implements IUpdateContract.V
     public void startSettingRFID(View view) {
         Intent intent = new Intent(this, SettingRFIDActivity.class);
         startActivity(intent);
-    }/**
+    }
+
+    /**
      * 设置rfid
      *
      * @param view

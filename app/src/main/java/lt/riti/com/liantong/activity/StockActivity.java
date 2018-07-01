@@ -134,6 +134,7 @@ public class StockActivity extends BaseActivity {
         if (type.contains("1")) {//入库
             fragments.add(new StockInFragment());
             stockInLayout.setVisibility(View.VISIBLE);
+            tv_center.setText("入库作业");
             count++;
             isIn = true;
 
@@ -141,8 +142,12 @@ public class StockActivity extends BaseActivity {
         if (type.contains("2")) {//出库
             fragments.add(new StockOutFragment());
             stockOutLayout.setVisibility(View.VISIBLE);
+            tv_center.setText("入库作业");
             count++;
             isOut = true;
+        }
+        if (type.contains("1")&&type.contains("2")){
+            tv_center.setText("出入库作业");
         }
 
         adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
