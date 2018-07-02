@@ -20,6 +20,7 @@ public class Bucket implements Serializable {
     private long idTime;// 读取次数
     private int outInStatus;//1入库、0出库
     private int dataIsRight;//0：桶的绑定产品、客户正常 1：异常
+    private int record_count;//周转回收次数
 
     public int getOutInStatus() {
         return outInStatus;
@@ -137,6 +138,14 @@ public class Bucket implements Serializable {
         this.dataIsRight = dataIsRight;
     }
 
+    public int getRecord_count() {
+        return record_count;
+    }
+
+    public void setRecord_count(int record_count) {
+        this.record_count = record_count;
+    }
+
     @Override
     public String toString() {
         return "Bucket{" +
@@ -153,6 +162,8 @@ public class Bucket implements Serializable {
                 ", admin_id=" + admin_id +
                 ", idTime=" + idTime +
                 ", outInStatus=" + outInStatus +
+                ", dataIsRight=" + dataIsRight +
+                ", record_count=" + record_count +
                 '}';
     }
 }
