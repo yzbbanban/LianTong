@@ -40,7 +40,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="产品出库"
+                android:text="产品出货"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/x16" />
 

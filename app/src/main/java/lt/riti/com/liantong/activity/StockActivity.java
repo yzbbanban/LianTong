@@ -142,7 +142,7 @@ public class StockActivity extends BaseActivity {
         if (type.contains("2")) {//出库
             fragments.add(new StockOutFragment());
             stockOutLayout.setVisibility(View.VISIBLE);
-            tv_center.setText("产品出库");
+            tv_center.setText("产品出货");
             count++;
             isOut = true;
         }
