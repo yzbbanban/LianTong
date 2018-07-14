@@ -85,9 +85,9 @@ public class MainActivity extends AppCompatActivity implements IUpdateContract.V
             if (type.contains("1") && type.contains("2")) {
                 tvStockINOut.setText("产品出入库");
             } else if (type.contains("1")) {
-                tvStockINOut.setText("产品入库");
+                tvStockINOut.setText(" 产 品 入 库 ");
             } else if ((type.contains("2"))) {
-                tvStockINOut.setText("产品出库");
+                tvStockINOut.setText(" 产 品 出 库 ");
             }
         }
         if (type.contains("3")) {//回收
