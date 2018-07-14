@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/x10"
                 android:gravity="center"
-                android:text="出入库作业"
+                android:text="产品出入库"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/x18" />
 

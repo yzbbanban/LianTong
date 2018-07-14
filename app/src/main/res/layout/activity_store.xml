@@ -23,7 +23,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="入库作业"
+                android:text="产品入库"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/x16" />
 
@@ -40,7 +40,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="出库作业"
+                android:text="产品出库"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/x16" />
 

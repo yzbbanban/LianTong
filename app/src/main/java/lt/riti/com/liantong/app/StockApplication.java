@@ -35,6 +35,7 @@ public class StockApplication extends Application
     //新服务器
     public static String url = "http://106.15.188.62:9999/rfid/";
     //本地
+//    public static String url = "http://172.20.10.3:19999/rfid/";
 //    public static String url = "http://192.168.0.151:19999/rfid/";
     //自己的
 //    public static String url = "http://120.78.201.125:80/rfid/";
